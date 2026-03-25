@@ -155,7 +155,7 @@ class MetricsServiceServicer(monitor_pb2_grpc.MetricsServiceServicer):
             with received_msg_lock:
                 received_msg += 1
             requests.append(request)
-            if request.requests[-1] > 0:
+            if request.Leader[-1]%100 > 0:
                 batchSize = int(request.BatchSize[-1])
                 batchTimeout = request.BatchTimeout[-1]
             if received_msg < num_node:
@@ -208,7 +208,7 @@ def handleMetrics(requests, length):
             tmp_size.append(requests[j].requests_size[i])
             tmp_BS.append(requests[j].BatchSize[i])
             tmp_BT.append(requests[j].BatchTimeout[i])
-            tmp_lead.append(requests[j].Leader[i])
+            tmp_lead.append(int(requests[j].Leader[i]/100))
         thr.append(sum(tmp_thr))
         if thr[-1] != 0:
             lat.append(sum(tmp_lat)/sum(tmp_thr))
