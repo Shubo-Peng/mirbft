@@ -26,14 +26,11 @@ import (
 var Config configuration
 
 // TODO: Separate statistics for different servers
+var EpochStartTime int64
 var TotalRequests int64
-var TotalPayload int64
-var ProposedRequests [100]int64
-var PRPayload [100]int64
-var CommittedRequests [100]int64
-var TotalDelay [100]int64
-var SnSender [10000000]int32
-var ReceiveTs [40000000]int64
+var ReceiveTs [16][1000000]int64
+var CommittedRequests int64
+var TotalDelay int64
 
 type configuration struct {
 	LoggingLevelStr string `yaml:"Logging"`
@@ -58,10 +55,11 @@ type configuration struct {
 	BatchSizeIncrement    int    `yaml:"BatchSizeIncrement"`
 
 	// Startup config
-	Orderer           string `yaml:"Orderer"`
-	Manager           string `yaml:"Manager"`
-	Checkpointer      string `yaml:"Checkpointer"`
-	Failures          int    `yaml:"Failures"`
+	Orderer      string `yaml:"Orderer"`
+	Manager      string `yaml:"Manager"`
+	Checkpointer string `yaml:"Checkpointer"`
+	Failures     int    `yaml:"Failures"`
+	// StragglerCnt      int    `yaml:"StragglerCnt"`
 	CrashTiming       string `yaml:"CrashTiming"`
 	RandomSeed        int64  `yaml:"RandomSeed"`
 	NodeToLeaderRatio int    `yaml:"NodeToLeaderRatio"`
@@ -173,6 +171,7 @@ func LoadFile(configFileName string) {
 	logger.Debug().Str("Orderer", Config.Orderer).Msg("Config")
 	logger.Debug().Str("Manager", Config.Manager).Msg("Config")
 	logger.Debug().Int("Failures", Config.Failures).Msg("Config")
+	// logger.Debug().Int("StragglerCnt", Config.StragglerCnt).Msg("Config")
 	logger.Debug().Str("CrashTiming", Config.CrashTiming).Msg("Config")
 	logger.Debug().Int("CheckpointInterval", Config.CheckpointInterval).Msg("Config")
 	logger.Debug().Int("WatermarkWindowSize", Config.WatermarkWindowSize).Msg("Config")

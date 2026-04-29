@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"os"
 	"sort"
@@ -278,49 +277,61 @@ func (c *client) Run(wg *sync.WaitGroup) {
 
 		c.log.Info().Int("numRequests", c.numRequests).Msg("Starting to submit requests.")
 
-		timeBetweenRequests := int64(1000000 / config.Config.RequestRate)
+		requestRate := config.Config.RequestRate
+		// requestPayloadSize := config.Config.RequestPayloadSize
+		timeBetweenRequests := int64(1000000 / requestRate)
 		nextSubmitTime := time.Now().UnixNano() / 1000 // Submit first request immediately
+		requestSent := 0
 
-		go func() {
-			for {
-				time.Sleep(1 * time.Second)
-				c.log.Info().
-					Int("RequestRate", config.Config.RequestRate).
-					Int32("ClientID", c.ownClientID).
-					Msg("RequestRate and ClientID output.")
-			}
-		}()
-
-		go func() {
-			for {
-				time.Sleep(120 * time.Second)
-				c.log.Info().Msg("Change request rate.")
-				if config.Config.RequestRate == 1000 {
-					config.Config.RequestRate = 8000
-				} else if config.Config.RequestRate == 8000 {
-					config.Config.RequestRate = 125
-				} else if config.Config.RequestRate == 125 {
-					config.Config.RequestRate = 1000
+		/*
+			go func() {
+				for {
+					time.Sleep(1 * time.Second)
+					c.log.Info().
+						Int("RequestRate", requestRate).
+						Int32("ClientID", c.ownClientID).
+						Int64("TimeBetweenRequests", atomic.LoadInt64(&timeBetweenRequests)).
+						Int("requestSent", requestSent).
+						Msg("RequestRate and ClientID output.")
 				}
-				timeBetweenRequests = int64(1000000 / config.Config.RequestRate)
-			}
-		}()
+			}()
 
-		go func() {
-			for {
-				time.Sleep(40 * time.Second)
-				c.log.Info().Msg("Change request size.")
-				if config.Config.RequestPayloadSize == 200 {
-					config.Config.RequestPayloadSize = 1000
-				} else if config.Config.RequestPayloadSize == 1000 {
-					config.Config.RequestPayloadSize = 50
-				} else if config.Config.RequestPayloadSize == 50 {
-					config.Config.RequestPayloadSize = 200
+			go func() {
+				for {
+					time.Sleep(120 * time.Second)
+					if requestRate == 1000 {
+						requestRate = 8000
+					} else if requestRate == 8000 {
+						requestRate = 125
+					} else if requestRate == 125 {
+						requestRate = 1000
+					}
+					atomic.StoreInt64(&timeBetweenRequests, int64(1000000/requestRate))
+					c.log.Info().
+						Int("RequestRate", requestRate).
+						Int32("ClientID", c.ownClientID).
+						Int64("TimeBetweenRequests", atomic.LoadInt64(&timeBetweenRequests)).
+						Int("requestSent", requestSent).
+						Msg("Change request rate.")
 				}
-				randomRequestPayload = make([]byte, config.Config.RequestPayloadSize)
-				rand.Read(randomRequestPayload)
-			}
-		}()
+			}()
+
+			go func() {
+				for {
+					time.Sleep(40 * time.Second)
+					c.log.Info().Msg("Change request size.")
+					if requestPayloadSize == 200 {
+						requestPayloadSize = 1000
+					} else if requestPayloadSize == 1000 {
+						requestPayloadSize = 50
+					} else if requestPayloadSize == 50 {
+						requestPayloadSize = 200
+					}
+					randomRequestPayload = make([]byte, requestPayloadSize)
+					rand.Read(randomRequestPayload)
+				}
+			}()
+		*/
 
 		// Submit requests
 		var i int32
@@ -330,7 +341,7 @@ func (c *client) Run(wg *sync.WaitGroup) {
 			// We only wait the necessary duration and always compute the nextSubmitTime based on the time the current
 			// request is actually submitted (not on when it should have been submitted).
 			// (Times always in microseconds.)
-			if config.Config.RequestRate != -1 {
+			if requestRate != -1 {
 				now := time.Now().UnixNano() / 1000
 
 				// Log client slack. Watch out, units are microseconds!
@@ -339,20 +350,22 @@ func (c *client) Run(wg *sync.WaitGroup) {
 				// Wait for next submit time if necessary.
 				if now < nextSubmitTime {
 					time.Sleep(time.Duration(nextSubmitTime-now) * time.Microsecond)
-					nextSubmitTime += timeBetweenRequests
+					nextSubmitTime += atomic.LoadInt64(&timeBetweenRequests)
 				} else {
 					if config.Config.HardRequestRateLimit {
 						// Client never exceeds the predefined rate.
-						nextSubmitTime = now + timeBetweenRequests
+						nextSubmitTime = now + atomic.LoadInt64(&timeBetweenRequests)
 					} else {
 						// Client tries to catch up with the predefined rate.
-						nextSubmitTime += timeBetweenRequests
+						nextSubmitTime += atomic.LoadInt64(&timeBetweenRequests)
 					}
 				}
 			}
 
 			// blocks while watermark window is full
+			// c.log.Info().Int64("NST", nextSubmitTime).Msg("NST.")
 			c.submitRequest(i)
+			requestSent = requestSent + 1
 
 		}
 		c.log.Info().Int32("nReq", i).Msg("Finished submitting requests.")

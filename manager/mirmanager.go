@@ -15,8 +15,10 @@
 package manager
 
 import (
+	"context"
 	"sort"
 	"sync"
+	"time"
 
 	"github.com/hyperledger-labs/mirbft/config"
 	"github.com/hyperledger-labs/mirbft/log"
@@ -28,6 +30,7 @@ import (
 	"github.com/hyperledger-labs/mirbft/tracing"
 	"github.com/hyperledger-labs/mirbft/util"
 	logger "github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
 )
 
 var mutex sync.Mutex
@@ -161,6 +164,49 @@ func (mm *MirManager) handleLogEntries(wg *sync.WaitGroup) {
 		// Advance epoch
 		if entry.Sn == int32(lastEpochSN) {
 
+			nowTime := time.Now().UnixMilli()
+			epochTime := time.Now().UnixMilli() - config.EpochStartTime
+
+			metricsRequest := &pb.MetricsRequest{
+				Throughput:  config.CommittedRequests * 1000 / epochTime,
+				Latency:     int64(float32(config.TotalDelay) / 1e6 / (float32(config.CommittedRequests) + 1e-8)),
+				Requests:    config.TotalRequests * 1000 / epochTime,
+				Instance:    int32(config.Config.NodeToLeaderRatio),
+				Epoch:       int32(config.Config.SegmentLength),
+				ViewTimeout: int32(config.Config.ViewChangeTimeoutMs),
+				Leader:      0,
+			}
+
+			conn, err := grpc.Dial("localhost:45678", grpc.WithInsecure())
+			if err != nil {
+				logger.Info().Msg("Failed to connect to server")
+			}
+			defer conn.Close()
+
+			client := pb.NewMetricsServiceClient(conn)
+
+			// Send metrics and get the new parameters (Instance, Epoch, ViewTimeout)
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+
+			response, err := client.SendMetrics(ctx, metricsRequest)
+			if err != nil {
+				logger.Info().Msg("Error while sending metrics")
+			}
+
+			// Use the new parameters received from the Python server
+			instance := response.GetInstance()
+			epoch := response.GetEpoch()
+			viewTimeout := response.GetViewTimeout()
+
+			config.Config.NodeToLeaderRatio = int(instance)
+			config.Config.EpochLength = config.Config.EpochLength / config.Config.SegmentLength * int(epoch)
+			config.Config.SegmentLength = int(epoch)
+			config.Config.ViewChangeTimeoutMs = int(viewTimeout)
+			config.Config.ViewChangeTimeout = time.Duration(viewTimeout) * time.Millisecond
+
+			logger.Info().Int("leaders", config.Config.NodeToLeaderRatio).Int("epoch", config.Config.EpochLength).Int("viewtimeout", config.Config.ViewChangeTimeoutMs).Int64("epoch time (ms)", epochTime).Msg("fuck!")
+
 			// Trigger the checkpoint protocol. For now we only trigger the checkpoint protocol at the end of the epoch.
 			mm.checkpointSNChannel <- entry.Sn
 
@@ -212,6 +258,13 @@ func (mm *MirManager) handleLogEntries(wg *sync.WaitGroup) {
 			} else {
 				lastEpochSN += config.Config.EpochLength
 			}
+
+			logger.Info().Int64("epoch change time (ms)", time.Now().UnixMilli()-nowTime).Msg("fuck1")
+
+			config.EpochStartTime = time.Now().UnixMilli()
+			config.TotalRequests = 0
+			config.CommittedRequests = 0
+			config.TotalDelay = 0
 		}
 	}
 }

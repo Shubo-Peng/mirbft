@@ -66,9 +66,9 @@ orderers="Pbft"             # Possible values: Pbft HotStuff Raft Dummy
 checkpointers="Signing"
 
 # Parameters chosen for experiments
-durations="1200"             # [s]   !!! Don't forget to change the timeout in generate-master-commands.py if increasing this value !!!
+durations="30"             # [s]   !!! Don't forget to change the timeout in generate-master-commands.py if increasing this value !!!
 bandwidths="1gbit"         # any value accepted by the tc command or "unlimited" !!! ATTENTION: Adapt MaxProposeDataRate in config accordingly !!!
-payloadSizes="200"         # [Bytes]
+payloadSizes="500"         # [Bytes]
 fixedEpochLength=false
 auths="true"
 bucketsPerLeader="16"
@@ -77,7 +77,7 @@ minEpochLength="256"       # [entries]
 nodeConnections="1"
 minConnections="16"
 # leaderPolicies="Simple Single"  # Possible values:
-leaderPolicies="Single"  # Possible values:
+leaderPolicies="Simple"  # Possible values:
                          #     "Single": only one node in the leaderset. Simulates the single leader version of the protocols.
                          #     "Simple": all nodes in the leaderset
                          #     "Blacklist": faulty nodes are blacklisted, at least 2f+1 nodes in the leaderset
@@ -88,10 +88,10 @@ crashTimings="EpochStart" # Possible values:
                           #     "EpochEnd": The faulty nodes stop participating at the protocol before proposing their last batch
                           #     "Straggler": The faulty nodes, if in the leaderset, delay proposing their batches for 0.5*viewChangeTimeouts. Works only with Pbft orderer.
 # For the single-leader policy, override the segment/epoch length
-singleLeaderEpoch=$minEpochLength
+singleLeaderEpoch=$((5120))
 
 # Parameters to tune:
-batchsizes="1000"           # [requests]
+batchsizes="4096"           # [requests]
 batchrates="32"             # [batches/s]
 minBatchTimeout="1000"      # [ms]
 maxBatchTimeout="4000"      # [ms]
@@ -112,9 +112,9 @@ function skip() {
 
 throughputsAuthPbft=$()
 # throughputsAuthPbft[4]="128 256"
-throughputsAuthPbft[4]="1024"
-throughputsAuthPbft[7]="1024"
-throughputsAuthPbft[10]="1024"
+throughputsAuthPbft[4]="60000"
+throughputsAuthPbft[8]="60000"
+throughputsAuthPbft[12]="60000"
 throughputsAuthPbft[32]=""
 throughputsAuthPbft[64]=""
 throughputsAuthPbft[128]=""
@@ -127,7 +127,7 @@ throughputsNoAuthPbft[64]=""
 throughputsNoAuthPbft[128]=""
 throughputsAuthSinglePbft=$()
 # throughputsAuthSinglePbft[4]="128 256"
-throughputsAuthSinglePbft[4]="1000"
+throughputsAuthSinglePbft[4]="60000"
 throughputsAuthSinglePbft[8]=""
 throughputsAuthSinglePbft[16]=""
 throughputsAuthSinglePbft[32]=""

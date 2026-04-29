@@ -43,6 +43,7 @@ const (
 )
 
 var file, _ = os.OpenFile("batches.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
+var byzantineDelay = -1
 
 // TODO: Consolidate the segment-internal and the global checkpoints.
 
@@ -242,12 +243,16 @@ func (pi *pbftInstance) lead() {
 	batchSize := pi.segment.BatchSize()
 
 	// Simulate a straggler.
-	if membership.SimulatedCrashes[membership.OwnID] != nil && config.Config.CrashTiming == "Straggler" {
-		config.Config.BatchTimeoutMs = int(0.5 * float64(config.Config.ViewChangeTimeoutMs))
+	if membership.SimulatedStraggler[membership.OwnID] == 1 && (config.Config.CrashTiming == "Straggler" || config.Config.CrashTiming == "ByzantineStraggler") {
+		if byzantineDelay == -1 {
+			byzantineDelay = 10 * config.Config.BatchTimeoutMs
+		}
+		config.Config.BatchTimeoutMs = byzantineDelay
 		config.Config.BatchTimeout = time.Duration(config.Config.BatchTimeoutMs) * time.Millisecond
-		logger.Info().Str("byzantine", config.Config.CrashTiming).Int("batchTimeout", config.Config.BatchTimeoutMs)
+		logger.Info().Str("byzantine", config.Config.CrashTiming).Int("batchTimeout", config.Config.BatchTimeoutMs).Msg("byzantine effected !")
 		// we set the batchsize to an infinate practically size, so that we always wait for the timeout
 		batchSize = 1000000000
+		logger.Info().Str("crashTiming", config.Config.CrashTiming).Int("batchTimeout", config.Config.BatchTimeoutMs).Msg("Simulating Straggler.")
 	}
 
 	// Send a proposal for each sequence number in the Segment.
@@ -368,12 +373,11 @@ func (pi *pbftInstance) proposeSN(preprepare *pb.PbftPreprepare, sn int32) {
 	tracing.MainTrace.Event(tracing.PROPOSE, int64(sn), int64(len(batch.Requests)))
 
 	// Propose
-	config.SnSender[sn] = membership.OwnID + 1
-	config.ProposedRequests[membership.OwnID] += int64(len(batch.Requests))
+	// config.ProposedRequests[membership.OwnID] += int64(len(batch.Requests))
 	// for _, request := range batch.Requests {
 	// 	config.PRPayload[membership.OwnID] += int64(len(request.Msg.Payload))
 	// }
-	file.WriteString(fmt.Sprintf("%d: Server %d proposed batch %d that contained %d requests\n", time.Now().UnixNano(), membership.OwnID, sn, len(batch.Requests)))
+	// file.WriteString(fmt.Sprintf("%d: Server %d proposed batch %d that contained %d requests\n", time.Now().UnixNano(), membership.OwnID, sn, len(batch.Requests)))
 
 	// Enqueue the message for all followers
 	for _, nodeID := range pi.segment.Followers() {

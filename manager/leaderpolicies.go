@@ -15,9 +15,9 @@
 package manager
 
 import (
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/config"
 	"github.com/hyperledger-labs/mirbft/membership"
+	logger "github.com/rs/zerolog/log"
 )
 
 type leaderPolicy interface {
@@ -52,7 +52,7 @@ func NewLeaderPolicy(policyName string) leaderPolicy {
 // Simple
 //============================================================
 
-//The SIMPLE leader selection policy always selects all nodes to be leaders in each epoch.
+// The SIMPLE leader selection policy always selects all nodes to be leaders in each epoch.
 type simpleLeaderPolicy struct{}
 
 func newSimpleLeaderPolicy() *simpleLeaderPolicy {
@@ -61,7 +61,8 @@ func newSimpleLeaderPolicy() *simpleLeaderPolicy {
 
 func (sp *simpleLeaderPolicy) GetLeaders(e int32) []int32 {
 	allNodeIDs := membership.AllNodeIDs()
-	leadersCount := len(allNodeIDs) / config.Config.NodeToLeaderRatio
+	// leadersCount := len(allNodeIDs) / config.Config.NodeToLeaderRatio
+	leadersCount := config.Config.NodeToLeaderRatio
 	leaders := make([]int32, 0, 0)
 	leaders = append(leaders, allNodeIDs[:leadersCount]...)
 	return leaders

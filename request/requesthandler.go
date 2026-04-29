@@ -45,10 +45,10 @@ func HandleRequest(req *pb.ClientRequest) {
 	tracing.MainTrace.Event(tracing.REQ_RECEIVE, int64(req.RequestId.ClientId), int64(req.RequestId.ClientSn))
 
 	// TODO: counts the total number of requests received and their size
-	if config.ReceiveTs[req.RequestId.ClientSn] == 0 {
+	if config.ReceiveTs[req.RequestId.ClientId][req.RequestId.ClientSn] == 0 {
 		config.TotalRequests += 1
-		config.TotalPayload += int64(len(req.Payload))
-		config.ReceiveTs[req.RequestId.ClientSn] = int64(time.Now().UnixNano())
+		// 	config.TotalPayload += int64(len(req.Payload))
+		config.ReceiveTs[req.RequestId.ClientId][req.RequestId.ClientSn] = int64(time.Now().UnixNano())
 	}
 
 	if config.Config.RequestHandlerThreads > 0 {

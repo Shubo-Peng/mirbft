@@ -19,7 +19,7 @@ if [ "$1" = "-i" ]; then
         aws configure set region us-east-1
         new_instance_info=$(aws ec2 run-instances \
          --launch-template LaunchTemplateId=lt-0854465890b2cf8e9 \
-         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value="Parallel-bft-instance"}]' \
+         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value="Rl-bft-instance"}]' \
          --count $totalnum)
 
         echo "sleep 60 seconds"
@@ -28,13 +28,13 @@ if [ "$1" = "-i" ]; then
 
     public_ip=$(
     aws ec2 describe-instances   \
-    --filters "Name=tag:Name,Values=Parallel-bft-instance" "Name=instance-state-name,Values=running" \
+    --filters "Name=tag:Name,Values=Rl-bft-instance" "Name=instance-state-name,Values=running" \
     --query "Reservations[*].Instances[*].PublicIpAddress"   \
     --output=text)
     
     private_ip=$(
     aws ec2 describe-instances   \
-    --filters "Name=tag:Name,Values=Parallel-bft-instance" "Name=instance-state-name,Values=running" \
+    --filters "Name=tag:Name,Values=Rl-bft-instance" "Name=instance-state-name,Values=running" \
     --query "Reservations[*].Instances[*].PrivateIpAddress"   \
     --output=text)
 
@@ -183,8 +183,14 @@ fi
 
 if [ "$1" = "-sd" ]; then
     shift
-    aws ec2 terminate-instances --instance-ids $(aws ec2 describe-instances --query "Reservations[].Instances[].InstanceId" --output text)
+    echo "Terminate only BFT instances..."
+    instance_ids=$(aws ec2 describe-instances \
+        --filters "Name=tag:Name,Values=Rl-bft-instance" "Name=instance-state-name,Values=running" \
+        --query "Reservations[].Instances[].InstanceId" \
+        --output text)
+    aws ec2 terminate-instances --instance-ids $instance_ids
 fi
+
 
 if [ "$1" = "-st" ]; then
     shift

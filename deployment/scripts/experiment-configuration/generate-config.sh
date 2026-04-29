@@ -97,7 +97,7 @@ crashTimings="ByzantineStraggler" # Possible values:
                           #     "Straggler": The faulty nodes, if in the leaderset, delay proposing their batches for 0.5*viewChangeTimeouts. Works only with Pbft orderer.
                           #     "ByzantineStraggler": The malicious nodes, delay proposing as well as select lower rank value
 # For the single-leader policy, override the segment/epoch length
-singleLeaderEpoch=$minEpochLength
+singleLeaderEpoch=$((51200))
 
 # Parameters to tune:
 batchsizes="4096"           # [requests]
@@ -124,6 +124,7 @@ throughputsAuthPbft=$()
 # throughputsAuthPbft[4]="105000 110000 115000 120000"
 throughputsAuthPbft[4]="60000 70000 80000 90000 100000"
 throughputsAuthPbft[8]="60000 70000 80000"
+throughputsAuthPbft[12]="80000 90000"
 throughputsAuthPbft[16]="80000 90000"
 throughputsAuthPbft[32]="90000 100000 110000 120000"
 throughputsAuthPbft[64]="90000 100000 110000 120000"
@@ -392,7 +393,7 @@ function generateCombinations() {
                 for payloadSize in $payloadSizes; do
                   for nlr in $nodeToLeaderRatios; do
                     for batchrate in $batchrates; do
-                       batchrate=$((batchrate * nlr))
+                       batchrate=$((batchrate * numPeers / nlr))
                         batchtimeout=$(batchTimeout) # in milliseconds
                         for viewChangeTimeout in $viewChangeTimeouts; do
                           for crashTiming in $crashTimings; do

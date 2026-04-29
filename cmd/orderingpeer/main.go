@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"os"
 	"sync"
 	"time"
@@ -16,13 +14,11 @@ import (
 	"github.com/hyperledger-labs/mirbft/messenger"
 	"github.com/hyperledger-labs/mirbft/orderer"
 	"github.com/hyperledger-labs/mirbft/profiling"
-	pb "github.com/hyperledger-labs/mirbft/protobufs"
 	"github.com/hyperledger-labs/mirbft/request"
 	"github.com/hyperledger-labs/mirbft/statetransfer"
 	"github.com/hyperledger-labs/mirbft/tracing"
 	"github.com/rs/zerolog"
 	logger "github.com/rs/zerolog/log"
-	"google.golang.org/grpc"
 )
 
 // Flag indicating whether profiling is enabled.
@@ -35,7 +31,7 @@ type linkedList struct {
 	pre, nxt             *linkedList
 }
 
-var statistics [10]linkedList
+var statistics [4]linkedList
 var msg_lock sync.Mutex
 
 const (
@@ -126,7 +122,7 @@ func main() {
 	// Instantiate component modules (with stubs).
 
 	mngr = setManager(config.Config.Manager)
-	mm := mngr.(*manager.MirManager)
+	// mm := mngr.(*manager.MirManager)
 	ord = setOrderer(config.Config.Orderer)
 	chkp = setCheckpointer(config.Config.Checkpointer)
 	rsp = request.NewResponder()
@@ -188,183 +184,193 @@ func main() {
 	go chkp.Start(&wg)
 	go mngr.Start(&wg)
 	go ord.Start(&wg)
+	config.EpochStartTime = time.Now().UnixMilli()
 
-	// set up a GRPC connection.
-	logger.Info().Msg("Try to set up a GRPC connection.")
+	/*
+		// set up a GRPC connection.
+		logger.Info().Msg("Try to set up a GRPC connection.")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
 
-	conn, err := grpc.DialContext(ctx, trainer_addr, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		// log.Fatalf("did not connect: %v", err)
-		logger.Error().Err(err).Msg("cannot set up the gRPC connection.")
-	} else {
-		c := pb.NewMetricsServiceClient(conn) // try to connect to the trainer
-		response, err := c.Connect(context.Background(), &pb.Timestamp{
-			Timestamp: time.Now().UnixNano(),
-		})
-		if err != nil {
-			logger.Error().Err(err).Msg("cannot connect.")
-		}
-		start_time := response.GetTimestamp()
-		// start_time := time.Now().UnixNano() + 5000000000
-
-		// send latency, throughput, workload, BS, BT, Leader to agent
-		// and modify the config by the output of RL agent every 20s
-		// use rule-based method to modify the config every 1s
-		file, _ := os.OpenFile(fmt.Sprintf("../../../train/state%d.txt", ownID), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
-
-		// wait until the harmonization time to start
-		total_count, now_rule, next_rule := 0, int64(0), start_time-1000000000
-		now_RL, next_RL := int64(0), start_time+500000000
-		flag, lastD, lastR := true, int64(0), int64(0)
-		Requests, binary, Smax, lastThr := 0, 0, 0, 0
-		msg := &pb.MetricsRequest{}
-
-		for i := 0; i < 10; i++ {
-			if i > 0 {
-				statistics[i].pre = &statistics[i-1]
+			conn, err := grpc.DialContext(ctx, trainer_addr, grpc.WithInsecure(), grpc.WithBlock())
+			if err != nil {
+				// log.Fatalf("did not connect: %v", err)
+				logger.Error().Err(err).Msg("cannot set up the gRPC connection.")
 			} else {
-				statistics[i].pre = &statistics[9]
-			}
-			if i < 9 {
-				statistics[i].nxt = &statistics[i+1]
-			} else {
-				statistics[i].nxt = &statistics[0]
-			}
-		}
-		sta_pointer, MTP, enough, avg_requests, avg_throughput := &statistics[0], 1, false, int32(0), int32(0)
-		// MTP = MTP * 2 / 2
-
-		go func() {
-			for {
-				now_RL, next_RL = time.Now().UnixNano(), next_RL+int64(MTP)*1000000000
-				if now_RL < next_RL {
-					time.Sleep(time.Duration((next_RL-now_RL)/1000) * time.Microsecond)
-				}
-				logger.Info().Int64("timestamp", time.Now().UnixNano()).Msg("send metrics to agent.")
-				msg_lock.Lock()
-				tmp_msg := msg
-				msg = &pb.MetricsRequest{}
-				msg_lock.Unlock()
-				response, err := c.SendMetrics(context.Background(), tmp_msg)
+				c := pb.NewMetricsServiceClient(conn) // try to connect to the trainer
+				response, err := c.Connect(context.Background(), &pb.Timestamp{
+					Timestamp: time.Now().UnixNano(),
+				})
+				response.Timestamp += 1
 				if err != nil {
-					logger.Fatal().Err(err).Msg("cannot send metrics.")
+					logger.Error().Err(err).Msg("cannot connect.")
 				}
-				logger.Info().Int64("timestamp", time.Now().UnixNano()).Msg("receive response and modify the config")
-				config.Config.BatchSize = int(response.GetBatchSize())
-				config.Config.BatchTimeoutMs = int(response.GetBatchTimeout())
-				config.Config.BatchTimeout = time.Duration(config.Config.BatchTimeoutMs) * time.Millisecond
-			}
-		}()
+					start_time := response.GetTimestamp()
+					// start_time := time.Now().UnixNano() + 5000000000
 
-		go func() {
-			for {
-				now_rule, next_rule = time.Now().UnixNano(), next_rule+int64(1)*1000000000
-				if now_rule < next_rule {
-					time.Sleep(time.Duration((next_rule-now_rule)/1000) * time.Microsecond)
-				}
-				latency, throughput := int32(1000), int32(0)
-				if config.CommittedRequests[ownID] > int64(lastR) {
-					latency = int32((config.TotalDelay[ownID] - lastD) / int64(1e6) / (config.CommittedRequests[ownID] - lastR))
-					throughput = int32(config.CommittedRequests[ownID] - lastR)
-				}
-				if flag {
-					flag, lastD, lastR = false, config.TotalDelay[ownID], config.CommittedRequests[ownID]
-					total_count, config.TotalRequests, config.TotalPayload = total_count+1, 0, 0
-					continue
-				}
-				lastD, lastR = config.TotalDelay[ownID], config.CommittedRequests[ownID]
-				TotalRequests, TotalPayload := config.TotalRequests, config.TotalPayload
-				total_count, config.TotalRequests, config.TotalPayload = total_count+1, 0, 0
+					// send latency, throughput, workload, BS, BT, Leader to agent
+					// and modify the config by the output of RL agent every 20s
+					// use rule-based method to modify the config every 1s
+					file, _ := os.OpenFile(fmt.Sprintf("../../../train/state%d.txt", ownID), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 
-				logger.Info().
-					Int32("times", int32(total_count)).
-					Int64("timestamp", time.Now().UnixNano()).
-					Int("batchsize", config.Config.BatchSize).
-					Msg("collect metrics.")
-				file.WriteString(fmt.Sprintf("%8d\t%8d\t%8d\t%10d\t%8d\t%8d\t%8d\n", throughput, latency, TotalRequests, TotalPayload, config.Config.BatchSize, config.Config.BatchTimeoutMs, mm.GETLEADERS()[0]))
+					// wait until the harmonization time to start
+					total_count, now_rule, next_rule := 0, int64(0), start_time-1000000000
+					now_RL, next_RL := int64(0), start_time+500000000
+					flag, lastD, lastR := true, int64(0), int64(0)
+					Requests, binary, Smax, lastThr := 0, 0, 0, 0
+					msg := &pb.MetricsRequest{}
 
-				msg_lock.Lock()
-				msg.Throughput = append(msg.Throughput, throughput)
-				msg.Latency = append(msg.Latency, latency)
-				msg.Requests = append(msg.Requests, int32(TotalRequests))
-				msg.RequestsSize = append(msg.RequestsSize, int32(TotalPayload))
-				msg.BatchSize = append(msg.BatchSize, int32(config.Config.BatchSize))
-				msg.BatchTimeout = append(msg.BatchTimeout, int32(config.Config.BatchTimeoutMs))
-				msg.Leader = append(msg.Leader, mm.GETLEADERS()[0])
-				msg_lock.Unlock()
-
-				if ownID != msg.Leader[len(msg.Leader)-1] {
-					continue
-				}
-
-				if !enough {
-					avg_requests = avg_requests + int32(TotalRequests)
-					avg_throughput = avg_throughput + throughput
-					sta_pointer.requests = int32(TotalRequests)
-					sta_pointer.throughput = throughput
-					sta_pointer = sta_pointer.nxt
-					if sta_pointer == &statistics[0] {
-						enough = false
-					}
-				} else {
-					Requests = int(avg_requests)
-					avg_requests = avg_requests - sta_pointer.requests + int32(TotalRequests)
-					avg_throughput = avg_throughput - sta_pointer.throughput + throughput
-					sta_pointer.requests = int32(TotalRequests)
-					sta_pointer.throughput = throughput
-					sta_pointer = sta_pointer.nxt
-					if Requests == 0 {
-						continue
-					}
-					logger.Info().Int("Req", int(avg_requests)).Int("Throughput", int(avg_throughput)).Msg("Try to change batchsize.")
-					if avg_throughput*21 >= avg_requests*20 {
-						binary, lastThr = 0, 0
-					} else {
-						if binary == 0 {
-							binary = config.Config.BatchSize
-							config.Config.BatchSize = config.Config.BatchSize * int(avg_requests) / Requests
-							logger.Info().
-								Int("Req_old", int(Requests)).
-								Int("Req_now", int(avg_requests)).
-								Int("batchsize_old", binary).
-								Int("batchsize_new", config.Config.BatchSize).
-								Msg("calculate the new batchsize.")
-							if config.Config.BatchSize > binary {
-								Smax = Min(config.Config.BatchSize-binary, 500)
-							} else {
-								Smax = Max(config.Config.BatchSize-binary, -500)
-							}
-						} else if lastThr == 0 {
-							lastThr = int(avg_throughput)
-							config.Config.BatchSize = binary + Smax
+					for i := 0; i < 4; i++ {
+						if i > 0 {
+							statistics[i].pre = &statistics[i-1]
 						} else {
-							if avg_throughput*20 <= int32(lastThr)*19 {
-								Smax /= 2
-							} else if avg_throughput*20 <= int32(lastThr)*21 {
-								binary, lastThr = 0, 0
-							} else {
-								lastThr = int(avg_throughput)
-								binary = config.Config.BatchSize
-							}
-							config.Config.BatchSize = binary + Smax
+							statistics[i].pre = &statistics[3]
+						}
+						if i < 3 {
+							statistics[i].nxt = &statistics[i+1]
+						} else {
+							statistics[i].nxt = &statistics[0]
 						}
 					}
-					if config.Config.BatchSize <= 100 {
-						config.Config.BatchSize = 100
-						// binary = 0
-					} else if config.Config.BatchSize >= 5000 {
-						config.Config.BatchSize = 5000
-						// binary = 0
-					}
-				}
-			}
-		}()
-	}
+					sta_pointer, MTP, enough, avg_requests, avg_throughput := &statistics[0], 1, false, int32(0), int32(0)
+					// MTP = MTP * 2 / 2
 
-	defer conn.Close()
+					go func() {
+						for {
+							now_RL, next_RL = time.Now().UnixNano(), next_RL+int64(MTP)*1000000000
+							if now_RL < next_RL {
+								time.Sleep(time.Duration((next_RL-now_RL)/1000) * time.Microsecond)
+							}
+							logger.Info().Int64("timestamp", time.Now().UnixNano()).Msg("send metrics to agent.")
+							msg_lock.Lock()
+							tmp_msg := msg
+							msg = &pb.MetricsRequest{}
+							msg_lock.Unlock()
+							response, err := c.SendMetrics(context.Background(), tmp_msg)
+							if err != nil {
+								logger.Fatal().Err(err).Msg("cannot send metrics.")
+							}
+							logger.Info().Int64("timestamp", time.Now().UnixNano()).Msg("receive response and modify the config")
+							config.Config.BatchSize = int(response.GetBatchSize())
+							config.Config.BatchTimeoutMs = int(response.GetBatchTimeout())
+							config.Config.BatchTimeout = time.Duration(config.Config.BatchTimeoutMs) * time.Millisecond
+						}
+					}()
+
+					go func() {
+						for {
+							now_rule, next_rule = time.Now().UnixNano(), next_rule+int64(1)*1000000000
+							if now_rule < next_rule {
+								time.Sleep(time.Duration((next_rule-now_rule)/1000) * time.Microsecond)
+							}
+							latency, throughput := int32(1000), int32(0)
+							if config.CommittedRequests[ownID] > int64(lastR) {
+								latency = int32((config.TotalDelay[ownID] - lastD) / int64(1e6) / (config.CommittedRequests[ownID] - lastR))
+								throughput = int32(config.CommittedRequests[ownID] - lastR)
+							}
+							if flag {
+								flag, lastD, lastR = false, config.TotalDelay[ownID], config.CommittedRequests[ownID]
+								total_count, config.TotalRequests, config.TotalPayload = total_count+1, 0, 0
+								continue
+							}
+							lastD, lastR = config.TotalDelay[ownID], config.CommittedRequests[ownID]
+							TotalRequests, TotalPayload := config.TotalRequests, config.TotalPayload
+							total_count, config.TotalRequests, config.TotalPayload = total_count+1, 0, 0
+
+							logger.Info().
+								Int32("times", int32(total_count)).
+								Int64("timestamp", time.Now().UnixNano()).
+								Int("batchsize", config.Config.BatchSize).
+								Msg("collect metrics.")
+							file.WriteString(fmt.Sprintf("%8d\t%8d\t%8d\t%10d\t%8d\t%8d\t%8d\n", throughput, latency, TotalRequests, TotalPayload, config.Config.BatchSize, config.Config.BatchTimeoutMs, mm.GETLEADERS()[0]))
+
+							msg_lock.Lock()
+							msg.Throughput = append(msg.Throughput, throughput)
+							msg.Latency = append(msg.Latency, latency)
+							msg.Requests = append(msg.Requests, int32(TotalRequests))
+							msg.RequestsSize = append(msg.RequestsSize, int32(TotalPayload))
+							msg.BatchSize = append(msg.BatchSize, int32(config.Config.BatchSize))
+							msg.BatchTimeout = append(msg.BatchTimeout, int32(config.Config.BatchTimeoutMs))
+							msg.Leader = append(msg.Leader, mm.GETLEADERS()[0])
+							if ownID != msg.Leader[len(msg.Leader)-1] {
+								msg.Leader[len(msg.Leader)-1] = msg.Leader[len(msg.Leader)-1] * 100
+							} else {
+								msg.Leader[len(msg.Leader)-1] = msg.Leader[len(msg.Leader)-1]*100 + 1
+							}
+							msg_lock.Unlock()
+
+							if ownID != msg.Leader[len(msg.Leader)-1]/100 {
+								continue
+							}
+
+							if !enough {
+								avg_requests = avg_requests + int32(TotalRequests)
+								avg_throughput = avg_throughput + throughput
+								sta_pointer.requests = int32(TotalRequests)
+								sta_pointer.throughput = throughput
+								sta_pointer = sta_pointer.nxt
+								if sta_pointer == &statistics[0] {
+									enough = false
+								}
+							} else {
+								Requests = int(avg_requests)
+								avg_requests = avg_requests - sta_pointer.requests + int32(TotalRequests)
+								avg_throughput = avg_throughput - sta_pointer.throughput + throughput
+								sta_pointer.requests = int32(TotalRequests)
+								sta_pointer.throughput = throughput
+								sta_pointer = sta_pointer.nxt
+								logger.Info().Int("Req", int(avg_requests)).Int("Throughput", int(avg_throughput)).Msg("Req and Thr.")
+								if Requests == 0 {
+									continue
+								}
+								if avg_throughput*21 >= avg_requests*20 {
+									binary, lastThr = 0, 0
+								} else {
+									logger.Info().Int("Req", int(avg_requests)).Int("Throughput", int(avg_throughput)).Msg("Try to change batchsize.")
+									if binary == 0 {
+										binary = config.Config.BatchSize
+										config.Config.BatchSize = config.Config.BatchSize * int(avg_requests) / Requests
+										logger.Info().
+											Int("Req_old", int(Requests)).
+											Int("Req_now", int(avg_requests)).
+											Int("batchsize_old", binary).
+											Int("batchsize_new", config.Config.BatchSize).
+											Msg("calculate the new batchsize.")
+										if config.Config.BatchSize > binary {
+											Smax = Min(config.Config.BatchSize-binary, 500)
+										} else {
+											Smax = Max(config.Config.BatchSize-binary, -500)
+										}
+									} else if lastThr == 0 {
+										lastThr = int(avg_throughput)
+										config.Config.BatchSize = binary + Smax
+									} else {
+										if avg_throughput*20 <= int32(lastThr)*19 {
+											Smax /= 2
+										} else if avg_throughput*20 <= int32(lastThr)*21 {
+											binary, lastThr = 0, 0
+										} else {
+											lastThr = int(avg_throughput)
+											binary = config.Config.BatchSize
+										}
+										config.Config.BatchSize = binary + Smax
+									}
+								}
+								if config.Config.BatchSize <= 100 {
+									config.Config.BatchSize = 100
+									// binary = 0
+								} else if config.Config.BatchSize >= 5000 {
+									config.Config.BatchSize = 5000
+									// binary = 0
+								}
+							}
+						}
+					}()
+			}
+
+			defer conn.Close()
+	*/
 
 	// Wait for all modules to finish.
 	wg.Wait()

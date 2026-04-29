@@ -10,18 +10,19 @@ service MetricsService {
 }
 
 message MetricsRequest {
-    repeated int32 throughput = 1;
-    repeated int32 latency = 2;
-    repeated int32 requests = 3;
-    repeated int32 requests_size = 4;
-    repeated int32 BatchSize = 5;
-    repeated int32 BatchTimeout = 6;
-    repeated int32 Leader = 7;
+    int64 throughput = 1;
+    int64 latency = 2;
+    int64 requests = 3;
+    int32 Instance = 4;
+    int32 Epoch = 5;
+    int32 ViewTimeout = 6;
+    int32 Leader = 7;
 }
 
 message MetricsResponse {
-    int32 BatchSize = 1;
-    int32 BatchTimeout = 2;
+    int32 Instance = 1;
+    int32 Epoch = 2;
+    int32 ViewTimeout = 3;
 }
 
 message Timestamp {

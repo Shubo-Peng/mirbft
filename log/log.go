@@ -15,12 +15,10 @@
 package log
 
 import (
-	"fmt"
 	"os"
 	"runtime"
 	"runtime/debug"
 	"sync"
-	"time"
 
 	"github.com/hyperledger-labs/mirbft/config"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
@@ -279,17 +277,13 @@ func publishEntries() {
 		publishEntry(entry.(*Entry), logSubscribers)
 
 		// Commit, TODO: calculate the total delay and the number of committed requests
-		{
-			tmpEntry := entry.(*Entry)
-			if config.SnSender[tmpEntry.Sn] > 0 {
-				sender := config.SnSender[tmpEntry.Sn] - 1
-				// config.TotalDelay[sender] += (tmpEntry.CommitTs - tmpEntry.ProposeTs) * int64(len(tmpEntry.Batch.Requests))
-				config.CommittedRequests[sender] += int64(len(tmpEntry.Batch.Requests))
-				file.WriteString(fmt.Sprintf("%d: Batch %d with %d requests has been committed\n", time.Now().UnixNano(), tmpEntry.Sn, len(tmpEntry.Batch.Requests)))
-				for _, request := range tmpEntry.Batch.Requests {
-					// config.PRPayload[sender] -= int64(len(request.Payload))
-					config.TotalDelay[sender] += tmpEntry.CommitTs - config.ReceiveTs[request.RequestId.ClientSn]
-				}
+		tmpEntry := entry.(*Entry)
+		config.CommittedRequests += int64(len(tmpEntry.Batch.Requests))
+		// file.WriteString(fmt.Sprintf("%d: Batch %d with %d requests has been committed\n", time.Now().UnixNano(), tmpEntry.Sn, len(tmpEntry.Batch.Requests)))
+		for _, request := range tmpEntry.Batch.Requests {
+			// config.PRPayload[sender] -= int64(len(request.Payload))
+			if config.ReceiveTs[request.RequestId.ClientId][request.RequestId.ClientSn] != 0 {
+				config.TotalDelay += tmpEntry.CommitTs - config.ReceiveTs[request.RequestId.ClientId][request.RequestId.ClientSn]
 			}
 		}
 
