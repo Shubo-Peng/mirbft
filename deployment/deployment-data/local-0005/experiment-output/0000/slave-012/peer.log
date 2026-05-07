@@ -1,0 +1,276 @@
+{"level":"debug","Logging":"info","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","UseTLS":false,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","CACertFile":"tls-data/ca.pem","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","KeyFile":"tls-data/auth.key","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","CertFile":"tls-data/auth.pem","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","PriorityConnections":2,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","BasicConnections":2,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","TestConnections":false,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ExcessConnections":1,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ConnectionTestMsgs":4,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ConnectionTestPayload":131072,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","OutMessageBufsize":1024,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","OutMessageBufsize":3,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ThroughputCap":131072000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","StragglerTolerance":1000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","BatchSizeIncrement":256,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","Orderer":"Pbft","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","Manager":"Mir","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","Failures":0,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","CrashTiming":"EpochStart","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","CheckpointInterval":256,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","WatermarkWindowSize":256,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","EpochLength":256,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","SegmentLength":21,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","WaitForCheckpoints":true,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientWatermarkWindowSize":4194304,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientRequestBacklogSize":4194304,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RandomSeed":22902,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","NodeToLeaderRatio":1,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","LeaderPolicy":"Simple","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","DefaultLeaderBan":2,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","NumBuckets":192,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","BatchSize":4096,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","BatchTimeoutMs":1000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","DisabledViewChange":false,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ViewChangeTimeout":60000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientTraceSampling":10,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","EventBufferSize":2097152,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","TraceSampling":1,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientsPerProcess":1,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RequestsPerClient":7200000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientRunTime":60000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RequestRate":60000,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","HardRequestRateLimit":false,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RequestPayloadSize":500,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","SignRequests":true,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientPrivKeyFile":"tls-data/client-ecdsa-256.key","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","ClientPubKeyFile":"tls-data/client-ecdsa-256.pem","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","PrecomputeRequests":false,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RequestHandlerThreads":32,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","RequestInputChannelBuffer":8192,"time":"2026-04-29T15:48:56+08:00","message":"Config"}
+{"level":"debug","BatchVerifier":"external","time":"2026-04-29T15:48:56+08:00","message":"Config"}
+15:48:56.546 INF Registered with discovery server. numPeers=12 ownID=11
+15:48:56.547 INF Profiling enabled.
+15:48:56.547 INF Setting up profiling.
+15:48:56.547 INF Started Profiler: CPU
+15:48:56.547 INF Started Profiler: BLOCK
+15:48:56.547 INF Started Profiler: MUTEX
+15:48:56.547 INF Profiler will stop on signal. exit=true
+15:48:56.549 INF Tracing will stop on signal. exit=false
+15:48:56.550 INF Started tracing. traceFile=experiment-output/0000/slave-012/peer.trc
+15:48:56.551 INF Listening for connections. port=10121 useTLS=false
+15:48:56.553 INF Connecting to peer. addr=127.0.0.1:10022 basicConns=2 priorityConns=2
+15:48:56.553 INF Connecting to peer. addr=127.0.0.1:10000 basicConns=2 priorityConns=2
+15:48:56.557 INF Connecting to peer. addr=127.0.0.1:10121 basicConns=2 priorityConns=2
+15:48:56.553 INF Connecting to peer. addr=127.0.0.1:10011 basicConns=2 priorityConns=2
+15:48:56.569 INF Connecting to peer. addr=127.0.0.1:10044 basicConns=2 priorityConns=2
+15:48:56.572 INF Incoming connection for protocol messages. addr=127.0.0.1:34786
+15:48:56.572 INF Connecting to peer. addr=127.0.0.1:10110 basicConns=2 priorityConns=2
+15:48:56.573 INF Incoming connection for protocol messages. addr=127.0.0.1:34772
+15:48:56.573 INF Connecting to peer. addr=127.0.0.1:10099 basicConns=2 priorityConns=2
+15:48:56.574 INF Connecting to peer. addr=127.0.0.1:10088 basicConns=2 priorityConns=2
+15:48:56.575 INF Connecting to peer. addr=127.0.0.1:10033 basicConns=2 priorityConns=2
+15:48:56.577 INF Connecting to peer. addr=127.0.0.1:10077 basicConns=2 priorityConns=2
+15:48:56.577 INF Connecting to peer. addr=127.0.0.1:10055 basicConns=2 priorityConns=2
+15:48:56.575 INF Connecting to peer. addr=127.0.0.1:10066 basicConns=2 priorityConns=2
+15:48:56.581 INF Incoming connection for protocol messages. addr=127.0.0.1:34866
+15:48:56.579 INF Incoming connection for protocol messages. addr=127.0.0.1:34840
+15:48:56.585 INF Incoming connection for protocol messages. addr=127.0.0.1:34794
+15:48:56.586 INF Incoming connection for protocol messages. addr=127.0.0.1:34826
+15:48:56.586 INF Incoming connection for protocol messages. addr=127.0.0.1:34822
+15:48:56.590 INF Incoming connection for protocol messages. addr=127.0.0.1:34888
+15:48:56.591 INF Incoming connection for protocol messages. addr=127.0.0.1:34872
+15:48:56.588 INF Incoming connection for protocol messages. addr=127.0.0.1:34876
+15:48:56.596 INF Incoming connection for protocol messages. addr=127.0.0.1:34864
+15:48:56.599 INF Incoming connection for protocol messages. addr=127.0.0.1:34806
+15:48:56.599 INF Incoming connection for protocol messages. addr=127.0.0.1:34844
+15:48:56.600 INF Incoming connection for protocol messages. addr=127.0.0.1:34792
+15:48:56.606 INF Incoming connection for protocol messages. addr=127.0.0.1:34868
+15:48:56.606 INF Incoming connection for protocol messages. addr=127.0.0.1:34874
+15:48:56.606 INF Incoming connection for protocol messages. addr=127.0.0.1:34942
+15:48:56.608 INF Incoming connection for protocol messages. addr=127.0.0.1:34976
+15:48:56.608 INF Incoming connection for protocol messages. addr=127.0.0.1:34788
+15:48:56.613 INF Incoming connection for protocol messages. addr=127.0.0.1:34988
+15:48:56.613 INF Incoming connection for protocol messages. addr=127.0.0.1:35030
+15:48:56.614 INF Incoming connection for protocol messages. addr=127.0.0.1:35016
+15:48:56.615 INF Incoming connection for protocol messages. addr=127.0.0.1:34926
+15:48:56.615 INF Incoming connection for protocol messages. addr=127.0.0.1:34902
+15:48:56.615 INF Incoming connection for protocol messages. addr=127.0.0.1:35058
+15:48:56.615 INF Incoming connection for protocol messages. addr=127.0.0.1:34918
+15:48:56.618 INF Incoming connection for protocol messages. addr=127.0.0.1:35006
+15:48:56.618 INF Incoming connection for protocol messages. addr=127.0.0.1:34848
+15:48:56.619 INF Incoming connection for protocol messages. addr=127.0.0.1:35046
+15:48:56.618 INF Incoming connection for protocol messages. addr=127.0.0.1:34946
+15:48:56.622 INF Incoming connection for protocol messages. addr=127.0.0.1:35068
+15:48:56.622 INF Incoming connection for protocol messages. addr=127.0.0.1:35062
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:34954
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:35004
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:35078
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:35080
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:35070
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:35034
+15:48:56.625 INF Incoming connection for protocol messages. addr=127.0.0.1:34908
+15:48:56.627 INF Incoming connection for protocol messages. addr=127.0.0.1:34910
+15:48:56.627 INF Incoming connection for protocol messages. addr=127.0.0.1:34962
+15:48:56.628 INF Incoming connection for protocol messages. addr=127.0.0.1:35094
+15:48:56.628 INF Incoming connection for protocol messages. addr=127.0.0.1:35086
+15:48:56.630 INF Incoming connection for protocol messages. addr=127.0.0.1:35106
+15:48:56.634 INF Incoming connection for protocol messages. addr=127.0.0.1:35120
+15:48:56.634 INF Connected to all peers.
+15:48:56.635 INF Incoming connection for protocol messages. addr=127.0.0.1:34928
+15:48:56.638 INF Incoming connection for protocol messages. addr=127.0.0.1:35102
+15:48:56.638 INF Incoming connection for protocol messages. addr=127.0.0.1:35134
+15:48:57.575 INF All peers finished connecting. Starting ISS.
+15:48:57.576 INF PbftOrderer received a new segment: [0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20] first leader=0 firstSN=0 lastSN=20 len=21 length=21 segId=0
+15:48:57.652 INF Starting new view. segID=0 timeout=60000 view=0
+15:48:57.652 INF Starting PBFT instance. first=0 last=20 segID=0
+15:48:57.652 INF Starting serialized message processing. segID=0
+15:48:58.659 INF Handling PREPREPARE. nReq=0 senderID=0 sn=0
+15:48:58.668 INF Committed entry. latency=0 nReq=0 sn=0
+15:48:58.669 INF Delivered batch. nReq=0 sn=0
+15:48:59.654 INF Handling PREPREPARE. nReq=0 senderID=0 sn=1
+15:48:59.659 INF Committed entry. latency=0 nReq=0 sn=1
+15:48:59.659 INF Delivered batch. nReq=0 sn=1
+15:48:59.697 INF Incoming connection for requests. addr=127.0.0.1:35138
+15:49:00.179 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=2
+15:49:00.257 INF Committed entry. latency=0 nReq=4096 sn=2
+15:49:00.257 INF Delivered batch. nReq=4096 sn=2
+15:49:01.149 INF Handling PREPREPARE. nReq=2512 senderID=0 sn=3
+15:49:01.211 INF Committed entry. latency=0 nReq=2512 sn=3
+15:49:01.211 INF Delivered batch. nReq=2512 sn=3
+15:49:02.120 INF Handling PREPREPARE. nReq=813 senderID=0 sn=4
+15:49:02.143 INF Committed entry. latency=0 nReq=813 sn=4
+15:49:02.143 INF Delivered batch. nReq=813 sn=4
+15:49:03.085 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=5
+15:49:03.152 INF Committed entry. latency=0 nReq=4096 sn=5
+15:49:03.152 INF Delivered batch. nReq=4096 sn=5
+15:49:04.065 INF Handling PREPREPARE. nReq=2731 senderID=0 sn=6
+15:49:04.128 INF Committed entry. latency=0 nReq=2731 sn=6
+15:49:04.128 INF Delivered batch. nReq=2731 sn=6
+15:49:05.027 INF Handling PREPREPARE. nReq=881 senderID=0 sn=7
+15:49:05.053 INF Committed entry. latency=0 nReq=881 sn=7
+15:49:05.053 INF Delivered batch. nReq=881 sn=7
+15:49:05.898 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=8
+15:49:05.992 INF Committed entry. latency=0 nReq=4096 sn=8
+15:49:05.992 INF Delivered batch. nReq=4096 sn=8
+15:49:06.868 INF Handling PREPREPARE. nReq=2621 senderID=0 sn=9
+15:49:06.940 INF Committed entry. latency=0 nReq=2621 sn=9
+15:49:06.940 INF Delivered batch. nReq=2621 sn=9
+15:49:07.842 INF Handling PREPREPARE. nReq=1015 senderID=0 sn=10
+15:49:07.868 INF Committed entry. latency=0 nReq=1015 sn=10
+15:49:07.868 INF Delivered batch. nReq=1015 sn=10
+15:49:08.673 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=11
+15:49:08.759 INF Committed entry. latency=0 nReq=4096 sn=11
+15:49:08.760 INF Delivered batch. nReq=4096 sn=11
+15:49:09.700 INF Handling PREPREPARE. nReq=2653 senderID=0 sn=12
+15:49:09.763 INF Committed entry. latency=0 nReq=2653 sn=12
+15:49:09.764 INF Delivered batch. nReq=2653 sn=12
+15:49:10.638 INF Handling PREPREPARE. nReq=707 senderID=0 sn=13
+15:49:10.663 INF Committed entry. latency=0 nReq=707 sn=13
+15:49:10.663 INF Delivered batch. nReq=707 sn=13
+15:49:11.550 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=14
+15:49:11.630 INF Committed entry. latency=0 nReq=4096 sn=14
+15:49:11.630 INF Delivered batch. nReq=4096 sn=14
+15:49:12.525 INF Handling PREPREPARE. nReq=2896 senderID=0 sn=15
+15:49:12.591 INF Committed entry. latency=0 nReq=2896 sn=15
+15:49:12.592 INF Delivered batch. nReq=2896 sn=15
+15:49:13.485 INF Handling PREPREPARE. nReq=745 senderID=0 sn=16
+15:49:13.510 INF Committed entry. latency=0 nReq=745 sn=16
+15:49:13.510 INF Delivered batch. nReq=745 sn=16
+15:49:14.554 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=17
+15:49:14.637 INF Committed entry. latency=0 nReq=4096 sn=17
+15:49:14.637 INF Delivered batch. nReq=4096 sn=17
+15:49:15.568 INF Handling PREPREPARE. nReq=3170 senderID=0 sn=18
+15:49:15.634 INF Committed entry. latency=0 nReq=3170 sn=18
+15:49:15.635 INF Delivered batch. nReq=3170 sn=18
+15:49:16.631 INF Handling PREPREPARE. nReq=2951 senderID=0 sn=19
+15:49:16.693 INF Committed entry. latency=0 nReq=2951 sn=19
+15:49:16.694 INF Delivered batch. nReq=2951 sn=19
+15:49:17.564 INF Handling PREPREPARE. nReq=2584 senderID=0 sn=20
+15:49:17.648 INF Committed entry. latency=0 nReq=2584 sn=20
+15:49:17.648 INF Delivered batch. nReq=2584 sn=20
+==================
+WARNING: DATA RACE
+Read at 0x000001304380 by goroutine 948:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).handleLogEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:171 +0x854
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x47
+
+Previous write at 0x000001304380 by goroutine 952:
+  github.com/hyperledger-labs/mirbft/log.publishEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:281 +0x2e4
+  github.com/hyperledger-labs/mirbft/log.CommitEntry()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:108 +0x284
+  github.com/hyperledger-labs/mirbft/announcer.Announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/announcer/announcer.go:26 +0x370
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:726 +0x36b
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleCommit()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:664 +0x7bd
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleMessage()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1810 +0x2e5
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).processSerializedMessages()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1764 +0xdd
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x39
+
+Goroutine 948 (running) created at:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x191
+  main.main.func4()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:185 +0x59
+
+Goroutine 952 (running) created at:
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x3f6
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:176 +0x344
+  main.main.func5()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:186 +0x59
+==================
+15:49:17.653 INF Sending segment checkpoint. lastSn=20 segID=0
+15:49:17.656 INF Error while sending metrics
+15:49:17.656 INF fuck! epoch=0 epoch time (ms)=20073 leaders=0 viewtimeout=0
+15:49:17.656 INF Epoch finished. Waiting for stable checkpoint. sn=20
+15:49:17.661 INF PBFT checkpoint ready. Scheduling catchup. lastSn=20 segID=0
+15:49:17.667 INF New stable checkpoint. sn=20
+15:49:17.667 INF Received stable checkpoint notification. sn=20
+15:49:17.667 INF Epoch end confirmed. chkpSn=20
+15:49:17.668 INF Closing message serializers. segID=0
+15:49:17.668 INF Advancing watermarks. numEntries=21
+15:49:17.668 INF Statistics commitTs=1777448938668613268 duration=9058034 proposeTs=1777448938659555234 sn=0
+15:49:17.668 INF Statistics commitTs=1777448939659380963 duration=4768122 proposeTs=1777448939654612841 sn=1
+15:49:17.668 INF Statistics commitTs=1777448940254114766 duration=74201756 proposeTs=1777448940179913010 sn=2
+15:49:17.668 INF Statistics commitTs=1777448941205020961 duration=55665954 proposeTs=1777448941149355007 sn=3
+15:49:17.668 INF Statistics commitTs=1777448942142787970 duration=22106882 proposeTs=1777448942120681088 sn=4
+15:49:17.668 INF Statistics commitTs=1777448943145683405 duration=60304846 proposeTs=1777448943085378559 sn=5
+15:49:17.668 INF Statistics commitTs=1777448944126301521 duration=60646144 proposeTs=1777448944065655377 sn=6
+15:49:17.668 INF Statistics commitTs=1777448945052455871 duration=24961362 proposeTs=1777448945027494509 sn=7
+15:49:17.668 INF Statistics commitTs=1777448945988499844 duration=90437577 proposeTs=1777448945898062267 sn=8
+15:49:17.668 INF Statistics commitTs=1777448946936285036 duration=68113500 proposeTs=1777448946868171536 sn=9
+15:49:17.668 INF Statistics commitTs=1777448947866883007 duration=24114013 proposeTs=1777448947842768994 sn=10
+15:49:17.669 INF Statistics commitTs=1777448948750080033 duration=77048423 proposeTs=1777448948673031610 sn=11
+15:49:17.669 INF Statistics commitTs=1777448949762085588 duration=61484197 proposeTs=1777448949700601391 sn=12
+15:49:17.669 INF Statistics commitTs=1777448950662025081 duration=23625698 proposeTs=1777448950638399383 sn=13
+15:49:17.669 INF Statistics commitTs=1777448951622829681 duration=72459321 proposeTs=1777448951550370360 sn=14
+15:49:17.669 INF Statistics commitTs=1777448952588407288 duration=62795446 proposeTs=1777448952525611842 sn=15
+15:49:17.669 INF Statistics commitTs=1777448953508837797 duration=23292956 proposeTs=1777448953485544841 sn=16
+15:49:17.669 INF Statistics commitTs=1777448954635031168 duration=80988586 proposeTs=1777448954554042582 sn=17
+15:49:17.669 INF Statistics commitTs=1777448955632352220 duration=64058357 proposeTs=1777448955568293863 sn=18
+15:49:17.669 INF Statistics commitTs=1777448956690074291 duration=58443812 proposeTs=1777448956631630479 sn=19
+15:49:17.669 INF Statistics commitTs=1777448957646571967 duration=81753020 proposeTs=1777448957564818947 sn=20
+15:49:17.669 INF Median commit time commit=60646144 segID=0
+panic: runtime error: integer divide by zero
+[signal SIGSEGV: segmentation violation code=0xc005ebcc50 addr=0x611705 pc=0xa1fd52]
+
+goroutine 1047 [running]:
+github.com/hyperledger-labs/mirbft/manager.(*MirManager).createSegments(0xc0002ff1a0, 0xdaf0af?, {0x5?, 0x1?, 0x0?}, {0x1304608?, 0x0, 0x0}, 0x15)
+	/opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:336 +0xfca
+github.com/hyperledger-labs/mirbft/manager.(*MirManager).issueSegments(...)
+	/opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:295
+github.com/hyperledger-labs/mirbft/manager.(*MirManager).handleLogEntries(0xc0002ff1a0, 0xc0008234e0)
+	/opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:253 +0x1488
+created by github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start
+	/opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x192

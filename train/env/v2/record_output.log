@@ -1,0 +1,4 @@
+nohup: 忽略输入
+  File "/opt/gopath/src/github.com/hyperledger-labs/mirbft/train/env/v2/leader.py", line 67
+    self.size_to_time[total_batchsize] = mean_time
+IndentationError: unexpected indent

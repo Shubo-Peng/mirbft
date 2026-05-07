@@ -1,0 +1,1204 @@
+{"level":"debug","Logging":"info","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","UseTLS":false,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","CACertFile":"tls-data/ca.pem","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","KeyFile":"tls-data/auth.key","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","CertFile":"tls-data/auth.pem","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","PriorityConnections":2,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","BasicConnections":4,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","TestConnections":false,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ExcessConnections":1,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ConnectionTestMsgs":4,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ConnectionTestPayload":131072,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","OutMessageBufsize":1024,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","OutMessageBufsize":1,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ThroughputCap":131072000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","StragglerTolerance":1000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","BatchSizeIncrement":256,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","Orderer":"Pbft","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","Manager":"Mir","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","Failures":0,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","CrashTiming":"EpochStart","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","CheckpointInterval":256,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","WatermarkWindowSize":256,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","EpochLength":256,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","SegmentLength":64,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","WaitForCheckpoints":true,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientWatermarkWindowSize":4194304,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientRequestBacklogSize":4194304,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RandomSeed":31923,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","NodeToLeaderRatio":1,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","LeaderPolicy":"Simple","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","DefaultLeaderBan":2,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","NumBuckets":64,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","BatchSize":4096,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","BatchTimeoutMs":1000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","DisabledViewChange":false,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ViewChangeTimeout":60000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientTraceSampling":10,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","EventBufferSize":2097152,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","TraceSampling":1,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientsPerProcess":1,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RequestsPerClient":7200000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientRunTime":60000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RequestRate":60000,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","HardRequestRateLimit":false,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RequestPayloadSize":500,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","SignRequests":true,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientPrivKeyFile":"tls-data/client-ecdsa-256.key","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","ClientPubKeyFile":"tls-data/client-ecdsa-256.pem","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","PrecomputeRequests":false,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RequestHandlerThreads":32,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","RequestInputChannelBuffer":8192,"time":"2025-08-01T03:05:30+08:00","message":"Config"}
+{"level":"debug","BatchVerifier":"external","time":"2025-08-01T03:05:30+08:00","message":"Config"}
+03:05:30.997 INF Registered with discovery server. numPeers=4 ownID=3
+03:05:30.997 INF Profiling enabled.
+03:05:30.997 INF Setting up profiling.
+03:05:30.997 INF Started Profiler: CPU
+03:05:30.997 INF Started Profiler: BLOCK
+03:05:30.997 INF Started Profiler: MUTEX
+03:05:30.997 INF Profiler will stop on signal. exit=true
+03:05:30.999 INF Tracing will stop on signal. exit=false
+03:05:31.000 INF Started tracing. traceFile=experiment-output/0000/slave-001/peer.trc
+03:05:31.000 INF Connecting to peer. addr=127.0.0.1:10011 basicConns=4 priorityConns=2
+03:05:31.000 INF Connecting to peer. addr=127.0.0.1:10033 basicConns=4 priorityConns=2
+03:05:31.000 INF Connecting to peer. addr=127.0.0.1:10000 basicConns=4 priorityConns=2
+03:05:31.000 INF Listening for connections. port=10033 useTLS=false
+03:05:31.000 INF Connecting to peer. addr=127.0.0.1:10022 basicConns=4 priorityConns=2
+03:05:31.006 INF Incoming connection for protocol messages. addr=127.0.0.1:40638
+03:05:31.007 INF Incoming connection for protocol messages. addr=127.0.0.1:40684
+03:05:31.007 INF Incoming connection for protocol messages. addr=127.0.0.1:40654
+03:05:31.008 INF Incoming connection for protocol messages. addr=127.0.0.1:40624
+03:05:31.008 INF Incoming connection for protocol messages. addr=127.0.0.1:40670
+03:05:31.009 INF Incoming connection for protocol messages. addr=127.0.0.1:40612
+03:05:31.009 INF Incoming connection for protocol messages. addr=127.0.0.1:40716
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40780
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40690
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40728
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40794
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40768
+03:05:31.010 INF Incoming connection for protocol messages. addr=127.0.0.1:40704
+03:05:31.011 INF Incoming connection for protocol messages. addr=127.0.0.1:40770
+03:05:31.011 INF Incoming connection for protocol messages. addr=127.0.0.1:40818
+03:05:31.011 INF Incoming connection for protocol messages. addr=127.0.0.1:40754
+03:05:31.011 INF Incoming connection for protocol messages. addr=127.0.0.1:40694
+03:05:31.012 INF Incoming connection for protocol messages. addr=127.0.0.1:40796
+03:05:31.012 INF Incoming connection for protocol messages. addr=127.0.0.1:40740
+03:05:31.012 INF Connected to all peers.
+03:05:31.012 INF Incoming connection for protocol messages. addr=127.0.0.1:40804
+03:05:31.012 INF Incoming connection for protocol messages. addr=127.0.0.1:40822
+03:05:32.005 INF Incoming connection for protocol messages. addr=127.0.0.1:40828
+03:05:32.006 INF Incoming connection for protocol messages. addr=127.0.0.1:40830
+03:05:32.006 INF Incoming connection for protocol messages. addr=127.0.0.1:40842
+03:05:32.012 INF All peers finished connecting. Starting ISS.
+03:05:32.012 INF PbftOrderer received a new segment: [0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63] first leader=0 firstSN=0 lastSN=63 len=64 length=64 segId=0
+03:05:32.051 INF Starting new view. segID=0 timeout=60000 view=0
+03:05:32.051 INF Starting PBFT instance. first=0 last=63 segID=0
+03:05:32.051 INF Starting serialized message processing. segID=0
+03:05:33.058 INF Handling PREPREPARE. nReq=0 senderID=0 sn=0
+03:05:33.060 INF Committed entry. latency=0 nReq=0 sn=0
+03:05:33.061 INF Delivered batch. nReq=0 sn=0
+03:05:34.053 INF Handling PREPREPARE. nReq=0 senderID=0 sn=1
+03:05:34.056 INF Committed entry. latency=0 nReq=0 sn=1
+03:05:34.056 INF Delivered batch. nReq=0 sn=1
+03:05:34.090 INF Incoming connection for requests. addr=127.0.0.1:40846
+03:05:34.508 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=2
+03:05:34.556 INF Committed entry. latency=0 nReq=4096 sn=2
+03:05:34.556 INF Delivered batch. nReq=4096 sn=2
+03:05:35.471 INF Handling PREPREPARE. nReq=2261 senderID=0 sn=3
+03:05:35.496 INF Committed entry. latency=0 nReq=2261 sn=3
+03:05:35.496 INF Delivered batch. nReq=2261 sn=3
+03:05:36.512 INF Handling PREPREPARE. nReq=3146 senderID=0 sn=4
+03:05:36.564 INF Committed entry. latency=0 nReq=3146 sn=4
+03:05:36.564 INF Delivered batch. nReq=3146 sn=4
+03:05:37.492 INF Handling PREPREPARE. nReq=2961 senderID=0 sn=5
+03:05:37.544 INF Committed entry. latency=0 nReq=2961 sn=5
+03:05:37.544 INF Delivered batch. nReq=2961 sn=5
+03:05:38.533 INF Handling PREPREPARE. nReq=3929 senderID=0 sn=6
+03:05:38.592 INF Committed entry. latency=0 nReq=3929 sn=6
+03:05:38.592 INF Delivered batch. nReq=3929 sn=6
+03:05:39.496 INF Handling PREPREPARE. nReq=2108 senderID=0 sn=7
+03:05:39.522 INF Committed entry. latency=0 nReq=2108 sn=7
+03:05:39.522 INF Delivered batch. nReq=2108 sn=7
+03:05:40.515 INF Handling PREPREPARE. nReq=1595 senderID=0 sn=8
+03:05:40.555 INF Committed entry. latency=0 nReq=1595 sn=8
+03:05:40.555 INF Delivered batch. nReq=1595 sn=8
+03:05:41.191 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=9
+03:05:41.239 INF Committed entry. latency=0 nReq=4096 sn=9
+03:05:41.239 INF Delivered batch. nReq=4096 sn=9
+03:05:42.103 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=10
+03:05:42.148 INF Committed entry. latency=0 nReq=4096 sn=10
+03:05:42.148 INF Delivered batch. nReq=4096 sn=10
+03:05:43.097 INF Handling PREPREPARE. nReq=2627 senderID=0 sn=11
+03:05:43.137 INF Committed entry. latency=0 nReq=2627 sn=11
+03:05:43.137 INF Delivered batch. nReq=2627 sn=11
+03:05:44.093 INF Handling PREPREPARE. nReq=1698 senderID=0 sn=12
+03:05:44.136 INF Committed entry. latency=0 nReq=1698 sn=12
+03:05:44.136 INF Delivered batch. nReq=1698 sn=12
+03:05:44.881 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=13
+03:05:44.933 INF Committed entry. latency=0 nReq=4096 sn=13
+03:05:44.933 INF Delivered batch. nReq=4096 sn=13
+03:05:45.860 INF Handling PREPREPARE. nReq=2505 senderID=0 sn=14
+03:05:45.891 INF Committed entry. latency=0 nReq=2505 sn=14
+03:05:45.891 INF Delivered batch. nReq=2505 sn=14
+03:05:46.912 INF Handling PREPREPARE. nReq=3495 senderID=0 sn=15
+03:05:46.955 INF Committed entry. latency=0 nReq=3495 sn=15
+03:05:46.955 INF Delivered batch. nReq=3495 sn=15
+03:05:47.891 INF Handling PREPREPARE. nReq=3173 senderID=0 sn=16
+03:05:47.932 INF Committed entry. latency=0 nReq=3173 sn=16
+03:05:47.932 INF Delivered batch. nReq=3173 sn=16
+03:05:48.881 INF Handling PREPREPARE. nReq=2252 senderID=0 sn=17
+03:05:48.912 INF Committed entry. latency=0 nReq=2252 sn=17
+03:05:48.912 INF Delivered batch. nReq=2252 sn=17
+03:05:49.785 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=18
+03:05:49.835 INF Committed entry. latency=0 nReq=4096 sn=18
+03:05:49.835 INF Delivered batch. nReq=4096 sn=18
+03:05:50.754 INF Handling PREPREPARE. nReq=2393 senderID=0 sn=19
+03:05:50.781 INF Committed entry. latency=0 nReq=2393 sn=19
+03:05:50.781 INF Delivered batch. nReq=2393 sn=19
+03:05:51.777 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=20
+03:05:51.823 INF Committed entry. latency=0 nReq=4096 sn=20
+03:05:51.823 INF Delivered batch. nReq=4096 sn=20
+03:05:52.731 INF Handling PREPREPARE. nReq=2393 senderID=0 sn=21
+03:05:52.756 INF Committed entry. latency=0 nReq=2393 sn=21
+03:05:52.756 INF Delivered batch. nReq=2393 sn=21
+03:05:53.728 INF Handling PREPREPARE. nReq=787 senderID=0 sn=22
+03:05:53.757 INF Committed entry. latency=0 nReq=787 sn=22
+03:05:53.758 INF Delivered batch. nReq=787 sn=22
+03:05:54.264 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=23
+03:05:54.326 INF Committed entry. latency=0 nReq=4096 sn=23
+03:05:54.326 INF Delivered batch. nReq=4096 sn=23
+03:05:55.194 INF Handling PREPREPARE. nReq=2360 senderID=0 sn=24
+03:05:55.226 INF Committed entry. latency=0 nReq=2360 sn=24
+03:05:55.226 INF Delivered batch. nReq=2360 sn=24
+03:05:56.241 INF Handling PREPREPARE. nReq=3936 senderID=0 sn=25
+03:05:56.286 INF Committed entry. latency=0 nReq=3936 sn=25
+03:05:56.286 INF Delivered batch. nReq=3936 sn=25
+03:05:56.941 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=26
+03:05:56.981 INF Committed entry. latency=0 nReq=4096 sn=26
+03:05:56.981 INF Delivered batch. nReq=4096 sn=26
+03:05:57.931 INF Handling PREPREPARE. nReq=2590 senderID=0 sn=27
+03:05:57.961 INF Committed entry. latency=0 nReq=2590 sn=27
+03:05:57.962 INF Delivered batch. nReq=2590 sn=27
+03:05:58.909 INF Handling PREPREPARE. nReq=654 senderID=0 sn=28
+03:05:58.934 INF Committed entry. latency=0 nReq=654 sn=28
+03:05:58.935 INF Delivered batch. nReq=654 sn=28
+03:05:59.443 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=29
+03:05:59.494 INF Committed entry. latency=0 nReq=4096 sn=29
+03:05:59.494 INF Delivered batch. nReq=4096 sn=29
+03:06:00.424 INF Handling PREPREPARE. nReq=2638 senderID=0 sn=30
+03:06:00.457 INF Committed entry. latency=0 nReq=2638 sn=30
+03:06:00.457 INF Delivered batch. nReq=2638 sn=30
+03:06:01.488 INF Handling PREPREPARE. nReq=3246 senderID=0 sn=31
+03:06:01.528 INF Committed entry. latency=0 nReq=3246 sn=31
+03:06:01.528 INF Delivered batch. nReq=3246 sn=31
+03:06:02.422 INF Handling PREPREPARE. nReq=2080 senderID=0 sn=32
+03:06:02.453 INF Committed entry. latency=0 nReq=2080 sn=32
+03:06:02.453 INF Delivered batch. nReq=2080 sn=32
+03:06:03.272 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=33
+03:06:03.317 INF Committed entry. latency=0 nReq=4096 sn=33
+03:06:03.317 INF Delivered batch. nReq=4096 sn=33
+03:06:04.040 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=34
+03:06:04.087 INF Committed entry. latency=0 nReq=4096 sn=34
+03:06:04.087 INF Delivered batch. nReq=4096 sn=34
+03:06:05.021 INF Handling PREPREPARE. nReq=3207 senderID=0 sn=35
+03:06:05.058 INF Committed entry. latency=0 nReq=3207 sn=35
+03:06:05.058 INF Delivered batch. nReq=3207 sn=35
+03:06:06.012 INF Handling PREPREPARE. nReq=1475 senderID=0 sn=36
+03:06:06.062 INF Committed entry. latency=0 nReq=1475 sn=36
+03:06:06.062 INF Delivered batch. nReq=1475 sn=36
+03:06:06.772 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=37
+03:06:06.817 INF Committed entry. latency=0 nReq=4096 sn=37
+03:06:06.817 INF Delivered batch. nReq=4096 sn=37
+03:06:07.744 INF Handling PREPREPARE. nReq=3152 senderID=0 sn=38
+03:06:07.788 INF Committed entry. latency=0 nReq=3152 sn=38
+03:06:07.788 INF Delivered batch. nReq=3152 sn=38
+03:06:08.726 INF Handling PREPREPARE. nReq=1074 senderID=0 sn=39
+03:06:08.754 INF Committed entry. latency=0 nReq=1074 sn=39
+03:06:08.755 INF Delivered batch. nReq=1074 sn=39
+03:06:09.234 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=40
+03:06:09.275 INF Committed entry. latency=0 nReq=4096 sn=40
+03:06:09.276 INF Delivered batch. nReq=4096 sn=40
+03:06:10.242 INF Handling PREPREPARE. nReq=2443 senderID=0 sn=41
+03:06:10.272 INF Committed entry. latency=0 nReq=2443 sn=41
+03:06:10.273 INF Delivered batch. nReq=2443 sn=41
+03:06:11.247 INF Handling PREPREPARE. nReq=3950 senderID=0 sn=42
+03:06:11.289 INF Committed entry. latency=0 nReq=3950 sn=42
+03:06:11.289 INF Delivered batch. nReq=3950 sn=42
+03:06:12.224 INF Handling PREPREPARE. nReq=2345 senderID=0 sn=43
+03:06:12.250 INF Committed entry. latency=0 nReq=2345 sn=43
+03:06:12.250 INF Delivered batch. nReq=2345 sn=43
+03:06:13.070 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=44
+03:06:13.115 INF Committed entry. latency=0 nReq=4096 sn=44
+03:06:13.115 INF Delivered batch. nReq=4096 sn=44
+03:06:14.055 INF Handling PREPREPARE. nReq=2462 senderID=0 sn=45
+03:06:14.082 INF Committed entry. latency=0 nReq=2462 sn=45
+03:06:14.082 INF Delivered batch. nReq=2462 sn=45
+03:06:14.915 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=46
+03:06:14.999 INF Committed entry. latency=0 nReq=4096 sn=46
+03:06:14.999 INF Delivered batch. nReq=4096 sn=46
+03:06:15.913 INF Handling PREPREPARE. nReq=2654 senderID=0 sn=47
+03:06:15.946 INF Committed entry. latency=0 nReq=2654 sn=47
+03:06:15.946 INF Delivered batch. nReq=2654 sn=47
+03:06:16.897 INF Handling PREPREPARE. nReq=1298 senderID=0 sn=48
+03:06:16.934 INF Committed entry. latency=0 nReq=1298 sn=48
+03:06:16.934 INF Delivered batch. nReq=1298 sn=48
+03:06:17.534 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=49
+03:06:17.578 INF Committed entry. latency=0 nReq=4096 sn=49
+03:06:17.578 INF Delivered batch. nReq=4096 sn=49
+03:06:18.543 INF Handling PREPREPARE. nReq=2770 senderID=0 sn=50
+03:06:18.576 INF Committed entry. latency=0 nReq=2770 sn=50
+03:06:18.576 INF Delivered batch. nReq=2770 sn=50
+03:06:19.520 INF Handling PREPREPARE. nReq=3113 senderID=0 sn=51
+03:06:19.557 INF Committed entry. latency=0 nReq=3113 sn=51
+03:06:19.557 INF Delivered batch. nReq=3113 sn=51
+03:06:20.514 INF Handling PREPREPARE. nReq=1956 senderID=0 sn=52
+03:06:20.538 INF Committed entry. latency=0 nReq=1956 sn=52
+03:06:20.538 INF Delivered batch. nReq=1956 sn=52
+03:06:21.363 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=53
+03:06:21.416 INF Committed entry. latency=0 nReq=4096 sn=53
+03:06:21.416 INF Delivered batch. nReq=4096 sn=53
+03:06:22.326 INF Handling PREPREPARE. nReq=2622 senderID=0 sn=54
+03:06:22.357 INF Committed entry. latency=0 nReq=2622 sn=54
+03:06:22.357 INF Delivered batch. nReq=2622 sn=54
+03:06:23.357 INF Handling PREPREPARE. nReq=3495 senderID=0 sn=55
+03:06:23.416 INF Committed entry. latency=0 nReq=3495 sn=55
+03:06:23.416 INF Delivered batch. nReq=3495 sn=55
+03:06:24.348 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=56
+03:06:24.394 INF Committed entry. latency=0 nReq=4096 sn=56
+03:06:24.394 INF Delivered batch. nReq=4096 sn=56
+03:06:25.350 INF Handling PREPREPARE. nReq=2148 senderID=0 sn=57
+03:06:25.375 INF Committed entry. latency=0 nReq=2148 sn=57
+03:06:25.375 INF Delivered batch. nReq=2148 sn=57
+03:06:26.127 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=58
+03:06:26.174 INF Committed entry. latency=0 nReq=4096 sn=58
+03:06:26.174 INF Delivered batch. nReq=4096 sn=58
+03:06:27.118 INF Handling PREPREPARE. nReq=3548 senderID=0 sn=59
+03:06:27.172 INF Committed entry. latency=0 nReq=3548 sn=59
+03:06:27.172 INF Delivered batch. nReq=3548 sn=59
+03:06:28.096 INF Handling PREPREPARE. nReq=1514 senderID=0 sn=60
+03:06:28.143 INF Committed entry. latency=0 nReq=1514 sn=60
+03:06:28.143 INF Delivered batch. nReq=1514 sn=60
+03:06:28.780 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=61
+03:06:28.825 INF Committed entry. latency=0 nReq=4096 sn=61
+03:06:28.825 INF Delivered batch. nReq=4096 sn=61
+03:06:29.750 INF Handling PREPREPARE. nReq=2866 senderID=0 sn=62
+03:06:29.780 INF Committed entry. latency=0 nReq=2866 sn=62
+03:06:29.780 INF Delivered batch. nReq=2866 sn=62
+03:06:30.730 INF Handling PREPREPARE. nReq=967 senderID=0 sn=63
+03:06:30.763 INF Committed entry. latency=0 nReq=967 sn=63
+03:06:30.763 INF Delivered batch. nReq=967 sn=63
+==================
+WARNING: DATA RACE
+Read at 0x000001303380 by goroutine 529:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).handleLogEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:170 +0x774
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x47
+
+Previous write at 0x000001303380 by goroutine 542:
+  github.com/hyperledger-labs/mirbft/log.publishEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:281 +0x2e4
+  github.com/hyperledger-labs/mirbft/log.CommitEntry()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:108 +0x284
+  github.com/hyperledger-labs/mirbft/announcer.Announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/announcer/announcer.go:26 +0x370
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:726 +0x36b
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleCommit()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:664 +0x7bd
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleMessage()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1810 +0x2e5
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).processSerializedMessages()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1764 +0xdd
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x39
+
+Goroutine 529 (running) created at:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x191
+  main.main.func4()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:185 +0x59
+
+Goroutine 542 (running) created at:
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x3f6
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:176 +0x344
+  main.main.func5()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:186 +0x59
+==================
+03:06:30.768 INF Sending segment checkpoint. lastSn=63 segID=0
+03:06:30.770 INF PBFT checkpoint ready. Scheduling catchup. lastSn=63 segID=0
+03:06:30.839 INF fuck! epoch=64 epoch time (ms)=58752 leaders=2 viewtimeout=104000
+03:06:30.839 INF Epoch finished. Waiting for stable checkpoint. sn=63
+03:06:30.841 INF New stable checkpoint. sn=63
+03:06:30.841 INF Received stable checkpoint notification. sn=63
+03:06:30.841 INF Epoch end confirmed. chkpSn=63
+03:06:30.841 INF Advancing watermarks. numEntries=64
+03:06:30.841 INF Closing message serializers. segID=0
+03:06:30.841 INF Statistics commitTs=1753988733060908480 duration=2562888 proposeTs=1753988733058345592 sn=0
+03:06:30.841 INF Statistics commitTs=1753988734056686432 duration=2814969 proposeTs=1753988734053871463 sn=1
+03:06:30.841 INF Statistics commitTs=1753988734554724551 duration=45996522 proposeTs=1753988734508728029 sn=2
+03:06:30.842 INF Statistics commitTs=1753988735495478643 duration=23819324 proposeTs=1753988735471659319 sn=3
+03:06:30.842 INF Statistics commitTs=1753988736562600276 duration=50251189 proposeTs=1753988736512349087 sn=4
+03:06:30.842 INF Statistics commitTs=1753988737542866107 duration=50156219 proposeTs=1753988737492709888 sn=5
+03:06:30.842 INF Statistics commitTs=1753988738591621996 duration=58309521 proposeTs=1753988738533312475 sn=6
+03:06:30.842 INF Statistics commitTs=1753988739520646975 duration=23998555 proposeTs=1753988739496648420 sn=7
+03:06:30.842 INF Statistics commitTs=1753988740554404779 duration=38762308 proposeTs=1753988740515642471 sn=8
+03:06:30.842 INF Statistics commitTs=1753988741238333121 duration=46983681 proposeTs=1753988741191349440 sn=9
+03:06:30.842 INF Statistics commitTs=1753988742146903442 duration=43680169 proposeTs=1753988742103223273 sn=10
+03:06:30.842 INF Statistics commitTs=1753988743135341192 duration=37622660 proposeTs=1753988743097718532 sn=11
+03:06:30.842 INF Statistics commitTs=1753988744135200615 duration=41384416 proposeTs=1753988744093816199 sn=12
+03:06:30.842 INF Statistics commitTs=1753988744931819136 duration=50136493 proposeTs=1753988744881682643 sn=13
+03:06:30.842 INF Statistics commitTs=1753988745889687453 duration=29137163 proposeTs=1753988745860550290 sn=14
+03:06:30.842 INF Statistics commitTs=1753988746953505296 duration=41538088 proposeTs=1753988746911967208 sn=15
+03:06:30.842 INF Statistics commitTs=1753988747931040411 duration=39899649 proposeTs=1753988747891140762 sn=16
+03:06:30.842 INF Statistics commitTs=1753988748910419943 duration=28462619 proposeTs=1753988748881957324 sn=17
+03:06:30.842 INF Statistics commitTs=1753988749832791763 duration=47691526 proposeTs=1753988749785100237 sn=18
+03:06:30.842 INF Statistics commitTs=1753988750780161475 duration=25472251 proposeTs=1753988750754689224 sn=19
+03:06:30.842 INF Statistics commitTs=1753988751822400302 duration=44537300 proposeTs=1753988751777863002 sn=20
+03:06:30.843 INF Statistics commitTs=1753988752755625633 duration=24256022 proposeTs=1753988752731369611 sn=21
+03:06:30.843 INF Statistics commitTs=1753988753756519947 duration=28057169 proposeTs=1753988753728462778 sn=22
+03:06:30.843 INF Statistics commitTs=1753988754324996368 duration=60311515 proposeTs=1753988754264684853 sn=23
+03:06:30.843 INF Statistics commitTs=1753988755225477170 duration=31145021 proposeTs=1753988755194332149 sn=24
+03:06:30.843 INF Statistics commitTs=1753988756285238562 duration=44106241 proposeTs=1753988756241132321 sn=25
+03:06:30.843 INF Statistics commitTs=1753988756980378905 duration=39173972 proposeTs=1753988756941204933 sn=26
+03:06:30.843 INF Statistics commitTs=1753988757960992194 duration=29758563 proposeTs=1753988757931233631 sn=27
+03:06:30.843 INF Statistics commitTs=1753988758933811669 duration=24409133 proposeTs=1753988758909402536 sn=28
+03:06:30.843 INF Statistics commitTs=1753988759492979928 duration=49803095 proposeTs=1753988759443176833 sn=29
+03:06:30.843 INF Statistics commitTs=1753988760456542575 duration=32270263 proposeTs=1753988760424272312 sn=30
+03:06:30.843 INF Statistics commitTs=1753988761527341456 duration=38791761 proposeTs=1753988761488549695 sn=31
+03:06:30.843 INF Statistics commitTs=1753988762452384819 duration=29440842 proposeTs=1753988762422943977 sn=32
+03:06:30.843 INF Statistics commitTs=1753988763316026213 duration=43302074 proposeTs=1753988763272724139 sn=33
+03:06:30.843 INF Statistics commitTs=1753988764085442845 duration=45026696 proposeTs=1753988764040416149 sn=34
+03:06:30.843 INF Statistics commitTs=1753988765057443453 duration=35810469 proposeTs=1753988765021632984 sn=35
+03:06:30.843 INF Statistics commitTs=1753988766061287264 duration=48594495 proposeTs=1753988766012692769 sn=36
+03:06:30.843 INF Statistics commitTs=1753988766815589665 duration=43418599 proposeTs=1753988766772171066 sn=37
+03:06:30.843 INF Statistics commitTs=1753988767785515024 duration=41046914 proposeTs=1753988767744468110 sn=38
+03:06:30.843 INF Statistics commitTs=1753988768753596672 duration=27514179 proposeTs=1753988768726082493 sn=39
+03:06:30.844 INF Statistics commitTs=1753988769273732139 duration=38959657 proposeTs=1753988769234772482 sn=40
+03:06:30.844 INF Statistics commitTs=1753988770271151463 duration=28966868 proposeTs=1753988770242184595 sn=41
+03:06:30.844 INF Statistics commitTs=1753988771287589568 duration=40534341 proposeTs=1753988771247055227 sn=42
+03:06:30.844 INF Statistics commitTs=1753988772249952558 duration=25180731 proposeTs=1753988772224771827 sn=43
+03:06:30.844 INF Statistics commitTs=1753988773113453786 duration=43322089 proposeTs=1753988773070131697 sn=44
+03:06:30.844 INF Statistics commitTs=1753988774082009295 duration=26067967 proposeTs=1753988774055941328 sn=45
+03:06:30.844 INF Statistics commitTs=1753988774997464521 duration=82446772 proposeTs=1753988774915017749 sn=46
+03:06:30.844 INF Statistics commitTs=1753988775945571716 duration=32466063 proposeTs=1753988775913105653 sn=47
+03:06:30.844 INF Statistics commitTs=1753988776933453088 duration=36471030 proposeTs=1753988776896982058 sn=48
+03:06:30.844 INF Statistics commitTs=1753988777576974286 duration=42020100 proposeTs=1753988777534954186 sn=49
+03:06:30.844 INF Statistics commitTs=1753988778575772097 duration=32043609 proposeTs=1753988778543728488 sn=50
+03:06:30.844 INF Statistics commitTs=1753988779556121933 duration=35650275 proposeTs=1753988779520471658 sn=51
+03:06:30.845 INF Statistics commitTs=1753988780537414709 duration=22463846 proposeTs=1753988780514950863 sn=52
+03:06:30.845 INF Statistics commitTs=1753988781415528187 duration=52346064 proposeTs=1753988781363182123 sn=53
+03:06:30.845 INF Statistics commitTs=1753988782356196527 duration=29628700 proposeTs=1753988782326567827 sn=54
+03:06:30.845 INF Statistics commitTs=1753988783415028291 duration=57656567 proposeTs=1753988783357371724 sn=55
+03:06:30.845 INF Statistics commitTs=1753988784392943131 duration=43988965 proposeTs=1753988784348954166 sn=56
+03:06:30.845 INF Statistics commitTs=1753988785374635729 duration=24122424 proposeTs=1753988785350513305 sn=57
+03:06:30.845 INF Statistics commitTs=1753988786170636748 duration=42797453 proposeTs=1753988786127839295 sn=58
+03:06:30.845 INF Statistics commitTs=1753988787170735807 duration=52025584 proposeTs=1753988787118710223 sn=59
+03:06:30.845 INF Statistics commitTs=1753988788142307918 duration=45510820 proposeTs=1753988788096797098 sn=60
+03:06:30.845 INF Statistics commitTs=1753988788824131055 duration=43892870 proposeTs=1753988788780238185 sn=61
+03:06:30.845 INF Statistics commitTs=1753988789778557029 duration=28398518 proposeTs=1753988789750158511 sn=62
+03:06:30.845 INF Statistics commitTs=1753988790762200921 duration=31832666 proposeTs=1753988790730368255 sn=63
+03:06:30.845 INF Median commit time commit=39173972 segID=0
+03:06:31.104 INF PbftOrderer received a new segment: [64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94] first leader=0 firstSN=64 lastSN=94 len=16 length=16 segId=1
+03:06:31.406 INF Starting new view. segID=1 timeout=104000 view=0
+03:06:31.407 INF Advanced timeout advanced=39173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=1039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=2039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=3039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=4039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=5039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=6039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=7039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=8039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=9039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=10039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=11039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=12039173972 initial=1000000000
+03:06:31.407 INF Advanced timeout advanced=13039173972 initial=1000000000
+03:06:31.408 INF Advanced timeout advanced=14039173972 initial=1000000000
+03:06:31.408 INF Advanced timeout advanced=15039173972 initial=1000000000
+03:06:31.408 INF Starting PBFT instance. first=64 last=94 segID=1
+03:06:31.408 INF PbftOrderer received a new segment: [65 67 69 71 73 75 77 79 81 83 85 87 89 91 93 95] first leader=1 firstSN=65 lastSN=95 len=16 length=16 segId=2
+03:06:31.408 INF Starting serialized message processing. segID=1
+03:06:31.638 INF Starting new view. segID=2 timeout=104000 view=0
+03:06:31.638 INF Advanced timeout advanced=39173972 initial=1000000000
+03:06:31.638 INF Advanced timeout advanced=1039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=2039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=3039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=4039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=5039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=6039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=7039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=8039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=9039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=10039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=11039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=12039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=13039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=14039173972 initial=1000000000
+03:06:31.639 INF Advanced timeout advanced=15039173972 initial=1000000000
+03:06:31.640 INF Starting PBFT instance. first=65 last=95 segID=2
+03:06:31.640 INF Starting serialized message processing. segID=2
+03:06:31.894 INF Handling PREPREPARE. nReq=4096 senderID=1 sn=65
+03:06:32.118 INF Committed entry. latency=0 nReq=4096 sn=65
+03:06:32.251 INF Handling PREPREPARE. nReq=4096 senderID=0 sn=64
+03:06:32.298 INF Committed entry. latency=0 nReq=4096 sn=64
+03:06:32.298 INF Delivered batch. nReq=4096 sn=64
+03:06:32.298 INF Delivered batch. nReq=4096 sn=65
+03:06:32.346 INF Handling PREPREPARE. nReq=4096 senderID=1 sn=67
+03:06:32.898 INF Committed entry. latency=0 nReq=4096 sn=67
+03:06:33.232 INF Handling PREPREPARE. nReq=4036 senderID=0 sn=66
+03:06:33.277 INF Committed entry. latency=0 nReq=4036 sn=66
+03:06:33.277 INF Delivered batch. nReq=4036 sn=66
+03:06:33.278 INF Delivered batch. nReq=4096 sn=67
+03:06:33.296 INF Handling PREPREPARE. nReq=1186 senderID=1 sn=69
+03:06:33.317 INF Committed entry. latency=0 nReq=1186 sn=69
+03:06:34.197 INF Handling PREPREPARE. nReq=1616 senderID=0 sn=68
+03:06:34.216 INF Committed entry. latency=0 nReq=1616 sn=68
+03:06:34.216 INF Delivered batch. nReq=1616 sn=68
+03:06:34.217 INF Delivered batch. nReq=1186 sn=69
+03:06:34.291 INF Handling PREPREPARE. nReq=904 senderID=1 sn=71
+03:06:34.303 INF Committed entry. latency=0 nReq=904 sn=71
+03:06:34.636 INF Handling PREPREPARE. nReq=141 senderID=2 sn=69
+03:06:34.636 INF Starting new view. segID=2 timeout=208000 view=1
+03:06:34.636 INF Advanced timeout advanced=39173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=1039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=2039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=3039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=4039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=5039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=6039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=7039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=8039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=9039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=10039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=11039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=12039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=13039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=14039173972 initial=1000000000
+03:06:34.636 INF Advanced timeout advanced=15039173972 initial=1000000000
+03:06:34.637 INF Requesting VIEWCHANGE. receiverID=2 segID=2 senderID=3 view=1
+03:06:34.661 INF Handling PREPREPARE. nReq=2688 senderID=2 sn=66
+03:06:34.661 INF Starting new view. segID=1 timeout=208000 view=1
+03:06:34.661 INF Advanced timeout advanced=39173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=1039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=2039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=3039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=4039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=5039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=6039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=7039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=8039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=9039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=10039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=11039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=12039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=13039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=14039173972 initial=1000000000
+03:06:34.661 INF Advanced timeout advanced=15039173972 initial=1000000000
+03:06:34.661 INF Requesting VIEWCHANGE. receiverID=1 segID=1 senderID=3 view=1
+03:06:34.794 INF Handling NEWVIEW. currentView=1 msgView=1 segID=1 senderID=1
+03:06:34.852 INF Committed entry. latency=0 nReq=0 sn=92
+03:06:34.852 INF Committed entry. latency=0 nReq=0 sn=80
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=74
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=94
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=76
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=78
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=82
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=90
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=72
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=88
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=70
+03:06:34.853 INF Delivered batch. nReq=0 sn=70
+03:06:34.853 INF Delivered batch. nReq=904 sn=71
+03:06:34.853 INF Delivered batch. nReq=0 sn=72
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=84
+03:06:34.853 INF Committed entry. latency=0 nReq=0 sn=86
+03:06:34.853 INF Sending segment checkpoint. lastSn=94 segID=1
+03:06:34.855 INF PBFT checkpoint ready. Scheduling catchup. lastSn=94 segID=1
+03:06:35.255 INF PBFT catching up. lastSn=94 missingSns=0 segID=1
+03:06:35.257 INF Sending missing entry. peerID=2 sn=64
+03:10:02.638 WRN Timeout segId=2 sn=-1 view=1
+03:10:02.638 INF Starting new view. segID=2 timeout=416000 view=2
+03:10:02.638 INF Advanced timeout advanced=39173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=1039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=2039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=3039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=4039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=5039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=6039173972 initial=1000000000
+03:10:02.639 INF Advanced timeout advanced=7039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=8039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=9039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=10039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=11039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=12039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=13039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=14039173972 initial=1000000000
+03:10:02.640 INF Advanced timeout advanced=15039173972 initial=1000000000
+03:10:02.641 INF Requesting VIEWCHANGE. receiverID=3 segID=2 senderID=3 view=2
+03:10:02.642 INF Handling VIEWCHANGE. msgView=2 ownView=2 segID=2 senderID=1
+03:10:02.642 INF Adding view change message. currentView=2 msgView=2 numViewChanges=2
+03:10:02.643 INF Handling VIEWCHANGE. msgView=2 ownView=2 segID=2 senderID=0
+03:10:02.643 INF Adding view change message. currentView=2 msgView=2 numViewChanges=3
+03:10:02.706 INF Sending NEWVIEW. segID=2 senderID=3 view=2
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=85
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=81
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=87
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=91
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=93
+03:10:02.874 INF Committed entry. latency=0 nReq=0 sn=89
+03:10:02.875 INF Committed entry. latency=0 nReq=0 sn=95
+03:10:02.875 INF Committed entry. latency=0 nReq=0 sn=73
+03:10:02.875 INF Delivered batch. nReq=0 sn=73
+03:10:02.875 INF Delivered batch. nReq=0 sn=74
+03:10:02.875 INF Committed entry. latency=0 nReq=0 sn=75
+03:10:02.875 INF Delivered batch. nReq=0 sn=75
+03:10:02.875 INF Delivered batch. nReq=0 sn=76
+03:10:02.875 INF Committed entry. latency=0 nReq=0 sn=77
+03:10:02.875 INF Delivered batch. nReq=0 sn=77
+03:10:02.875 INF Delivered batch. nReq=0 sn=78
+03:10:02.875 INF Committed entry. latency=0 nReq=0 sn=79
+03:10:02.875 INF Delivered batch. nReq=0 sn=79
+03:10:02.875 INF Delivered batch. nReq=0 sn=80
+03:10:02.875 INF Delivered batch. nReq=0 sn=81
+03:10:02.875 INF Delivered batch. nReq=0 sn=82
+03:10:02.876 INF Committed entry. latency=0 nReq=0 sn=83
+03:10:02.876 INF Delivered batch. nReq=0 sn=83
+03:10:02.876 INF Delivered batch. nReq=0 sn=84
+03:10:02.876 INF Delivered batch. nReq=0 sn=85
+03:10:02.876 INF Delivered batch. nReq=0 sn=86
+03:10:02.876 INF Delivered batch. nReq=0 sn=87
+03:10:02.876 INF Delivered batch. nReq=0 sn=88
+03:10:02.876 INF Delivered batch. nReq=0 sn=89
+03:10:02.877 INF Delivered batch. nReq=0 sn=90
+03:10:02.877 INF Delivered batch. nReq=0 sn=91
+03:10:02.877 INF Delivered batch. nReq=0 sn=92
+03:10:02.877 INF Delivered batch. nReq=0 sn=93
+03:10:02.877 INF Delivered batch. nReq=0 sn=94
+03:10:02.877 INF Delivered batch. nReq=0 sn=95
+03:10:02.877 INF Sending segment checkpoint. lastSn=95 segID=2
+03:10:02.884 INF PBFT checkpoint ready. Scheduling catchup. lastSn=95 segID=2
+03:10:02.911 INF fuck! epoch=64 epoch time (ms)=211469 leaders=3 viewtimeout=120000
+03:10:02.911 INF Epoch finished. Waiting for stable checkpoint. sn=95
+03:10:02.914 INF New stable checkpoint. sn=95
+03:10:02.915 INF Received stable checkpoint notification. sn=95
+03:10:02.915 INF Closing message serializers. segID=2
+03:10:02.915 INF Epoch end confirmed. chkpSn=95
+03:10:02.915 INF Advancing watermarks. numEntries=32
+03:10:02.915 INF Statistics commitTs=1753988792113657137 duration=219709458 proposeTs=1753988791893947679 sn=65
+03:10:02.915 INF Statistics commitTs=1753988792897171701 duration=550887170 proposeTs=1753988792346284531 sn=67
+03:10:02.915 INF Statistics commitTs=1753988793317197402 duration=20730340 proposeTs=1753988793296467062 sn=69
+03:10:02.915 INF Closing message serializers. segID=1
+03:10:02.915 INF Statistics commitTs=1753988794302533838 duration=10971569 proposeTs=1753988794291562269 sn=71
+03:10:02.915 INF Statistics commitTs=1753988792296962402 duration=45267834 proposeTs=1753988792251694568 sn=64
+03:10:02.915 INF Statistics commitTs=1753988793275860972 duration=43794103 proposeTs=1753988793232066869 sn=66
+03:10:02.915 INF Statistics commitTs=1753989002874789876 duration=211234534722 proposeTs=1753988791640255154 sn=73
+03:10:02.915 INF Statistics commitTs=1753988794216262234 duration=18691004 proposeTs=1753988794197571230 sn=68
+03:10:02.915 INF Statistics commitTs=1753988794853053094 duration=3444765259 proposeTs=1753988791408287835 sn=70
+03:10:02.915 INF Statistics commitTs=1753989002874790624 duration=211234535470 proposeTs=1753988791640255154 sn=75
+03:10:02.916 INF Statistics commitTs=1753988794853051733 duration=3444763898 proposeTs=1753988791408287835 sn=72
+03:10:02.916 INF Statistics commitTs=1753988794852830639 duration=3444542804 proposeTs=1753988791408287835 sn=74
+03:10:02.916 INF Statistics commitTs=1753989002874791570 duration=211234536416 proposeTs=1753988791640255154 sn=77
+03:10:02.916 INF Statistics commitTs=1753988794853047036 duration=3444759201 proposeTs=1753988791408287835 sn=76
+03:10:02.916 INF Statistics commitTs=1753988794853047915 duration=3444760080 proposeTs=1753988791408287835 sn=78
+03:10:02.916 INF Statistics commitTs=1753989002874792517 duration=211234537363 proposeTs=1753988791640255154 sn=79
+03:10:02.916 INF Statistics commitTs=1753988794852829797 duration=3444541962 proposeTs=1753988791408287835 sn=80
+03:10:02.916 INF Statistics commitTs=1753988794853049196 duration=3444761361 proposeTs=1753988791408287835 sn=82
+03:10:02.916 INF Statistics commitTs=1753989002874660252 duration=211234405098 proposeTs=1753988791640255154 sn=81
+03:10:02.916 INF Statistics commitTs=1753988794853053671 duration=3444765836 proposeTs=1753988791408287835 sn=84
+03:10:02.916 INF Statistics commitTs=1753988794853055918 duration=3444768083 proposeTs=1753988791408287835 sn=86
+03:10:02.916 INF Statistics commitTs=1753989002874793451 duration=211234538297 proposeTs=1753988791640255154 sn=83
+03:10:02.916 INF Statistics commitTs=1753988794853052223 duration=3444764388 proposeTs=1753988791408287835 sn=88
+03:10:02.916 INF Statistics commitTs=1753988794853050694 duration=3444762859 proposeTs=1753988791408287835 sn=90
+03:10:02.916 INF Statistics commitTs=1753989002874657260 duration=211234402106 proposeTs=1753988791640255154 sn=85
+03:10:02.916 INF Statistics commitTs=1753988794852827546 duration=3444539711 proposeTs=1753988791408287835 sn=92
+03:10:02.916 INF Statistics commitTs=1753988794853046242 duration=3444758407 proposeTs=1753988791408287835 sn=94
+03:10:02.916 INF Median commit time commit=3444760080 segID=1
+03:10:02.916 INF Statistics commitTs=1753989002874666051 duration=211234410897 proposeTs=1753988791640255154 sn=87
+03:10:02.916 INF Statistics commitTs=1753989002874787348 duration=211234532194 proposeTs=1753988791640255154 sn=89
+03:10:02.916 INF Statistics commitTs=1753989002874666930 duration=211234411776 proposeTs=1753988791640255154 sn=91
+03:10:02.917 INF Statistics commitTs=1753989002874783931 duration=211234528777 proposeTs=1753988791640255154 sn=93
+03:10:02.917 INF Statistics commitTs=1753989002874788211 duration=211234533057 proposeTs=1753988791640255154 sn=95
+03:10:02.917 INF Median commit time commit=211234528777 segID=2
+03:10:02.975 INF PbftOrderer received a new segment: [96 99 102 105 108 111 114 117 120 123 126 129 132 135 138 141] first leader=0 firstSN=96 lastSN=141 len=16 length=16 segId=3
+03:10:03.188 INF Starting new view. segID=3 timeout=120000 view=0
+03:10:03.188 INF Advanced timeout advanced=211234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=212234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=213234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=214234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=215234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=216234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=217234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=218234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=219234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=220234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=221234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=222234528777 initial=1000000000
+03:10:03.188 INF Advanced timeout advanced=223234528777 initial=1000000000
+03:10:03.189 INF Advanced timeout advanced=224234528777 initial=1000000000
+03:10:03.189 INF Advanced timeout advanced=225234528777 initial=1000000000
+03:10:03.189 INF Advanced timeout advanced=226234528777 initial=1000000000
+03:10:03.189 INF Starting PBFT instance. first=96 last=141 segID=3
+03:10:03.189 INF PbftOrderer received a new segment: [97 100 103 106 109 112 115 118 121 124 127 130 133 136 139 142] first leader=1 firstSN=97 lastSN=142 len=16 length=16 segId=4
+03:10:03.199 INF Starting serialized message processing. segID=3
+03:10:03.199 INF Handling VIEWCHANGE. msgView=1 ownView=0 segID=3 senderID=2
+03:10:03.199 INF Adding view change message. currentView=0 msgView=1 numViewChanges=1
+03:10:03.289 INF Sending missing entry. peerID=2 sn=95
+03:10:03.289 INF Sending missing entry. peerID=2 sn=77
+03:10:03.290 INF Sending missing entry. peerID=2 sn=71
+03:10:03.290 INF Sending missing entry. peerID=2 sn=68
+03:10:03.394 INF Starting new view. segID=4 timeout=120000 view=0
+03:10:03.394 INF Advanced timeout advanced=211234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=212234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=213234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=214234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=215234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=216234528777 initial=1000000000
+03:10:03.394 INF Advanced timeout advanced=217234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=218234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=219234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=220234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=221234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=222234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=223234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=224234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=225234528777 initial=1000000000
+03:10:03.395 INF Advanced timeout advanced=226234528777 initial=1000000000
+03:10:03.395 INF Starting PBFT instance. first=97 last=142 segID=4
+03:10:03.395 INF PbftOrderer received a new segment: [98 101 104 107 110 113 116 119 122 125 128 131 134 137 140 143] first leader=2 firstSN=98 lastSN=143 len=16 length=16 segId=5
+03:10:03.395 INF Starting serialized message processing. segID=4
+03:10:03.419 INF Sending missing entry. peerID=2 sn=65
+03:10:03.618 INF Starting new view. segID=5 timeout=120000 view=0
+03:10:03.618 INF Advanced timeout advanced=211234528777 initial=1000000000
+03:10:03.618 INF Advanced timeout advanced=212234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=213234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=214234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=215234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=216234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=217234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=218234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=219234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=220234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=221234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=222234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=223234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=224234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=225234528777 initial=1000000000
+03:10:03.619 INF Advanced timeout advanced=226234528777 initial=1000000000
+03:10:03.620 INF Starting PBFT instance. first=98 last=143 segID=5
+03:10:03.620 INF Starting serialized message processing. segID=5
+03:10:03.642 INF Handling NEWVIEW. currentView=0 msgView=1 segID=5 senderID=2
+03:10:03.642 INF Starting new view. segID=5 timeout=240000 view=1
+03:10:03.642 INF Advanced timeout advanced=211234528777 initial=1000000000
+03:10:03.642 INF Advanced timeout advanced=212234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=213234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=214234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=215234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=216234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=217234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=218234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=219234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=220234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=221234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=222234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=223234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=224234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=225234528777 initial=1000000000
+03:10:03.643 INF Advanced timeout advanced=226234528777 initial=1000000000
+03:10:03.643 INF Requesting VIEWCHANGE. receiverID=3 segID=5 senderID=3 view=1
+03:10:03.643 INF Handling VIEWCHANGE. msgView=2 ownView=1 segID=5 senderID=2
+03:10:03.643 INF Adding view change message. currentView=1 msgView=2 numViewChanges=1
+03:10:03.643 INF Handling VIEWCHANGE. msgView=1 ownView=1 segID=5 senderID=0
+03:10:03.643 INF Adding view change message. currentView=1 msgView=1 numViewChanges=2
+03:10:03.762 INF Handling VIEWCHANGE. msgView=1 ownView=1 segID=5 senderID=1
+03:10:03.762 INF Adding view change message. currentView=1 msgView=1 numViewChanges=3
+03:10:03.762 INF Sending NEWVIEW. segID=5 senderID=3 view=1
+03:10:03.768 INF Committed entry. latency=0 nReq=0 sn=107
+03:10:03.769 INF Committed entry. latency=0 nReq=0 sn=134
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=137
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=143
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=131
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=98
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=110
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=119
+03:10:03.771 INF Committed entry. latency=0 nReq=0 sn=125
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=128
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=104
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=116
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=101
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=113
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=122
+03:10:03.772 INF Committed entry. latency=0 nReq=0 sn=140
+03:10:03.772 INF Sending segment checkpoint. lastSn=143 segID=5
+03:10:03.776 INF PBFT checkpoint ready. Scheduling catchup. lastSn=143 segID=5
+03:10:03.791 INF Sending missing entry. peerID=2 sn=104
+03:10:04.176 INF PBFT catching up. lastSn=143 missingSns=0 segID=5
+03:10:04.509 INF Handling PREPREPARE. nReq=350 senderID=1 sn=97
+03:10:04.519 INF Handling VIEWCHANGE. msgView=3 ownView=0 segID=4 senderID=2
+03:10:04.519 INF Adding view change message. currentView=0 msgView=3 numViewChanges=1
+03:10:04.526 INF Committed entry. latency=0 nReq=350 sn=97
+03:10:04.808 INF Handling PREPREPARE. nReq=100 senderID=0 sn=96
+03:10:04.815 INF Committed entry. latency=0 nReq=100 sn=96
+03:10:04.815 INF Delivered batch. nReq=100 sn=96
+03:10:04.815 INF Delivered batch. nReq=350 sn=97
+03:10:04.816 INF Delivered batch. nReq=0 sn=98
+03:10:05.493 INF Handling PREPREPARE. nReq=0 senderID=1 sn=100
+03:10:05.496 INF Committed entry. latency=0 nReq=0 sn=100
+03:10:05.803 INF Handling PREPREPARE. nReq=0 senderID=0 sn=99
+03:10:05.807 INF Committed entry. latency=0 nReq=0 sn=99
+03:10:05.807 INF Delivered batch. nReq=0 sn=99
+03:10:05.808 INF Delivered batch. nReq=0 sn=100
+03:10:05.808 INF Delivered batch. nReq=0 sn=101
+03:10:06.494 INF Handling PREPREPARE. nReq=0 senderID=1 sn=103
+03:10:06.497 INF Committed entry. latency=0 nReq=0 sn=103
+03:10:06.804 INF Handling PREPREPARE. nReq=0 senderID=0 sn=102
+03:10:06.807 INF Committed entry. latency=0 nReq=0 sn=102
+03:10:06.808 INF Delivered batch. nReq=0 sn=102
+03:10:06.808 INF Delivered batch. nReq=0 sn=103
+03:10:06.808 INF Delivered batch. nReq=0 sn=104
+03:10:06.808 INF Handling VIEWCHANGE. msgView=5 ownView=0 segID=3 senderID=2
+03:10:06.808 INF Adding view change message. currentView=0 msgView=5 numViewChanges=1
+03:10:07.494 INF Handling PREPREPARE. nReq=0 senderID=1 sn=106
+03:10:07.497 INF Committed entry. latency=0 nReq=0 sn=106
+03:10:07.805 INF Handling PREPREPARE. nReq=0 senderID=0 sn=105
+03:10:07.808 INF Committed entry. latency=0 nReq=0 sn=105
+03:10:07.808 INF Delivered batch. nReq=0 sn=105
+03:10:07.808 INF Delivered batch. nReq=0 sn=106
+03:10:07.808 INF Delivered batch. nReq=0 sn=107
+03:10:08.495 INF Handling PREPREPARE. nReq=0 senderID=1 sn=109
+03:10:08.498 INF Committed entry. latency=0 nReq=0 sn=109
+03:10:08.499 INF Handling VIEWCHANGE. msgView=7 ownView=0 segID=4 senderID=2
+03:10:08.499 INF Adding view change message. currentView=0 msgView=7 numViewChanges=1
+03:10:08.805 INF Handling PREPREPARE. nReq=0 senderID=0 sn=108
+03:10:08.809 INF Committed entry. latency=0 nReq=0 sn=108
+03:10:08.809 INF Delivered batch. nReq=0 sn=108
+03:10:08.809 INF Delivered batch. nReq=0 sn=109
+03:10:08.809 INF Delivered batch. nReq=0 sn=110
+03:10:09.496 INF Handling PREPREPARE. nReq=0 senderID=1 sn=112
+03:10:09.499 INF Committed entry. latency=0 nReq=0 sn=112
+03:10:09.806 INF Handling PREPREPARE. nReq=0 senderID=0 sn=111
+03:10:09.808 INF Committed entry. latency=0 nReq=0 sn=111
+03:10:09.808 INF Delivered batch. nReq=0 sn=111
+03:10:09.808 INF Delivered batch. nReq=0 sn=112
+03:10:09.809 INF Delivered batch. nReq=0 sn=113
+03:10:10.496 INF Handling PREPREPARE. nReq=0 senderID=1 sn=115
+03:10:10.500 INF Committed entry. latency=0 nReq=0 sn=115
+03:10:10.807 INF Handling PREPREPARE. nReq=0 senderID=0 sn=114
+03:10:10.810 INF Committed entry. latency=0 nReq=0 sn=114
+03:10:10.810 INF Delivered batch. nReq=0 sn=114
+03:10:10.811 INF Delivered batch. nReq=0 sn=115
+03:10:10.811 INF Delivered batch. nReq=0 sn=116
+03:10:11.497 INF Handling PREPREPARE. nReq=0 senderID=1 sn=118
+03:10:11.500 INF Committed entry. latency=0 nReq=0 sn=118
+03:10:11.808 INF Handling PREPREPARE. nReq=0 senderID=0 sn=117
+03:10:11.812 INF Committed entry. latency=0 nReq=0 sn=117
+03:10:11.812 INF Delivered batch. nReq=0 sn=117
+03:10:11.812 INF Delivered batch. nReq=0 sn=118
+03:10:11.812 INF Delivered batch. nReq=0 sn=119
+03:10:12.498 INF Handling PREPREPARE. nReq=0 senderID=1 sn=121
+03:10:12.501 INF Committed entry. latency=0 nReq=0 sn=121
+03:10:12.809 INF Handling PREPREPARE. nReq=0 senderID=0 sn=120
+03:10:12.813 INF Committed entry. latency=0 nReq=0 sn=120
+03:10:12.813 INF Delivered batch. nReq=0 sn=120
+03:10:12.813 INF Delivered batch. nReq=0 sn=121
+03:10:12.813 INF Delivered batch. nReq=0 sn=122
+03:10:13.499 INF Handling PREPREPARE. nReq=0 senderID=1 sn=124
+03:10:13.502 INF Committed entry. latency=0 nReq=0 sn=124
+03:10:13.810 INF Handling PREPREPARE. nReq=0 senderID=0 sn=123
+03:10:13.813 INF Committed entry. latency=0 nReq=0 sn=123
+03:10:13.814 INF Delivered batch. nReq=0 sn=123
+03:10:13.814 INF Delivered batch. nReq=0 sn=124
+03:10:13.814 INF Delivered batch. nReq=0 sn=125
+03:10:14.501 INF Handling PREPREPARE. nReq=0 senderID=1 sn=127
+03:10:14.504 INF Committed entry. latency=0 nReq=0 sn=127
+03:10:14.811 INF Handling PREPREPARE. nReq=0 senderID=0 sn=126
+03:10:14.815 INF Committed entry. latency=0 nReq=0 sn=126
+03:10:14.815 INF Delivered batch. nReq=0 sn=126
+03:10:14.815 INF Delivered batch. nReq=0 sn=127
+03:10:14.815 INF Delivered batch. nReq=0 sn=128
+03:10:15.501 INF Handling PREPREPARE. nReq=0 senderID=1 sn=130
+03:10:15.506 INF Committed entry. latency=0 nReq=0 sn=130
+03:10:15.811 INF Handling PREPREPARE. nReq=0 senderID=0 sn=129
+03:10:15.814 INF Committed entry. latency=0 nReq=0 sn=129
+03:10:15.814 INF Delivered batch. nReq=0 sn=129
+03:10:15.815 INF Delivered batch. nReq=0 sn=130
+03:10:15.815 INF Delivered batch. nReq=0 sn=131
+03:10:16.502 INF Handling PREPREPARE. nReq=0 senderID=1 sn=133
+03:10:16.505 INF Committed entry. latency=0 nReq=0 sn=133
+03:10:16.812 INF Handling PREPREPARE. nReq=0 senderID=0 sn=132
+03:10:16.816 INF Committed entry. latency=0 nReq=0 sn=132
+03:10:16.816 INF Delivered batch. nReq=0 sn=132
+03:10:16.816 INF Delivered batch. nReq=0 sn=133
+03:10:16.816 INF Delivered batch. nReq=0 sn=134
+03:10:17.502 INF Handling PREPREPARE. nReq=0 senderID=1 sn=136
+03:10:17.506 INF Committed entry. latency=0 nReq=0 sn=136
+03:10:17.813 INF Handling PREPREPARE. nReq=0 senderID=0 sn=135
+03:10:17.816 INF Committed entry. latency=0 nReq=0 sn=135
+03:10:17.817 INF Delivered batch. nReq=0 sn=135
+03:10:17.817 INF Delivered batch. nReq=0 sn=136
+03:10:17.817 INF Delivered batch. nReq=0 sn=137
+03:10:18.503 INF Handling PREPREPARE. nReq=0 senderID=1 sn=139
+03:10:18.507 INF Committed entry. latency=0 nReq=0 sn=139
+03:10:18.814 INF Handling PREPREPARE. nReq=0 senderID=0 sn=138
+03:10:18.818 INF Committed entry. latency=0 nReq=0 sn=138
+03:10:18.819 INF Delivered batch. nReq=0 sn=138
+03:10:18.819 INF Delivered batch. nReq=0 sn=139
+03:10:18.819 INF Delivered batch. nReq=0 sn=140
+03:10:19.504 INF Handling PREPREPARE. nReq=0 senderID=1 sn=142
+03:10:19.508 INF Committed entry. latency=0 nReq=0 sn=142
+03:10:19.508 INF Sending segment checkpoint. lastSn=142 segID=4
+03:10:19.509 INF PBFT checkpoint ready. Scheduling catchup. lastSn=142 segID=4
+03:10:19.815 INF Handling PREPREPARE. nReq=0 senderID=0 sn=141
+03:10:19.819 INF Committed entry. latency=0 nReq=0 sn=141
+03:10:19.819 INF Delivered batch. nReq=0 sn=141
+03:10:19.819 INF Delivered batch. nReq=0 sn=142
+03:10:19.819 INF Delivered batch. nReq=0 sn=143
+03:10:19.823 INF Sending segment checkpoint. lastSn=141 segID=3
+03:10:19.824 INF PBFT checkpoint ready. Scheduling catchup. lastSn=141 segID=3
+03:10:19.832 INF fuck! epoch=64 epoch time (ms)=16425 leaders=4 viewtimeout=120000
+03:10:19.833 INF Epoch finished. Waiting for stable checkpoint. sn=143
+03:10:19.834 INF New stable checkpoint. sn=143
+03:10:19.834 INF Closing message serializers. segID=5
+03:10:19.834 INF Epoch end confirmed. chkpSn=143
+03:10:19.834 INF Received stable checkpoint notification. sn=143
+03:10:19.835 INF Closing message serializers. segID=4
+03:10:19.835 INF Closing message serializers. segID=3
+03:10:19.835 INF Advancing watermarks. numEntries=48
+03:10:19.835 INF Statistics commitTs=1753989003771347232 duration=151275644 proposeTs=1753989003620071588 sn=98
+03:10:19.835 INF Statistics commitTs=1753989004526170685 duration=17210592 proposeTs=1753989004508960093 sn=97
+03:10:19.835 INF Statistics commitTs=1753989004815345241 duration=7163227 proposeTs=1753989004808182014 sn=96
+03:10:19.835 INF Statistics commitTs=1753989005496771712 duration=3131497 proposeTs=1753989005493640215 sn=100
+03:10:19.835 INF Statistics commitTs=1753989003771364252 duration=151292664 proposeTs=1753989003620071588 sn=101
+03:10:19.835 INF Statistics commitTs=1753989005807537153 duration=3912020 proposeTs=1753989005803625133 sn=99
+03:10:19.835 INF Statistics commitTs=1753989006497586724 duration=3563110 proposeTs=1753989006494023614 sn=103
+03:10:19.835 INF Statistics commitTs=1753989003771359280 duration=151287692 proposeTs=1753989003620071588 sn=104
+03:10:19.836 INF Statistics commitTs=1753989006807847925 duration=3431178 proposeTs=1753989006804416747 sn=102
+03:10:19.836 INF Statistics commitTs=1753989007497462181 duration=3279699 proposeTs=1753989007494182482 sn=106
+03:10:19.836 INF Statistics commitTs=1753989003768682438 duration=148610850 proposeTs=1753989003620071588 sn=107
+03:10:19.836 INF Statistics commitTs=1753989007808175361 duration=3125496 proposeTs=1753989007805049865 sn=105
+03:10:19.836 INF Statistics commitTs=1753989008498897645 duration=3404944 proposeTs=1753989008495492701 sn=109
+03:10:19.836 INF Statistics commitTs=1753989003771349823 duration=151278235 proposeTs=1753989003620071588 sn=110
+03:10:19.836 INF Statistics commitTs=1753989008809004784 duration=3384462 proposeTs=1753989008805620322 sn=108
+03:10:19.836 INF Statistics commitTs=1753989009499218951 duration=3002906 proposeTs=1753989009496216045 sn=112
+03:10:19.836 INF Statistics commitTs=1753989009808834242 duration=2649327 proposeTs=1753989009806184915 sn=111
+03:10:19.836 INF Statistics commitTs=1753989010500574537 duration=3761042 proposeTs=1753989010496813495 sn=115
+03:10:19.837 INF Statistics commitTs=1753989010810626904 duration=2768147 proposeTs=1753989010807858757 sn=114
+03:10:19.837 INF Statistics commitTs=1753989011500609095 duration=2699221 proposeTs=1753989011497909874 sn=118
+03:10:19.836 INF PbftOrderer received a new segment: [144 148 152 156 160 164 168 172 176 180 184 188 192 196 200 204] first leader=0 firstSN=144 lastSN=204 len=16 length=16 segId=6
+03:10:19.837 INF Statistics commitTs=1753989011812094836 duration=3213806 proposeTs=1753989011808881030 sn=117
+03:10:19.836 INF Statistics commitTs=1753989003771365714 duration=151294126 proposeTs=1753989003620071588 sn=113
+03:10:19.837 INF Statistics commitTs=1753989012501606469 duration=2659458 proposeTs=1753989012498947011 sn=121
+03:10:19.861 INF Statistics commitTs=1753989012813162829 duration=3413953 proposeTs=1753989012809748876 sn=120
+03:10:19.861 INF Statistics commitTs=1753989003771361258 duration=151289670 proposeTs=1753989003620071588 sn=116
+03:10:19.861 INF Statistics commitTs=1753989013813862393 duration=3178806 proposeTs=1753989013810683587 sn=123
+03:10:19.861 INF Statistics commitTs=1753989003771352546 duration=151280958 proposeTs=1753989003620071588 sn=119
+03:10:19.861 INF Statistics commitTs=1753989013502523784 duration=2755947 proposeTs=1753989013499767837 sn=124
+03:10:19.861 INF Statistics commitTs=1753989014815175949 duration=3782967 proposeTs=1753989014811392982 sn=126
+03:10:19.861 INF Statistics commitTs=1753989003771368821 duration=151297233 proposeTs=1753989003620071588 sn=122
+03:10:19.861 INF Statistics commitTs=1753989015814636780 duration=2865209 proposeTs=1753989015811771571 sn=129
+03:10:19.861 INF Statistics commitTs=1753989003771355816 duration=151284228 proposeTs=1753989003620071588 sn=125
+03:10:19.861 INF Statistics commitTs=1753989016816077699 duration=3624145 proposeTs=1753989016812453554 sn=132
+03:10:19.861 INF Statistics commitTs=1753989003771357096 duration=151285508 proposeTs=1753989003620071588 sn=128
+03:10:19.861 INF Statistics commitTs=1753989017816680790 duration=2742479 proposeTs=1753989017813938311 sn=135
+03:10:19.861 INF Statistics commitTs=1753989003771343677 duration=151272089 proposeTs=1753989003620071588 sn=131
+03:10:19.861 INF Statistics commitTs=1753989018818731186 duration=3779948 proposeTs=1753989018814951238 sn=138
+03:10:19.862 INF Statistics commitTs=1753989003768695295 duration=148623707 proposeTs=1753989003620071588 sn=134
+03:10:19.862 INF Statistics commitTs=1753989019818935688 duration=3267764 proposeTs=1753989019815667924 sn=141
+03:10:19.862 INF Statistics commitTs=1753989003771328071 duration=151256483 proposeTs=1753989003620071588 sn=137
+03:10:19.862 INF Median commit time commit=3384462 segID=3
+03:10:19.862 INF Statistics commitTs=1753989003771370382 duration=151298794 proposeTs=1753989003620071588 sn=140
+03:10:19.861 INF Statistics commitTs=1753989014504385110 duration=3074011 proposeTs=1753989014501311099 sn=127
+03:10:19.862 INF Statistics commitTs=1753989003771339893 duration=151268305 proposeTs=1753989003620071588 sn=143
+03:10:19.862 INF Statistics commitTs=1753989015506310562 duration=4515120 proposeTs=1753989015501795442 sn=130
+03:10:19.862 INF Median commit time commit=151284228 segID=5
+03:10:19.862 INF Statistics commitTs=1753989016505660196 duration=3413981 proposeTs=1753989016502246215 sn=133
+03:10:19.863 INF Statistics commitTs=1753989017506354208 duration=3803955 proposeTs=1753989017502550253 sn=136
+03:10:19.863 INF Statistics commitTs=1753989018506953255 duration=3183534 proposeTs=1753989018503769721 sn=139
+03:10:19.863 INF Statistics commitTs=1753989019508138277 duration=3498104 proposeTs=1753989019504640173 sn=142
+03:10:19.863 INF Median commit time commit=3404944 segID=4
+03:10:20.130 INF Starting new view. segID=6 timeout=120000 view=0
+03:10:20.130 INF Advanced timeout advanced=3404944 initial=1000000000
+03:10:20.130 INF Advanced timeout advanced=1003404944 initial=1000000000
+03:10:20.130 INF Advanced timeout advanced=2003404944 initial=1000000000
+03:10:20.130 INF Advanced timeout advanced=3003404944 initial=1000000000
+03:10:20.130 INF Advanced timeout advanced=4003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=5003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=6003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=7003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=8003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=9003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=10003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=11003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=12003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=13003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=14003404944 initial=1000000000
+03:10:20.131 INF Advanced timeout advanced=15003404944 initial=1000000000
+03:10:20.131 INF Starting PBFT instance. first=144 last=204 segID=6
+03:10:20.131 INF PbftOrderer received a new segment: [145 149 153 157 161 165 169 173 177 181 185 189 193 197 201 205] first leader=1 firstSN=145 lastSN=205 len=16 length=16 segId=7
+03:10:20.133 INF Starting serialized message processing. segID=6
+03:10:20.341 INF Sending missing entry. peerID=2 sn=126
+03:10:20.341 INF Sending missing entry. peerID=2 sn=121
+03:10:20.341 INF Sending missing entry. peerID=2 sn=112
+03:10:20.342 INF Sending missing entry. peerID=2 sn=130
+03:10:20.343 INF Sending missing entry. peerID=2 sn=115
+03:10:20.343 INF Sending missing entry. peerID=2 sn=142
+03:10:20.355 INF Starting new view. segID=7 timeout=120000 view=0
+03:10:20.355 INF Advanced timeout advanced=3404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=1003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=2003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=3003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=4003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=5003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=6003404944 initial=1000000000
+03:10:20.355 INF Advanced timeout advanced=7003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=8003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=9003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=10003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=11003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=12003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=13003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=14003404944 initial=1000000000
+03:10:20.356 INF Advanced timeout advanced=15003404944 initial=1000000000
+03:10:20.356 INF Starting PBFT instance. first=145 last=205 segID=7
+03:10:20.356 INF PbftOrderer received a new segment: [146 150 154 158 162 166 170 174 178 182 186 190 194 198 202 206] first leader=2 firstSN=146 lastSN=206 len=16 length=16 segId=8
+03:10:20.356 INF Starting serialized message processing. segID=7
+03:10:20.524 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40728
+03:10:20.524 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40780
+03:10:20.524 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40794
+03:10:20.524 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40670
+03:10:20.524 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40684
+03:10:20.525 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40690
+03:10:20.580 INF Starting new view. segID=8 timeout=120000 view=0
+03:10:20.581 INF Advanced timeout advanced=3404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=1003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=2003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=3003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=4003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=5003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=6003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=7003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=8003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=9003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=10003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=11003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=12003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=13003404944 initial=1000000000
+03:10:20.581 INF Advanced timeout advanced=14003404944 initial=1000000000
+03:10:20.582 INF Advanced timeout advanced=15003404944 initial=1000000000
+03:10:20.582 INF Starting PBFT instance. first=146 last=206 segID=8
+03:10:20.582 INF Starting serialized message processing. segID=8
+03:10:20.582 INF PbftOrderer received a new segment: [147 151 155 159 163 167 171 175 179 183 187 191 195 199 203 207] first leader=3 firstSN=147 lastSN=207 len=16 length=16 segId=9
+03:10:20.816 INF Starting new view. segID=9 timeout=120000 view=0
+03:10:20.816 INF Advanced timeout advanced=3404944 initial=1000000000
+03:10:20.816 INF Advanced timeout advanced=1003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=2003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=3003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=4003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=5003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=6003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=7003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=8003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=9003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=10003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=11003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=12003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=13003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=14003404944 initial=1000000000
+03:10:20.817 INF Advanced timeout advanced=15003404944 initial=1000000000
+03:10:20.818 INF Starting PBFT instance. first=147 last=207 segID=9
+03:10:20.818 INF Starting serialized message processing. segID=9
+03:10:21.189 INF Handling PREPREPARE. nReq=0 senderID=0 sn=144
+03:10:21.192 ERR Failed to send protocol message. Dropping all future outgoing protocol messages. error=EOF
+03:10:21.194 INF Committed entry. latency=0 nReq=0 sn=144
+03:10:21.194 INF Delivered batch. nReq=0 sn=144
+==================
+WARNING: DATA RACE
+Read at 0x000001303380 by goroutine 227828:
+  github.com/hyperledger-labs/mirbft/log.publishEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:281 +0x2c4
+  github.com/hyperledger-labs/mirbft/log.CommitEntry()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/log/log.go:108 +0x284
+  github.com/hyperledger-labs/mirbft/announcer.Announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/announcer/announcer.go:26 +0x370
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).announce()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:726 +0x36b
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleCommit()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:664 +0x7bd
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).handleMessage()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1810 +0x2e5
+  github.com/hyperledger-labs/mirbft/orderer.(*pbftInstance).processSerializedMessages()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftinstance.go:1764 +0xdd
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x39
+
+Previous write at 0x000001303380 by goroutine 529:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).handleLogEntries()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:263 +0x160b
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start.func2()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x47
+
+Goroutine 227828 (running) created at:
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).runSegment()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:199 +0x3f6
+  github.com/hyperledger-labs/mirbft/orderer.(*PbftOrderer).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/orderer/pbftorderer.go:176 +0x344
+  main.main.func5()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:186 +0x59
+
+Goroutine 529 (running) created at:
+  github.com/hyperledger-labs/mirbft/manager.(*MirManager).Start()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/manager/mirmanager.go:112 +0x191
+  main.main.func4()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:185 +0x59
+==================
+03:10:21.372 INF Handling PREPREPARE. nReq=0 senderID=1 sn=145
+03:10:21.375 INF Committed entry. latency=0 nReq=0 sn=145
+03:10:21.375 INF Delivered batch. nReq=0 sn=145
+03:10:21.818 INF Sending PREPREPARE. nReq=0 senderID=3 sn=147 view=0
+03:10:21.823 INF Committed entry. latency=0 nReq=0 sn=147
+03:10:22.190 INF Handling PREPREPARE. nReq=0 senderID=0 sn=148
+03:10:22.193 INF Committed entry. latency=0 nReq=0 sn=148
+03:10:22.373 INF Handling PREPREPARE. nReq=0 senderID=1 sn=149
+03:10:22.376 INF Committed entry. latency=0 nReq=0 sn=149
+03:10:22.819 INF Sending PREPREPARE. nReq=0 senderID=3 sn=151 view=0
+03:10:22.823 INF Committed entry. latency=0 nReq=0 sn=151
+03:10:23.190 INF Handling PREPREPARE. nReq=0 senderID=0 sn=152
+03:10:23.195 INF Committed entry. latency=0 nReq=0 sn=152
+03:10:23.374 INF Handling PREPREPARE. nReq=0 senderID=1 sn=153
+03:10:23.377 INF Committed entry. latency=0 nReq=0 sn=153
+03:10:23.820 INF Sending PREPREPARE. nReq=0 senderID=3 sn=155 view=0
+03:10:23.824 INF Committed entry. latency=0 nReq=0 sn=155
+03:10:24.192 INF Handling PREPREPARE. nReq=0 senderID=0 sn=156
+03:10:24.196 INF Committed entry. latency=0 nReq=0 sn=156
+03:10:24.375 INF Handling PREPREPARE. nReq=0 senderID=1 sn=157
+03:10:24.378 INF Committed entry. latency=0 nReq=0 sn=157
+03:10:24.821 INF Sending PREPREPARE. nReq=0 senderID=3 sn=159 view=0
+03:10:24.826 INF Committed entry. latency=0 nReq=0 sn=159
+03:10:25.192 INF Handling PREPREPARE. nReq=0 senderID=0 sn=160
+03:10:25.196 INF Committed entry. latency=0 nReq=0 sn=160
+03:10:25.375 INF Handling PREPREPARE. nReq=0 senderID=1 sn=161
+03:10:25.378 INF Committed entry. latency=0 nReq=0 sn=161
+03:10:25.821 INF Sending PREPREPARE. nReq=0 senderID=3 sn=163 view=0
+03:10:25.826 INF Committed entry. latency=0 nReq=0 sn=163
+03:10:26.194 INF Handling PREPREPARE. nReq=0 senderID=0 sn=164
+03:10:26.197 INF Committed entry. latency=0 nReq=0 sn=164
+03:10:26.376 INF Handling PREPREPARE. nReq=0 senderID=1 sn=165
+03:10:26.379 INF Committed entry. latency=0 nReq=0 sn=165
+03:10:26.822 INF Sending PREPREPARE. nReq=0 senderID=3 sn=167 view=0
+03:10:26.826 INF Committed entry. latency=0 nReq=0 sn=167
+03:10:27.194 INF Handling PREPREPARE. nReq=0 senderID=0 sn=168
+03:10:27.198 INF Committed entry. latency=0 nReq=0 sn=168
+03:10:27.376 INF Handling PREPREPARE. nReq=0 senderID=1 sn=169
+03:10:27.380 INF Committed entry. latency=0 nReq=0 sn=169
+03:10:27.822 INF Sending PREPREPARE. nReq=0 senderID=3 sn=171 view=0
+03:10:27.826 INF Committed entry. latency=0 nReq=0 sn=171
+03:10:28.195 INF Handling PREPREPARE. nReq=0 senderID=0 sn=172
+03:10:28.198 INF Committed entry. latency=0 nReq=0 sn=172
+03:10:28.376 INF Handling PREPREPARE. nReq=0 senderID=1 sn=173
+03:10:28.380 INF Committed entry. latency=0 nReq=0 sn=173
+03:10:28.823 INF Sending PREPREPARE. nReq=0 senderID=3 sn=175 view=0
+03:10:28.827 INF Committed entry. latency=0 nReq=0 sn=175
+03:10:29.196 INF Handling PREPREPARE. nReq=0 senderID=0 sn=176
+03:10:29.200 INF Committed entry. latency=0 nReq=0 sn=176
+03:10:29.377 INF Handling PREPREPARE. nReq=0 senderID=1 sn=177
+03:10:29.380 INF Committed entry. latency=0 nReq=0 sn=177
+03:10:29.824 INF Sending PREPREPARE. nReq=0 senderID=3 sn=179 view=0
+03:10:29.828 INF Committed entry. latency=0 nReq=0 sn=179
+03:10:30.197 INF Handling PREPREPARE. nReq=0 senderID=0 sn=180
+03:10:30.210 INF Committed entry. latency=0 nReq=0 sn=180
+03:10:30.378 INF Handling PREPREPARE. nReq=0 senderID=1 sn=181
+03:10:30.382 INF Committed entry. latency=0 nReq=0 sn=181
+03:10:30.824 INF Sending PREPREPARE. nReq=0 senderID=3 sn=183 view=0
+03:10:30.828 INF Committed entry. latency=0 nReq=0 sn=183
+03:10:31.198 INF Handling PREPREPARE. nReq=0 senderID=0 sn=184
+03:10:31.202 INF Committed entry. latency=0 nReq=0 sn=184
+03:10:31.379 INF Handling PREPREPARE. nReq=0 senderID=1 sn=185
+03:10:31.382 INF Committed entry. latency=0 nReq=0 sn=185
+03:10:31.825 INF Sending PREPREPARE. nReq=0 senderID=3 sn=187 view=0
+03:10:31.829 INF Committed entry. latency=0 nReq=0 sn=187
+03:10:32.199 INF Handling PREPREPARE. nReq=0 senderID=0 sn=188
+03:10:32.202 INF Committed entry. latency=0 nReq=0 sn=188
+03:10:32.380 INF Handling PREPREPARE. nReq=0 senderID=1 sn=189
+03:10:32.384 INF Committed entry. latency=0 nReq=0 sn=189
+03:10:32.825 INF Sending PREPREPARE. nReq=0 senderID=3 sn=191 view=0
+03:10:32.829 INF Committed entry. latency=0 nReq=0 sn=191
+03:10:33.199 INF Handling PREPREPARE. nReq=0 senderID=0 sn=192
+03:10:33.202 INF Committed entry. latency=0 nReq=0 sn=192
+03:10:33.381 INF Handling PREPREPARE. nReq=0 senderID=1 sn=193
+03:10:33.384 INF Committed entry. latency=0 nReq=0 sn=193
+03:10:33.825 INF Sending PREPREPARE. nReq=0 senderID=3 sn=195 view=0
+03:10:33.830 INF Committed entry. latency=0 nReq=0 sn=195
+03:10:34.200 INF Handling PREPREPARE. nReq=0 senderID=0 sn=196
+03:10:34.204 INF Committed entry. latency=0 nReq=0 sn=196
+03:10:34.381 INF Handling PREPREPARE. nReq=0 senderID=1 sn=197
+03:10:34.384 INF Committed entry. latency=0 nReq=0 sn=197
+03:10:34.826 INF Sending PREPREPARE. nReq=0 senderID=3 sn=199 view=0
+03:10:34.830 INF Committed entry. latency=0 nReq=0 sn=199
+03:10:35.200 INF Handling PREPREPARE. nReq=0 senderID=0 sn=200
+03:10:35.214 INF Committed entry. latency=0 nReq=0 sn=200
+03:10:35.381 INF Handling PREPREPARE. nReq=0 senderID=1 sn=201
+03:10:35.385 INF Committed entry. latency=0 nReq=0 sn=201
+03:10:35.826 INF Sending PREPREPARE. nReq=0 senderID=3 sn=203 view=0
+03:10:35.831 INF Committed entry. latency=0 nReq=0 sn=203
+03:10:36.202 INF Handling PREPREPARE. nReq=0 senderID=0 sn=204
+03:10:36.205 INF Committed entry. latency=0 nReq=0 sn=204
+03:10:36.205 INF Sending segment checkpoint. lastSn=204 segID=6
+03:10:36.382 INF Handling PREPREPARE. nReq=0 senderID=1 sn=205
+03:10:36.386 INF Committed entry. latency=0 nReq=0 sn=205
+03:10:36.386 INF Sending segment checkpoint. lastSn=205 segID=7
+03:10:36.827 INF Sending PREPREPARE. nReq=0 senderID=3 sn=207 view=0
+03:10:36.831 INF Committed entry. latency=0 nReq=0 sn=207
+03:10:36.831 INF Sending segment checkpoint. lastSn=207 segID=9
+03:11:22.157 INF Stopping profiler.
+03:11:22.157 INF Stopping Tracer. events=1116 fileName=experiment-output/0000/slave-001/peer.trc
+==================
+WARNING: DATA RACE
+Read at 0x00c000a36e38 by goroutine 109:
+  github.com/hyperledger-labs/mirbft/tracing.(*BufferedTrace).Stop()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/tracing/bufferedtrace.go:237 +0x30e
+  github.com/hyperledger-labs/mirbft/tracing.(*BufferedTrace).StopOnSignal.func1()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/tracing/bufferedtrace.go:298 +0x4e
+
+Previous write at 0x00c000a36e38 by goroutine 108:
+  github.com/hyperledger-labs/mirbft/tracing.(*BufferedTrace).Event()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/tracing/bufferedtrace.go:105 +0x2cd
+  github.com/hyperledger-labs/mirbft/profiling.StartCPUTracing.func1()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/profiling/cpuusage.go:33 +0x95
+
+Goroutine 109 (running) created at:
+  github.com/hyperledger-labs/mirbft/tracing.(*BufferedTrace).StopOnSignal()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/tracing/bufferedtrace.go:292 +0x178
+  main.setUpTracing()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:408 +0xf5
+  main.main()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:110 +0x9e4
+  runtime.deferreturn()
+      /home/ubuntu/go/src/runtime/panic.go:476 +0x32
+  main.main()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:78 +0x56c
+
+Goroutine 108 (running) created at:
+  github.com/hyperledger-labs/mirbft/profiling.StartCPUTracing()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/profiling/cpuusage.go:30 +0xb9
+  main.setUpTracing()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:400 +0x85
+  main.main()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:110 +0x9e4
+  runtime.deferreturn()
+      /home/ubuntu/go/src/runtime/panic.go:476 +0x32
+  main.main()
+      /opt/gopath/src/github.com/hyperledger-labs/mirbft/cmd/orderingpeer/main.go:78 +0x56c
+==================
+03:11:22.177 INF Trace data written.
+03:11:22.181 INF Profile data written. filename=experiment-output/0000/slave-001/prof.mutex name=mutex
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40828
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40842
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40830
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40716
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40768
+03:11:22.300 INF Connection terminated. error="rpc error: code = Canceled desc = context canceled" address=127.0.0.1:40654
+03:11:22.345 INF Profile data written. filename=experiment-output/0000/slave-001/prof.cpu name=cpu
+03:11:22.358 INF Profile data written. filename=experiment-output/0000/slave-001/prof.block name=block

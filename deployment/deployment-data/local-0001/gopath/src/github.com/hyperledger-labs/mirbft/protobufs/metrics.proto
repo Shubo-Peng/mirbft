@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "./;protobufs";
+
+package protobufs;
+
+service MetricsService {
+    rpc SendMetrics (MetricsRequest) returns (MetricsResponse);
+    rpc Connect (Timestamp) returns (Timestamp);
+}
+
+message MetricsRequest {
+    int64 throughput = 1;
+    int64 latency = 2;
+    int64 requests = 3;
+    int32 Instance = 4;
+    int32 Epoch = 5;
+    int32 ViewTimeout = 6;
+    int32 Leader = 7;
+}
+
+message MetricsResponse {
+    int32 Instance = 1;
+    int32 Epoch = 2;
+    int32 ViewTimeout = 3;
+}
+
+message Timestamp {
+    int64 timestamp = 1;
+}

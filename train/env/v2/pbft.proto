@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+message PbftPreprepare {
+    int32 sn = 1;
+    int32 view = 2;
+    int32 leader = 3;
+    Batch batch = 4;
+    bool aborted = 5;
+    int64 ts = 6;
+}
+
+
+message PbftPrepare {
+    int32 sn = 1;
+    int32 view = 2;
+    bytes digest = 3;
+    int64 ts = 4; //not exists, for debugging
+}
+
+
+message PbftCommit {
+    int32 sn = 1;
+    int32 view = 2;
+    bytes digest = 3;
+    int64 ts = 4;
+}
+
+message ClientRequest {
+    RequestID request_id = 1;
+    bytes payload = 2;
+    bytes pubkey = 3;
+    bytes signature = 4;
+}
+
+message RequestID {
+    int32 client_id = 1;
+    int32 client_sn = 2;
+}
+
+message Batch {
+    repeated ClientRequest requests = 1;
+}
+
+service PbftService {
+    rpc GetPreprepare(PbftPreprepare) returns (google.protobuf.Empty);
+    rpc GetPrepare(PbftPrepare) returns (google.protobuf.Empty);
+    rpc GetCommit(PbftCommit) returns (google.protobuf.Empty);
+}
