@@ -250,6 +250,17 @@ func makeSignedCheckpoint(sn, last int32) (*pb.ProtocolMessage, error) {
 	batchDigests := make([][]byte, 0, 0)
 	for i := last + 1; i <= sn; i++ {
 		entry := log.GetEntry(i)
+		// The entry might have been pruned if this checkpoint protocol stalled
+		// for more than the two epochs retained by the log (the retention window).
+		// Under such pathological timing the checkpoint cannot be computed correctly;
+		// skip the entry and log prominently instead of crashing.
+		if entry == nil {
+			logger.Warn().
+				Int32("sn", i).
+				Int32("checkpointSn", sn).
+				Msg("Log entry missing while computing checkpoint (stalled checkpoint protocol?). Skipping.")
+			continue
+		}
 		batchDigests = append(batchDigests, entry.Digest)
 	}
 	digest := crypto.MerkleHashDigests(batchDigests)
