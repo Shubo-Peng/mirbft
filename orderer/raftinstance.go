@@ -21,7 +21,6 @@ import (
 
 	"math/rand"
 
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/announcer"
 	"github.com/hyperledger-labs/mirbft/config"
 	"github.com/hyperledger-labs/mirbft/log"
@@ -32,6 +31,7 @@ import (
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
 	"github.com/hyperledger-labs/mirbft/request"
 	"github.com/hyperledger-labs/mirbft/tracing"
+	logger "github.com/rs/zerolog/log"
 )
 
 const candidate string = "candidate"
@@ -156,10 +156,15 @@ func (ri *raftInstance) init(seg manager.Segment, orderer *RaftOrderer) {
 	ri.minElectionTimeout = config.Config.ViewChangeTimeout
 
 	ri.sn2index = make(map[int32]int32)
-	ri.announced =  make(map[int32]bool)
+	ri.announced = make(map[int32]bool)
 
 	// Initalize channel
 	ri.serializer = newOrdererChannel(channelSize)
+	// The channel through which a leading heartbeat goroutine is told to step down upon segment kill.
+	// Buffered with capacity 1: stopProposing emits at most one notification (sync.Once) and the
+	// heartbeat goroutine may already be gone by then (it exits as soon as it sees status != leader),
+	// so an unbuffered send would block forever. The buffer absorbs that single orphaned send.
+	ri.stepDown = make(chan bool, 1)
 }
 
 // FIXME Raft cannot terminate as it is because the leader who commits first all the sequence numbers of the segments
@@ -658,7 +663,7 @@ func (ri *raftInstance) HandleAppendEntryRequest(req *pb.RaftAppendEntryRequest,
 
 	if req.Batch != nil {
 		// If there exists no previous entry for this index
-		if _, ok := ri.log[req.Index]; !ok  {
+		if _, ok := ri.log[req.Index]; !ok {
 			// Sanity checks - we don't need to check for Byzantine behavior with Raft.
 			// Check that proposal requests are valid
 			batch := request.NewBatch(req.Batch)
