@@ -561,7 +561,11 @@ func (c *client) registerResponse(clientSN int32, peerID int32) {
 	c.Lock()
 	defer c.Unlock()
 
-	c.trace.Event(tracing.RESP_RECEIVE, int64(clientSN), time.Now().UnixNano()/1000-c.sentTimestamps[clientSN])
+	// The request may no longer be tracked (already delivered, or never submitted), which means no sent
+	// timestamp is available for a meaningful latency value. Skip the trace event in that case.
+	if sentTs, ok := c.sentTimestamps[clientSN]; ok {
+		c.trace.Event(tracing.RESP_RECEIVE, int64(clientSN), time.Now().UnixNano()/1000-sentTs)
+	}
 
 	clientWatermarkWindowSize := int32(config.Config.ClientWatermarkWindowSize)
 
@@ -603,6 +607,14 @@ func (c *client) registerResponse(clientSN int32, peerID int32) {
 				panic("Watermark window underflow!")
 			}
 			delete(c.responses, c.oldestClientSN)
+			// The other per-request records are no longer needed either once a request is delivered:
+			// responses to sequence numbers below oldestClientSN are filtered out by the watermark window
+			// check in registerResponse(), so nothing reads them again. Without these deletes, each of the
+			// four maps grows by one entry per submitted request for the whole duration of the run.
+			delete(c.finished, c.oldestClientSN)
+			delete(c.requests, c.oldestClientSN)
+			delete(c.sentTimestamps, c.oldestClientSN)
+			delete(c.submitTimestamps, c.oldestClientSN)
 			c.oldestClientSN++
 		}
 	}
