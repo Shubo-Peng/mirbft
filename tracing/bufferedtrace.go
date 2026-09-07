@@ -22,7 +22,6 @@ import (
 
 	"github.com/rs/zerolog"
 	logger "github.com/rs/zerolog/log"
-	"github.com/hyperledger-labs/mirbft/config"
 )
 
 type BufferedTrace struct {
@@ -32,7 +31,7 @@ type BufferedTrace struct {
 	//ethereumEvents []EthereumEvent
 	outFileName    string
 	nodeID         int32
-	offset         int32
+	offset         int64
 	protocolOffset int32
 	requestOffset  int32
 	ethereumOffset int32
@@ -86,23 +85,18 @@ func (bt *BufferedTrace) Event(e EventType, sampledVal int64, val0 int64) {
 
 	// Assign trace index to the event. Atomic increment is necessary, as many threads use the trace concurrently
 	// The offset variable points to the next free slot, but needs to be incremented before data is written. (thus -1)
-	index := atomic.AddInt32(&bt.offset, 1) - 1
+	index := atomic.AddInt64(&bt.offset, 1) - 1
 
-	// Check bounds.
-	// TODO: Try removing the bound check (while making sure the buffer is big enough)
-	//       and see impact on performance.
-	if int(index) >= bt.BufferCapacity {
-		logger.Error().
-			Int32("index", index).
-			Int("capacity", config.Config.EventBufferSize).
-			Msg("Trace event index exceeds capacity.")
-	}
+	// The buffer is a ring: once its capacity is exhausted, the oldest events are overwritten. Keeping the most
+	// recent events (rather than dropping new ones or failing) preserves the part of the trace that matters most
+	// for post-mortem analysis. The int64 counter makes index overflow a non-issue in practice.
+	slot := index % int64(bt.BufferCapacity)
 
 	// Add event to trace.
 	// Tried to test whether assigning each value separately to the array (at the specified index) is faster than
 	// assigning a whole struct. It is not, unless the definition (not necessarily the assigned instance) of the struct
 	// contains string or pointer types. Anyway, the biggest time consumer is querying the time.
-	bt.events[index] = GenericEvent{
+	bt.events[slot] = GenericEvent{
 		EventType:  e,
 		Timestamp:  time.Now().UnixNano() / 1000,
 		NodeId:     bt.nodeID,
@@ -220,21 +214,31 @@ func (bt *BufferedTrace) Stop() {
 
 	traceLogger := zerolog.New(outFile)
 
-	nEvents := atomic.LoadInt32(&bt.offset)
+	nEvents := atomic.LoadInt64(&bt.offset)
 	//nProtocolEvents := atomic.LoadInt32(&bt.protocolOffset)
 	//nRequestEvents := atomic.LoadInt32(&bt.requestOffset)
 	//nEthereumEvents := atomic.LoadInt32(&bt.ethereumOffset)
 
 	logger.Info().
-		Int32("events", nEvents).
+		Int64("events", nEvents).
 		//Int32("protocolEvents", nProtocolEvents).
 		//Int32("requestEvents", nRequestEvents).
 		//Int32("ethereumEvents", nEthereumEvents).
 		Str("fileName", bt.outFileName).
 		Msg("Stopping Tracer.")
 
-	for i := 0; i < int(nEvents); i++ {
-		event := bt.events[i]
+	// At most BufferCapacity events are retained; once the offset wrapped past the capacity the oldest
+	// retained event sits at slot nEvents % BufferCapacity. Iterate chronologically from there.
+	retained := nEvents
+	if retained > int64(bt.BufferCapacity) {
+		retained = int64(bt.BufferCapacity)
+	}
+	start := int64(0)
+	if nEvents > int64(bt.BufferCapacity) {
+		start = nEvents % int64(bt.BufferCapacity)
+	}
+	for i := int64(0); i < retained; i++ {
+		event := bt.events[int((start+i)%int64(bt.BufferCapacity))]
 		traceLogger.Log().
 			Int64("time", event.Timestamp).
 			Int32("nodeId", bt.nodeID).
