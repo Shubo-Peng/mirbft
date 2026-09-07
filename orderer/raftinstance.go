@@ -258,6 +258,7 @@ func (ri *raftInstance) processSerializedMessages() {
 		// To make sure noone writes anymore on closing the segment we write a special value (nil)
 		if msg == nil {
 			ri.stopProposing()
+			return
 		}
 
 		switch m := msg.Msg.(type) {
