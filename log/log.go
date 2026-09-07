@@ -263,8 +263,18 @@ func CommitCheckpoint(c *pb.StableCheckpoint) {
 	}
 
 	// Notify all subscribers by pushing the newest checkpoint to the corresponding channels.
+	// The send must never block, even if a subscriber stopped consuming its channel (e.g. a retired orderer
+	// segment's killSegment() subscriber, or the manager being busy for an extended period): this loop runs on
+	// the checkpointer's only serial processing goroutine, and once it blocks, no further checkpoint can ever
+	// be committed, freezing the whole node.
+	// Skipping a full channel is safe: it either has already obtained the checkpoint it was waiting for, or it
+	// will simply pick up one of the subsequent ones (prospective subscribers also consult GetCheckpoint()
+	// immediately after subscribing for exactly this reason).
 	for _, cs := range checkpointSubscribers {
-		cs <- c
+		select {
+		case cs <- c:
+		default:
+		}
 	}
 }
 
@@ -293,6 +303,26 @@ func Checkpoints() chan *pb.StableCheckpoint {
 	checkpointSubscribers = append(checkpointSubscribers, newChan)
 
 	return newChan
+}
+
+// Remove a subscription created with Checkpoints() from the list of subscribers.
+// Meant to be called once the subscriber stops consuming its channel (the orderers do so when a killed
+// segment's checkpoint has been observed). Without it, the channel would stay in the list for the whole
+// lifetime of the process, accumulating ignored notifications and growing the list by one entry per
+// abandoned subscription (one per segment kill, i.e. one per epoch).
+// CommitCheckpoint() tolerates subscribers leaving their channels unattended (see the non-blocking send
+// above), so this function only prevents the subscriber list from growing without bounds.
+func UnsubscribeCheckpoints(ch chan *pb.StableCheckpoint) {
+
+	checkpointLock.Lock()
+	defer checkpointLock.Unlock()
+
+	for i, cs := range checkpointSubscribers {
+		if cs == ch {
+			checkpointSubscribers = append(checkpointSubscribers[:i], checkpointSubscribers[i+1:]...)
+			return
+		}
+	}
 }
 
 // Pushes committed entries to the subscribers, if any.

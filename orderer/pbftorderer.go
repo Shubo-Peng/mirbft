@@ -19,11 +19,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/log"
 	"github.com/hyperledger-labs/mirbft/manager"
 	"github.com/hyperledger-labs/mirbft/membership"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
+	logger "github.com/rs/zerolog/log"
 	"sort"
 )
 
@@ -33,7 +33,7 @@ type PbftOrderer struct {
 	dispatcher  pbftDispatcher       // map[int32]*pbftInstance
 	backlog     backlog              // map[int32]chan*ordererMsg
 	last        int32                // Some sequence number we can ignere messages above
-	commitTime  time.Duration		 // Median commit duration
+	commitTime  time.Duration        // Median commit duration
 	lock        sync.Mutex
 }
 
@@ -209,6 +209,9 @@ func (po *PbftOrderer) killSegment(seg manager.Segment) {
 	for currentCheckpoint == nil || currentCheckpoint.Sn < seg.LastSN() {
 		currentCheckpoint = <-checkpoints
 	}
+	// No longer interested in further checkpoints: leave the subscriber list so our channel neither keeps
+	// receiving ignored notifications nor keeps the global list growing (one entry per killed segment).
+	log.UnsubscribeCheckpoints(checkpoints)
 	log.WaitForEntry(seg.LastSN())
 
 	// Update the last sequence number the orderer accepts messages for
@@ -272,7 +275,7 @@ func (po *PbftOrderer) setMedianCommitTime(seg manager.Segment) {
 		}
 		duration := entry.CommitTs - entry.ProposeTs
 		logger.Info().Int32("sn", sn).Int64("commitTs", entry.CommitTs).Int64("proposeTs", entry.ProposeTs).Int64("duration", duration).Msg("Statistics")
-		commits = append(commits, time.Duration(duration) * time.Nanosecond)
+		commits = append(commits, time.Duration(duration)*time.Nanosecond)
 	}
 	if len(commits) == 0 {
 		return
