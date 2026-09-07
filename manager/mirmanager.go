@@ -68,6 +68,13 @@ type MirManager struct {
 	// Buffers all the log entries committed during one epoch.
 	// Used for garbage collection and client watermark advancing.
 	epochEntryBuffer *util.ChannelBuffer
+
+	// Sequence numbers at which the most recent epochs ended.
+	// Used to advance the log retention watermark (log.PruneUpTo()):
+	// entries of the two most recent epochs must be retained for the state transfer
+	// protocol and for the orderers' Segment retirement statistics,
+	// everything older is pruned at each epoch boundary.
+	lastEpochEndSNs []int32
 }
 
 // Create a new MirManager with with fresh state
@@ -87,6 +94,7 @@ func NewMirManager() *MirManager {
 		checkpointChannel:   log.Checkpoints(),
 		epochEntryBuffer:    util.NewChannelBuffer(maxEpochLength),
 		currentSuspects:     make(map[int32]bool),
+		lastEpochEndSNs:     make([]int32, 0, 2),
 	}
 }
 
@@ -236,6 +244,20 @@ func (mm *MirManager) handleLogEntries(wg *sync.WaitGroup) {
 			//   before Get() is called from handleCheckpoints.
 			epochEntries := mm.epochEntryBuffer.Get()
 			request.AdvanceWatermarks(epochEntries)
+
+			// Prune log entries older than the last two epochs.
+			// All entries up to the previous epoch's end have been delivered,
+			// the client watermarks have been advanced, and the corresponding requests
+			// are no longer present in the buckets. Retaining the current and the previous
+			// epoch keeps enough history for the state transfer protocol serving lagging
+			// peers and for the orderers' Segment retirement statistics, both of which only
+			// access entries from at most the previous epoch. Pruning the prefix keeps the
+			// node's memory consumption bounded by a constant.
+			mm.lastEpochEndSNs = append(mm.lastEpochEndSNs, entry.Sn)
+			if len(mm.lastEpochEndSNs) > 2 {
+				log.PruneUpTo(mm.lastEpochEndSNs[0])
+				mm.lastEpochEndSNs = mm.lastEpochEndSNs[1:]
+			}
 
 			// Only after the watermarks are up to date, we can move on to the next epoch and create new segments.
 			// This cannot happen before or even concurrently, as the orderers might misinterpret incoming messages

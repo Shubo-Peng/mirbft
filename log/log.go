@@ -19,6 +19,7 @@ import (
 	"runtime"
 	"runtime/debug"
 	"sync"
+	"sync/atomic"
 
 	"github.com/hyperledger-labs/mirbft/config"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
@@ -63,6 +64,12 @@ var (
 	// Guarded by entryPublishLock
 	firstEmptySN int32 = 0
 
+	// Sequence number of the last log entry removed by PruneUpTo().
+	// All entries with Sn <= prunedUpToSN have been deleted from the entries map.
+	// Accessed atomically: CommitEntry reads it from the orderer goroutines,
+	// while PruneUpTo updates it once per epoch (from the Manager goroutine).
+	prunedUpToSN int32 = -1
+
 	// Guards logSubscribers, logSubscribersOutOfOrder, entrySubscribers and firstEmptySN
 	entryPublishLock = sync.Mutex{}
 
@@ -83,6 +90,14 @@ var (
 // If this is the first empty slot of the log, push the Entry (and potentially other previously committed entries with
 // higher sequence numbers) to the subscribers.
 func CommitEntry(entry *Entry) {
+
+	// Ignore commits of entries that have already been pruned from the log.
+	// This can only occur on an anomaly (e.g., a duplicate commit after pruning),
+	// as sequence numbers never go backwards in normal operation.
+	if entry.Sn <= atomic.LoadInt32(&prunedUpToSN) {
+		logger.Warn().Int32("sn", entry.Sn).Msg("Ignoring commit of already pruned log entry.")
+		return
+	}
 
 	// Only store an entry if it is not yet present.
 	// Two different (and even concurrent) stores might occur when an entry is committed normally after the state
@@ -116,6 +131,31 @@ func GetEntry(sn int32) *Entry {
 	} else {
 		return nil
 	}
+}
+
+// PruneUpTo deletes all log entries with sequence numbers up to (and including) sn.
+// This is the log's retention policy: entries below the caller's watermark are only needed by
+// (1) the state transfer protocol serving committed entries to lagging peers and
+// (2) Segment retirement statistics, both of which only ever access entries newer than
+// the watermark the caller maintains. Everything else — the checkpoint protocol and the
+// Manager — consumes entries in order and has already processed them by the time they are pruned.
+// Without pruning, committed entries (including the full request payloads of their batches)
+// would be retained forever, and memory consumption would grow without bound.
+// ATTENTION: The caller must prune only entries that have already been delivered
+//            (published to the log subscribers). Since delivery advances firstEmptySN
+//            past the pruned slots, publishEntries() and Missing() never see them again.
+// ATTENTION: Only one goroutine (the Manager) must call PruneUpTo().
+//            Commits of entries at or below the prune watermark are rejected by CommitEntry().
+func PruneUpTo(sn int32) {
+
+	logger.Info().
+		Int32("pruneUpTo", sn).
+		Msg("Pruning log.")
+
+	for s := prunedUpToSN + 1; s <= sn; s++ {
+		entries.Delete(s)
+	}
+	atomic.StoreInt32(&prunedUpToSN, sn)
 }
 
 // Returns the sequence numbers of all empty log entries up to (and including) until

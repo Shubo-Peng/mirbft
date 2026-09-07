@@ -260,9 +260,22 @@ func (po *PbftOrderer) CheckSig(data []byte, senderID int32, signature []byte) e
 func (po *PbftOrderer) setMedianCommitTime(seg manager.Segment) {
 	commits := make([]time.Duration, 0, 0)
 	for _, sn := range seg.SNs() {
-		duration := log.GetEntry(sn).CommitTs - log.GetEntry(sn).ProposeTs
-		logger.Info().Int32("sn", sn).Int64("commitTs", log.GetEntry(sn).CommitTs).Int64("proposeTs", log.GetEntry(sn).ProposeTs).Int64("duration", duration).Msg("Statistics")
+		// The entry might have been pruned from the log by the time the checkpoint
+		// covering this segment became stable. The retention watermark lags by two epochs,
+		// so this can only happen under unusual timing (e.g., a checkpoint that arrives
+		// much later than the ones following it). As the statistics are telemetry only,
+		// skip such entries instead of failing.
+		entry := log.GetEntry(sn)
+		if entry == nil {
+			logger.Warn().Int32("sn", sn).Msg("No log entry available for segment statistics. Skipping.")
+			continue
+		}
+		duration := entry.CommitTs - entry.ProposeTs
+		logger.Info().Int32("sn", sn).Int64("commitTs", entry.CommitTs).Int64("proposeTs", entry.ProposeTs).Int64("duration", duration).Msg("Statistics")
 		commits = append(commits, time.Duration(duration) * time.Nanosecond)
+	}
+	if len(commits) == 0 {
+		return
 	}
 	sort.Slice(commits, func(i, j int) bool { return commits[i] < commits[j] })
 	po.commitTime = commits[len(commits)/2]
