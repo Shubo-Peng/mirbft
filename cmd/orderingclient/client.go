@@ -671,6 +671,20 @@ func (c *client) registerBucketAssignment(assignment *pb.BucketAssignment) {
 		c.epoch = newAssignment.Epoch
 		go c.resubmitPendingRequests()
 	}
+
+	// Memory rotation: bucket-assignment bookkeeping grows one entry per epoch forever.
+	// Late messages for epochs <= c.epoch are rejected by the guard above, so anything
+	// older than the current-1 epoch can never be applied — keep only the last two epochs.
+	for e := range c.bucketAssignmentCounts {
+		if e < c.epoch-1 {
+			delete(c.bucketAssignmentCounts, e)
+		}
+	}
+	for strKey, assignment := range c.bucketAssignments {
+		if assignment.Epoch < c.epoch-1 {
+			delete(c.bucketAssignments, strKey)
+		}
+	}
 }
 
 func (c *client) resubmitPendingRequests() {
