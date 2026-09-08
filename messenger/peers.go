@@ -350,6 +350,7 @@ func createTestedConnections(addrString string, dialOpts []grpc.DialOption, node
 	// Create multiple connections (between the same two peers) in parallel.
 	connChan := make(chan pb.Messenger_ListenClient)
 	for i := 0; i < numConnections; i++ {
+		i := i // capture the loop variable for the goroutine
 		go func() {
 			msgSink := createConnection(addrString, dialOpts)
 			if msgSink == nil {
@@ -433,6 +434,7 @@ func createConnections(addrString string, dialOpts []grpc.DialOption, nodeID int
 	connChan := make(chan pb.Messenger_ListenClient)
 	// Create multiple connections (between the same two peers) in parallel.
 	for i := 0; i < numConnections; i++ {
+		i := i // capture the loop variable for the goroutine
 		go func() {
 			msgSink := createConnection(addrString, dialOpts)
 			if msgSink == nil {
