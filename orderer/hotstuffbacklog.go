@@ -42,7 +42,7 @@ func (b *hotStuffBacklog) add(height int32, msg *pb.ProtocolMessage) {
 		Int32("senderId", msg.SenderId).
 		Msg("Adding message to HotStuff backlog")
 	if _, ok := b.backlogMsgs[height]; !ok {
-		b.backlogMsgs[msg.Sn] = make([]*pb.ProtocolMessage, 0, 0)
+		b.backlogMsgs[height] = make([]*pb.ProtocolMessage, 0, 0)
 	}
 	b.backlogMsgs[height] = append(b.backlogMsgs[height], msg)
 }
@@ -52,4 +52,8 @@ func (b *hotStuffBacklog) process(height int32) {
 	for _, msg := range b.backlogMsgs[height] {
 		b.hi.serializer.channel <- msg
 	}
+	// Release the drained slice (see pbftBacklog.process): messages are owned by the
+	// serializer from here on, and the instance must not pin past-heights' payloads
+	// until its death.
+	delete(b.backlogMsgs, height)
 }
