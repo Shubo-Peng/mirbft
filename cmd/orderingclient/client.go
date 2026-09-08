@@ -117,15 +117,25 @@ type client struct {
 
 // Allocates and returns a pointer to a new client.
 func newClient(dServAddr string, numRequests int) *client {
+	// Size the bookkeeping maps with the number of requests the client can have in
+	// flight, not with the total number of requests of the run. The maps are pruned
+	// to the in-flight window by the watermark handling, so beyond that bound they
+	// would only warm up and empty out during the run; meanwhile make() with a huge
+	// hint allocates the full bucket array up front — with numRequests = RunTime x Rate
+	// that meant multiple GB of client memory before the first request was even
+	// generated (independent of PrecomputeRequests), e.g. ~1.6GB at 10.8M requests and
+	// start-up OOM at the ~200M of a 12h run. A hint below the actual in-flight peak
+	// merely costs a few amortized rehashes.
+	btHeapHint := config.Config.ClientRequestBacklogSize + config.Config.ClientWatermarkWindowSize
 	cl := &client{
 		ownClientID:            -1,
 		numRequests:            numRequests,
 		requests:               make(map[int32]*pb.ClientRequest),
-		responses:              make(map[int32]map[int32]bool, numRequests),
-		submittedTo:            make(map[int32]map[int32]bool, numRequests),
-		sentTimestamps:         make(map[int32]int64, numRequests),
-		submitTimestamps:       make(map[int32]int64, numRequests),
-		finished:               make(map[int32]bool, numRequests),
+		responses:              make(map[int32]map[int32]bool, btHeapHint),
+		submittedTo:            make(map[int32]map[int32]bool, btHeapHint),
+		sentTimestamps:         make(map[int32]int64, btHeapHint),
+		submitTimestamps:       make(map[int32]int64, btHeapHint),
+		finished:               make(map[int32]bool, btHeapHint),
 		oldestClientSN:         0,
 		watermarkWindow:        make(chan *pb.ClientRequest, config.Config.ClientWatermarkWindowSize),
 		sendBufferSize:         config.Config.ClientWatermarkWindowSize,
