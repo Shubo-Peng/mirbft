@@ -17,19 +17,27 @@ package statetransfer
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/log"
 	"github.com/hyperledger-labs/mirbft/membership"
 	"github.com/hyperledger-labs/mirbft/messenger"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
+	logger "github.com/rs/zerolog/log"
+)
+
+// Defaults of the fetch policy. They are mutable only so tests can shorten the backoff
+// schedule; production code never changes them.
+var (
+	startDelay         = 500 * time.Millisecond
+	entryFetchInterval = 500 * time.Millisecond
+	maxEntryFetchDelay = 5 * time.Second
+	maxFetchAttempts   = 12
 )
 
 const (
-	startDelay                = 500 * time.Millisecond
 	receivedEntriesBufferSize = 4096
-	entryFetchInterval        = 500 * time.Millisecond
 )
 
 type missingEntry struct {
@@ -39,9 +47,16 @@ type missingEntry struct {
 var (
 	OrdererEntryHandler func(*log.Entry) = nil
 
-	missingEntries    = make(map[int32]*missingEntry)
-	newMissingEntries = make(chan *missingEntry)
-	receivedEntries   = make(chan *pb.MissingEntry, receivedEntriesBufferSize)
+	// missingEntries is the registry of in-flight fetch loops, guarded by fetchMu.
+	// An SN is present exactly while a FetchMissingEntry loop for it is running:
+	// it is registered before the first request is sent (so any response that may
+	// arrive immediately can always find its entry) and released when the loop exits
+	// (entry obtained or attempts exhausted). At most one in-flight loop per SN makes
+	// the total number of fetch goroutines bounded by the segment length regardless of
+	// how often catch-up is restarted.
+	fetchMu         sync.Mutex
+	missingEntries  = make(map[int32]*missingEntry)
+	receivedEntries = make(chan *pb.MissingEntry, receivedEntriesBufferSize)
 )
 
 func Init() {
@@ -61,12 +76,13 @@ func CatchUp(checkpoint *pb.StableCheckpoint) {
 	// Give the protocol some time to acquire the entries normally.
 	time.Sleep(startDelay)
 
-	sources := make([]int32, len(checkpoint.Proof))
+	sources := make([]int32, 0, len(checkpoint.Proof))
 	for peerID, _ := range checkpoint.Proof {
 		sources = append(sources, peerID)
 	}
 
 	// Ask for each missing entry in parallel.
+	// (At most one fetch loop per SN will actually run; see FetchMissingEntry.)
 	for _, sn := range log.Missing(checkpoint.Sn) {
 		go FetchMissingEntry(sn, sources)
 	}
@@ -74,23 +90,39 @@ func CatchUp(checkpoint *pb.StableCheckpoint) {
 
 func FetchMissingEntry(sn int32, sources []int32) {
 
-	// Create a new missing entry data structure.
-	newMissingEntries <- &missingEntry{
-		Sn: sn,
-		// TODO: Add all data needed to verify the proof carried by responses.
+	if len(sources) == 0 {
+		logger.Error().Int32("sn", sn).Msg("Cannot fetch missing entry: no sources.")
+		return
 	}
 
+	// Register this fetch before sending the first request, so that a response arriving
+	// immediately can always find its missingEntries entry (this also resolves the race
+	// previously warned about in this file). If a fetch for the same SN is already
+	// running, that loop covers the SN and this call is a no-op.
+	fetchMu.Lock()
+	if _, inFlight := missingEntries[sn]; inFlight {
+		fetchMu.Unlock()
+		return
+	}
+	missingEntries[sn] = &missingEntry{Sn: sn}
+	fetchMu.Unlock()
+
+	// Release the in-flight marker when this loop exits, regardless of the reason,
+	// so that a later catch-up can restart the fetch.
+	defer func() {
+		fetchMu.Lock()
+		delete(missingEntries, sn)
+		fetchMu.Unlock()
+	}()
+
 	// Create a copy of the list of sources and randomize their order.
+	// Seed per call (and per SN) to de-correlate concurrent calls.
 	shuffledSources := make([]int32, len(sources), len(sources))
 	copy(shuffledSources, sources)
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano() ^ int64(sn))
 	rand.Shuffle(len(shuffledSources), func(i, j int) {
 		shuffledSources[i], shuffledSources[j] = shuffledSources[j], shuffledSources[i]
 	})
-
-	// TODO: The rest of this function must be executed by the serial processing thread.
-	//       With the current implementation, it is theoretically possible that the response will be processed
-	//       before the missingEntry object.
 
 	logger.Info().
 		Int32("sn", sn).
@@ -108,51 +140,73 @@ func FetchMissingEntry(sn int32, sources []int32) {
 		}},
 	}
 
-	// Keep sending entry request messages until the entry appears in the log.
-	sIndex := 0
+	// Keep sending entry request messages until the entry appears in the log
+	// or the bounded number of attempts is exhausted.
+	// Delays between attempts follow a capped, jittered exponential backoff, and every
+	// attempt asks the next source in the shuffled list. If all attempts fail, this loop
+	// gives up and releases the SN, to be restarted by the next catch-up (e.g. at the
+	// next view change) — the fetch loop must not become a permanent per-SN goroutine.
 	delay := entryFetchInterval
-	for log.GetEntry(sn) == nil {
+	attempt := 0
+	for log.GetEntry(sn) == nil && attempt < maxFetchAttempts {
+		source := shuffledSources[attempt%len(shuffledSources)]
 
 		logger.Debug().
 			Int32("sn", sn).
-			Int32("peerID", shuffledSources[sIndex]).
+			Int32("peerID", source).
 			Msg("Requesting missing entry.")
 
-		messenger.EnqueueMsg(msg, shuffledSources[sIndex])
+		messenger.EnqueueMsg(msg, source)
 
-		time.Sleep(delay)
-		delay *= 2
+		attempt++
+		if log.GetEntry(sn) != nil {
+			break
+		}
+		if attempt == maxFetchAttempts {
+			break
+		}
+
+		// Sleep with capped exponential backoff and +/- 20% jitter to break synchronization
+		// between concurrent fetchers.
+		jittered := time.Duration(float64(delay) * (0.8 + 0.4*rand.Float64()))
+		time.Sleep(jittered)
+		if delay < maxEntryFetchDelay {
+			delay *= 2
+			if delay > maxEntryFetchDelay {
+				delay = maxEntryFetchDelay
+			}
+		}
+	}
+
+	if log.GetEntry(sn) == nil {
+		logger.Warn().
+			Int32("sn", sn).
+			Int("attempts", attempt).
+			Msg("Giving up fetching missing entry for now; it will be retried on the next catch-up.")
 	}
 }
 
-// This is the only thread that manipulates the data structures of this package.
-// It inserts new missing entries and handles responses to missing entry requests.
+// Handles responses to missing entry requests.
+// Loop exits when receivedEntries is closed (currently never).
 func processMissingEntries() {
-	// TODO: implement graceful shutdown (by closing the channels).
-
-	// Loop processing data received over channels.
-	// Exits when a channel is closed.
-	for {
-		select {
-		case missingEntry, ok := <-newMissingEntries:
-			if !ok {
-				break
-			}
-			missingEntries[missingEntry.Sn] = missingEntry
-		case resp, ok := <-receivedEntries:
-			if !ok {
-				break
-			}
-			if err := processResponse(resp); err != nil {
-				logger.Error().Err(err).Int32("sn", resp.Sn).Msg("Invalid response to missing entry request.")
-			}
+	for resp := range receivedEntries {
+		if err := processResponse(resp); err != nil {
+			logger.Error().Err(err).Int32("sn", resp.Sn).Msg("Invalid response to missing entry request.")
 		}
 	}
 }
 
 func processResponse(resp *pb.MissingEntry) error {
 
+	fetchMu.Lock()
 	me, ok := missingEntries[resp.Sn]
+	if ok {
+		// Clean up to prevent handling duplicate responses.
+		// (The def-ranging FetchMissingEntry loop would remove it anyway on exit;
+		// removing it here makes the in-flight state accurate immediately.)
+		delete(missingEntries, resp.Sn)
+	}
+	fetchMu.Unlock()
 
 	// If there is no missing entry corresponding to this response, we already obtained one earlier and ignore this one.
 	if !ok {
@@ -163,9 +217,6 @@ func processResponse(resp *pb.MissingEntry) error {
 	if err := verifyResponse(resp, me); err != nil {
 		return fmt.Errorf("Invalid response to missing entry request: %v", err)
 	}
-
-	// Clean up to prevent handling duplicate responses
-	delete(missingEntries, resp.Sn)
 
 	// Create a new entry object
 	entry := &log.Entry{
