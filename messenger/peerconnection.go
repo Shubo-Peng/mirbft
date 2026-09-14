@@ -23,7 +23,6 @@ import (
 	"github.com/hyperledger-labs/mirbft/membership"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
 	"github.com/hyperledger-labs/mirbft/tracing"
-	"github.com/hyperledger-labs/mirbft/util"
 )
 
 const (
@@ -355,58 +354,78 @@ func checkForHotStuffProposal(msg *pb.ProtocolMessage, logOutput string) {
 
 type BatchedConnection struct {
 	peerConnection PeerConnection
-	msgBuffer      *util.ChannelBuffer
+	msgBuffer      *boundedMsgBuffer
+	stopChan       chan struct{}
+	closeOnce      sync.Once
 }
 
 func NewBatchedConnection(pc PeerConnection, period time.Duration) *BatchedConnection {
 
 	bc := &BatchedConnection{
 		peerConnection: pc,
-		msgBuffer:      util.NewChannelBuffer(0),
+		msgBuffer:      newBoundedMsgBuffer(),
+		stopChan:       make(chan struct{}),
 	}
 
 	batchNr := 0
 
-	bc.msgBuffer.PeriodicFunc(period, func(msgs []interface{}) {
+	// Periodically drain the bounded buffer and transmit one multi-message batch
+	// per drain on the underlying connection. A drop report means this peer fell
+	// behind and the newest messages were shed to keep memory bounded.
+	go func() {
+		for {
+			select {
+			case <-bc.stopChan:
+				return
+			case <-time.After(period):
+				msgs, dropped := bc.msgBuffer.drain()
 
-		// Do nothing if batch is empty
-		if len(msgs) == 0 {
-			return
+				if dropped > 0 {
+					// The first drop of the window was already warned about by add();
+					// report the window total here.
+					logger.Warn().
+						Int("shedMsgs", dropped).
+						Msg("Batched connection overflow: peer fell behind.")
+				}
+
+				// Do nothing if batch is empty
+				if len(msgs) == 0 {
+					continue
+				}
+
+				// Allocate message batch
+				batchMsg := &pb.ProtocolMessageBatch{
+					Msgs: make([]*pb.ProtocolMessage, len(msgs), len(msgs)),
+				}
+
+				// Fill batch with messages
+				copy(batchMsg.Msgs, msgs)
+
+				// Wrap batch in a ProtocolMessage
+				multiMsg := &pb.ProtocolMessage{
+					SenderId: membership.OwnID,
+					Sn:       0,
+					Msg:      &pb.ProtocolMessage_Multi{Multi: batchMsg},
+				}
+
+				// Log message batch size.
+				// TODO: Remove ugly ad-hoc sampling
+				if batchNr%msgBatchTraceSampling == 0 && tracing.MainTrace != nil {
+					tracing.MainTrace.Event(tracing.MSG_BATCH, int64(batchNr), int64(len(msgs)))
+				}
+				batchNr++
+
+				// Send message on the underlying connection
+				pc.Send(multiMsg)
+			}
 		}
-
-		// Allocate message batch
-		batchMsg := &pb.ProtocolMessageBatch{
-			Msgs: make([]*pb.ProtocolMessage, len(msgs), len(msgs)),
-		}
-
-		// Fill batch with messages
-		for i, msg := range msgs {
-			batchMsg.Msgs[i] = msg.(*pb.ProtocolMessage)
-		}
-
-		// Wrap batch in a ProtocolMessage
-		multiMsg := &pb.ProtocolMessage{
-			SenderId: membership.OwnID,
-			Sn:       0,
-			Msg:      &pb.ProtocolMessage_Multi{Multi: batchMsg},
-		}
-
-		// Log message batch size.
-		// TODO: Remove ugly ad-hoc sampling
-		if batchNr%msgBatchTraceSampling == 0 {
-			tracing.MainTrace.Event(tracing.MSG_BATCH, int64(batchNr), int64(len(msgs)))
-		}
-		batchNr++
-
-		// Send message on the underlying connection
-		pc.Send(multiMsg)
-	})
+	}()
 
 	return bc
 }
 
 func (bc *BatchedConnection) Send(msg *pb.ProtocolMessage) {
-	bc.msgBuffer.Add(msg)
+	bc.msgBuffer.add(msg)
 }
 
 func (bc *BatchedConnection) SendPriority(msg *pb.ProtocolMessage) {
@@ -414,5 +433,5 @@ func (bc *BatchedConnection) SendPriority(msg *pb.ProtocolMessage) {
 }
 
 func (bc *BatchedConnection) Close() {
-	bc.msgBuffer.StopFunc()
+	bc.closeOnce.Do(func() { close(bc.stopChan) })
 }

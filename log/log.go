@@ -19,6 +19,7 @@ import (
 	"runtime"
 	"runtime/debug"
 	"sync"
+	"sync/atomic"
 
 	"github.com/hyperledger-labs/mirbft/config"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
@@ -63,6 +64,12 @@ var (
 	// Guarded by entryPublishLock
 	firstEmptySN int32 = 0
 
+	// Sequence number of the last log entry removed by PruneUpTo().
+	// All entries with Sn <= prunedUpToSN have been deleted from the entries map.
+	// Accessed atomically: CommitEntry reads it from the orderer goroutines,
+	// while PruneUpTo updates it once per epoch (from the Manager goroutine).
+	prunedUpToSN int32 = -1
+
 	// Guards logSubscribers, logSubscribersOutOfOrder, entrySubscribers and firstEmptySN
 	entryPublishLock = sync.Mutex{}
 
@@ -83,6 +90,14 @@ var (
 // If this is the first empty slot of the log, push the Entry (and potentially other previously committed entries with
 // higher sequence numbers) to the subscribers.
 func CommitEntry(entry *Entry) {
+
+	// Ignore commits of entries that have already been pruned from the log.
+	// This can only occur on an anomaly (e.g., a duplicate commit after pruning),
+	// as sequence numbers never go backwards in normal operation.
+	if entry.Sn <= atomic.LoadInt32(&prunedUpToSN) {
+		logger.Warn().Int32("sn", entry.Sn).Msg("Ignoring commit of already pruned log entry.")
+		return
+	}
 
 	// Only store an entry if it is not yet present.
 	// Two different (and even concurrent) stores might occur when an entry is committed normally after the state
@@ -116,6 +131,31 @@ func GetEntry(sn int32) *Entry {
 	} else {
 		return nil
 	}
+}
+
+// PruneUpTo deletes all log entries with sequence numbers up to (and including) sn.
+// This is the log's retention policy: entries below the caller's watermark are only needed by
+// (1) the state transfer protocol serving committed entries to lagging peers and
+// (2) Segment retirement statistics, both of which only ever access entries newer than
+// the watermark the caller maintains. Everything else — the checkpoint protocol and the
+// Manager — consumes entries in order and has already processed them by the time they are pruned.
+// Without pruning, committed entries (including the full request payloads of their batches)
+// would be retained forever, and memory consumption would grow without bound.
+// ATTENTION: The caller must prune only entries that have already been delivered
+//            (published to the log subscribers). Since delivery advances firstEmptySN
+//            past the pruned slots, publishEntries() and Missing() never see them again.
+// ATTENTION: Only one goroutine (the Manager) must call PruneUpTo().
+//            Commits of entries at or below the prune watermark are rejected by CommitEntry().
+func PruneUpTo(sn int32) {
+
+	logger.Info().
+		Int32("pruneUpTo", sn).
+		Msg("Pruning log.")
+
+	for s := prunedUpToSN + 1; s <= sn; s++ {
+		entries.Delete(s)
+	}
+	atomic.StoreInt32(&prunedUpToSN, sn)
 }
 
 // Returns the sequence numbers of all empty log entries up to (and including) until
@@ -223,8 +263,18 @@ func CommitCheckpoint(c *pb.StableCheckpoint) {
 	}
 
 	// Notify all subscribers by pushing the newest checkpoint to the corresponding channels.
+	// The send must never block, even if a subscriber stopped consuming its channel (e.g. a retired orderer
+	// segment's killSegment() subscriber, or the manager being busy for an extended period): this loop runs on
+	// the checkpointer's only serial processing goroutine, and once it blocks, no further checkpoint can ever
+	// be committed, freezing the whole node.
+	// Skipping a full channel is safe: it either has already obtained the checkpoint it was waiting for, or it
+	// will simply pick up one of the subsequent ones (prospective subscribers also consult GetCheckpoint()
+	// immediately after subscribing for exactly this reason).
 	for _, cs := range checkpointSubscribers {
-		cs <- c
+		select {
+		case cs <- c:
+		default:
+		}
 	}
 }
 
@@ -253,6 +303,26 @@ func Checkpoints() chan *pb.StableCheckpoint {
 	checkpointSubscribers = append(checkpointSubscribers, newChan)
 
 	return newChan
+}
+
+// Remove a subscription created with Checkpoints() from the list of subscribers.
+// Meant to be called once the subscriber stops consuming its channel (the orderers do so when a killed
+// segment's checkpoint has been observed). Without it, the channel would stay in the list for the whole
+// lifetime of the process, accumulating ignored notifications and growing the list by one entry per
+// abandoned subscription (one per segment kill, i.e. one per epoch).
+// CommitCheckpoint() tolerates subscribers leaving their channels unattended (see the non-blocking send
+// above), so this function only prevents the subscriber list from growing without bounds.
+func UnsubscribeCheckpoints(ch chan *pb.StableCheckpoint) {
+
+	checkpointLock.Lock()
+	defer checkpointLock.Unlock()
+
+	for i, cs := range checkpointSubscribers {
+		if cs == ch {
+			checkpointSubscribers = append(checkpointSubscribers[:i], checkpointSubscribers[i+1:]...)
+			return
+		}
+	}
 }
 
 // Pushes committed entries to the subscribers, if any.

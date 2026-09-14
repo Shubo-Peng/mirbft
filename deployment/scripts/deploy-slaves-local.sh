@@ -24,9 +24,18 @@ while [ -n "$1" ]; do
   # Wait for trigger. We interpret the master status (a number)
   # reaching (or exceeding) the value of $trigger as a trigger.
   master_status=$(cat $exp_data_dir/$local_master_status_file)
-  while [[ $(($trigger)) -ge 0 ]] && [[ ! ( "$master_status" =~ ^[0-9]+$ ) || ( $((10#$master_status)) -lt $((10#$trigger)) ) ]]; do
-    # Note the $((10#$trigger)) operand. This tells bash to interpret $trigger as a decimal number.
-    # Otherwise, if $trigger starts with '0' (which it sometimes does), $trigger is treated as an octal number.
+  # bash >= 5.2 compat: `$((10#-1))` is an "invalid integer constant" there, and the
+  # resulting error aborts the whole enclosing `while` construct -- no slaves are ever
+  # launched and the deployment hangs forever waiting for them. Strip the sign before
+  # applying the 10# base prefix, and guard the status with a regex before converting it,
+  # so that zero-padded values (0008, 0018, ...) are still read as decimal and not octal.
+  if [[ "$trigger" =~ ^-?[0-9]+$ ]]; then
+    trigger_dec=$((10#${trigger#-}))
+    [[ "$trigger" == -* ]] && trigger_dec=$((0 - trigger_dec))
+  else
+    trigger_dec=-1
+  fi
+  while [[ "$trigger_dec" -ge 0 ]] && { [[ ! "$master_status" =~ ^[0-9]+$ ]] || [[ "$((10#$master_status))" -lt "$trigger_dec" ]]; }; do
     sleep $machine_status_poll_period
     master_status=$(cat $exp_data_dir/$local_master_status_file)
   done

@@ -748,6 +748,26 @@ func (pi *pbftInstance) announce(batch *pbftBatch, sn int32, reqBatch *pb.Batch,
 			pi.setCheckpointTimer()
 		}
 	}
+
+	// Memory rotation: drop the instance's payload references for the now-committed batch.
+	// Without this, a live segment pins the full proposal payload (~3.5MB per SN at
+	// BatchSize 4096 x 500B) of every committed SN until the cross-replica checkpoint kills
+	// the segment — unbounded growth with the segment length. After commit, the single
+	// authoritative payload copy lives in the log's bounded two-epoch window (see
+	// payloadFromLog); the instance keeps only digest/cert metadata.
+	batch.batch = nil
+	batch.preprepareMsg.Batch = nil
+}
+
+// payloadFromLog returns the batch payload from the bounded log window — the single
+// authoritative payload copy after commit. Returns nil if the entry has been pruned
+// (cannot happen for a live segment: the log retains two epochs, strictly more than
+// one segment lifetime; callers degrade to fetching the preprepare from a peer).
+func payloadFromLog(sn int32) *pb.Batch {
+	if le := log.GetEntry(sn); le != nil {
+		return le.Batch
+	}
+	return nil
 }
 
 func (pi *pbftInstance) sendCheckpoint() {
@@ -1193,24 +1213,37 @@ func (pi *pbftInstance) maybeSendNewView(view int32) {
 							// for convenience, track the sequence numbers for which to ask for batches.
 							batchesMissing = true
 						} else {
-							newPreprepare := &pb.PbftPreprepare{
-								Sn:     sn,
-								View:   view,
-								Leader: membership.OwnID,
-								Batch:  batch.preprepareMsg.Batch,
-								// This value will be overwritten by receivers.
-								// Setting it here, as this counts as local "reception" of the preprepare.
-								// The timestamp is not part of the digest.
-								// Since there is no original preprepare message, we set the timestamp to
-								// when we started the segment.
-								Ts: pi.startTs,
-							}
-							batch = &pbftBatch{
-								preprepareMsg: newPreprepare,
-								batch:         batch.batch,
-								committed:     batch.committed,
-								// If the digest is computed over all fields of the preprepare message, this will be different from the local batch's digest.
-								digest: pbftDigest(newPreprepare),
+							// Memory rotation: the local batch's payload was released at commit;
+							// fetch it back from the bounded log window instead.
+							payload := payloadFromLog(sn)
+							if payload == nil {
+								// Pruned from the log (cannot happen for a live segment).
+								// Degrade: fetch the preprepare from a peer, as handled below.
+								batch = &pbftBatch{
+									digest:    m.viewchange.Pset[sn].Digest,
+									committed: false,
+								}
+								batchesMissing = true
+							} else {
+								newPreprepare := &pb.PbftPreprepare{
+									Sn:     sn,
+									View:   view,
+									Leader: membership.OwnID,
+									Batch:  payload,
+									// This value will be overwritten by receivers.
+									// Setting it here, as this counts as local "reception" of the preprepare.
+									// The timestamp is not part of the digest.
+									// Since there is no original preprepare message, we set the timestamp to
+									// when we started the segment.
+									Ts: pi.startTs,
+								}
+								batch = &pbftBatch{
+									preprepareMsg: newPreprepare,
+									batch:         batch.batch,
+									committed:     batch.committed,
+									// If the digest is computed over all fields of the preprepare message, this will be different from the local batch's digest.
+									digest: pbftDigest(newPreprepare),
+								}
 							}
 						}
 						vci.reproposeBatches[sn] = batch
@@ -1305,11 +1338,33 @@ func (pi *pbftInstance) handleMissingPreprepareRequest(req *pb.PbftMissingPrepre
 	}
 
 	if batch.preprepareMsg != nil {
+		preprepare := batch.preprepareMsg
+		if preprepare.Batch == nil {
+			// Memory rotation: the payload was released at commit; serve it from the
+			// bounded log window. If it has been pruned (cannot happen for a live
+			// segment), decline — the requester retries via other peers.
+			payload := payloadFromLog(msg.Sn)
+			if payload == nil {
+				logger.Warn().
+					Int32("sn", msg.Sn).
+					Int32("view", req.View).
+					Msg("Requested batch payload no longer available (pruned from log).")
+				return
+			}
+			preprepare = &pb.PbftPreprepare{
+				Sn:      preprepare.Sn,
+				View:    preprepare.View,
+				Leader:  preprepare.Leader,
+				Batch:   payload,
+				Aborted: preprepare.Aborted,
+				Ts:      preprepare.Ts,
+			}
+		}
 		response := &pb.ProtocolMessage{
 			SenderId: membership.OwnID,
 			Sn:       msg.Sn,
 			Msg: &pb.ProtocolMessage_MissingPreprepare{MissingPreprepare: &pb.PbftMissingPreprepare{
-				Preprepare: batch.preprepareMsg,
+				Preprepare: preprepare,
 			}},
 		}
 
@@ -1366,7 +1421,7 @@ func (pi *pbftInstance) handleMissingPreprepare(preprepare *pb.PbftPreprepare, m
 					Ts:      pi.startTs,
 				}
 				batch.batch = request.NewBatch(preprepare.Batch)
-				if batch == nil {
+				if batch.batch == nil {
 					panic("Failed to create batch from obtained missing preprepare.")
 				}
 			} else {

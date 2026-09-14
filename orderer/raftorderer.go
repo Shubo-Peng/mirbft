@@ -18,12 +18,12 @@ import (
 	"sync"
 	"sync/atomic"
 
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/config"
 	"github.com/hyperledger-labs/mirbft/log"
 	"github.com/hyperledger-labs/mirbft/manager"
 	"github.com/hyperledger-labs/mirbft/membership"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
+	logger "github.com/rs/zerolog/log"
 )
 
 type RaftOrderer struct {
@@ -169,6 +169,9 @@ func (ro *RaftOrderer) killSegment(seg manager.Segment) {
 	for currentCheckpoint == nil || currentCheckpoint.Sn < seg.LastSN() {
 		currentCheckpoint = <-checkpoints
 	}
+	// No longer interested in further checkpoints: leave the subscriber list so our channel neither keeps
+	// receiving ignored notifications nor keeps the global list growing (one entry per killed segment).
+	log.UnsubscribeCheckpoints(checkpoints)
 	log.WaitForEntry(seg.LastSN())
 
 	// Update the last sequence number the orderer accepts messages for

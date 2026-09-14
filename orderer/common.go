@@ -46,6 +46,14 @@ func (oc *ordererChannel) stop() {
 	// We only need to make sure that the channel has sufficient capacity to store the (irrelevant) messages concurrent
 	// writers might write while the channel is being stopped.
 	atomic.StoreInt32(&oc.stopped, 1)
+	// Terminate the reader goroutine (e.g. pbftInstance.processSerializedMessages), which exits when it
+	// receives this nil sentinel. Without it, the reader blocks on oc.channel forever and its goroutine
+	// stack pins the whole instance (with all batches and payloads it holds) in memory for the lifetime
+	// of the process. The flag store above precedes this send, so writers observe the stop first; a writer
+	// that raced past the flag check may land a message after this nil, where it is never consumed - which
+	// is fine, as stop is only called once all remaining messages are irrelevant (see comment above), and
+	// oc.channel is wide enough (channelSize) for this send to never block.
+	oc.channel <- nil
 }
 
 func (oc *ordererChannel) serialize(value *pb.ProtocolMessage) (closed bool) {

@@ -117,15 +117,25 @@ type client struct {
 
 // Allocates and returns a pointer to a new client.
 func newClient(dServAddr string, numRequests int) *client {
+	// Size the bookkeeping maps with the number of requests the client can have in
+	// flight, not with the total number of requests of the run. The maps are pruned
+	// to the in-flight window by the watermark handling, so beyond that bound they
+	// would only warm up and empty out during the run; meanwhile make() with a huge
+	// hint allocates the full bucket array up front — with numRequests = RunTime x Rate
+	// that meant multiple GB of client memory before the first request was even
+	// generated (independent of PrecomputeRequests), e.g. ~1.6GB at 10.8M requests and
+	// start-up OOM at the ~200M of a 12h run. A hint below the actual in-flight peak
+	// merely costs a few amortized rehashes.
+	btHeapHint := config.Config.ClientRequestBacklogSize + config.Config.ClientWatermarkWindowSize
 	cl := &client{
 		ownClientID:            -1,
 		numRequests:            numRequests,
 		requests:               make(map[int32]*pb.ClientRequest),
-		responses:              make(map[int32]map[int32]bool, numRequests),
-		submittedTo:            make(map[int32]map[int32]bool, numRequests),
-		sentTimestamps:         make(map[int32]int64, numRequests),
-		submitTimestamps:       make(map[int32]int64, numRequests),
-		finished:               make(map[int32]bool, numRequests),
+		responses:              make(map[int32]map[int32]bool, btHeapHint),
+		submittedTo:            make(map[int32]map[int32]bool, btHeapHint),
+		sentTimestamps:         make(map[int32]int64, btHeapHint),
+		submitTimestamps:       make(map[int32]int64, btHeapHint),
+		finished:               make(map[int32]bool, btHeapHint),
 		oldestClientSN:         0,
 		watermarkWindow:        make(chan *pb.ClientRequest, config.Config.ClientWatermarkWindowSize),
 		sendBufferSize:         config.Config.ClientWatermarkWindowSize,
@@ -561,7 +571,11 @@ func (c *client) registerResponse(clientSN int32, peerID int32) {
 	c.Lock()
 	defer c.Unlock()
 
-	c.trace.Event(tracing.RESP_RECEIVE, int64(clientSN), time.Now().UnixNano()/1000-c.sentTimestamps[clientSN])
+	// The request may no longer be tracked (already delivered, or never submitted), which means no sent
+	// timestamp is available for a meaningful latency value. Skip the trace event in that case.
+	if sentTs, ok := c.sentTimestamps[clientSN]; ok {
+		c.trace.Event(tracing.RESP_RECEIVE, int64(clientSN), time.Now().UnixNano()/1000-sentTs)
+	}
 
 	clientWatermarkWindowSize := int32(config.Config.ClientWatermarkWindowSize)
 
@@ -603,6 +617,14 @@ func (c *client) registerResponse(clientSN int32, peerID int32) {
 				panic("Watermark window underflow!")
 			}
 			delete(c.responses, c.oldestClientSN)
+			// The other per-request records are no longer needed either once a request is delivered:
+			// responses to sequence numbers below oldestClientSN are filtered out by the watermark window
+			// check in registerResponse(), so nothing reads them again. Without these deletes, each of the
+			// four maps grows by one entry per submitted request for the whole duration of the run.
+			delete(c.finished, c.oldestClientSN)
+			delete(c.requests, c.oldestClientSN)
+			delete(c.sentTimestamps, c.oldestClientSN)
+			delete(c.submitTimestamps, c.oldestClientSN)
 			c.oldestClientSN++
 		}
 	}
@@ -658,6 +680,20 @@ func (c *client) registerBucketAssignment(assignment *pb.BucketAssignment) {
 		}
 		c.epoch = newAssignment.Epoch
 		go c.resubmitPendingRequests()
+	}
+
+	// Memory rotation: bucket-assignment bookkeeping grows one entry per epoch forever.
+	// Late messages for epochs <= c.epoch are rejected by the guard above, so anything
+	// older than the current-1 epoch can never be applied — keep only the last two epochs.
+	for e := range c.bucketAssignmentCounts {
+		if e < c.epoch-1 {
+			delete(c.bucketAssignmentCounts, e)
+		}
+	}
+	for strKey, assignment := range c.bucketAssignments {
+		if assignment.Epoch < c.epoch-1 {
+			delete(c.bucketAssignments, strKey)
+		}
 	}
 }
 

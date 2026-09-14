@@ -47,6 +47,13 @@ func (b *pbftBacklog) process(view int32) {
 	for _, msg := range b.backlogMsgs[view] {
 		b.pi.serializer.channel <- msg
 	}
+	// The drained messages are now owned by the serializer (queued on its channel for the
+	// instance's serial processing goroutine). Release the backlog's slice so a long-lived
+	// instance does not retain the full-payload messages of every past view until its death.
+	// Messages added after this call for the same view form a fresh slice and are drained by
+	// a later process(view) call exactly once — equivalent to, or stricter than, the previous
+	// behavior (which re-delivered them each time process ran).
+	delete(b.backlogMsgs, view)
 }
 
 // Delete all entries from previous views

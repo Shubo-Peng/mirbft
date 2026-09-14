@@ -15,15 +15,15 @@
 package orderer
 
 import (
-	"sync"
-	"sync/atomic"
-    "github.com/hyperledger-labs/mirbft/crypto"
-    "github.com/hyperledger-labs/mirbft/membership"
-	logger "github.com/rs/zerolog/log"
 	"github.com/hyperledger-labs/mirbft/config"
+	"github.com/hyperledger-labs/mirbft/crypto"
 	"github.com/hyperledger-labs/mirbft/log"
 	"github.com/hyperledger-labs/mirbft/manager"
+	"github.com/hyperledger-labs/mirbft/membership"
 	pb "github.com/hyperledger-labs/mirbft/protobufs"
+	logger "github.com/rs/zerolog/log"
+	"sync"
+	"sync/atomic"
 )
 
 // Represents a HotStuff Orderer implementation.
@@ -162,6 +162,9 @@ func (ho *HotStuffOrderer) killSegment(seg manager.Segment) {
 	for currentCheckpoint == nil || currentCheckpoint.Sn < seg.LastSN() {
 		currentCheckpoint = <-checkpoints
 	}
+	// No longer interested in further checkpoints: leave the subscriber list so our channel neither keeps
+	// receiving ignored notifications nor keeps the global list growing (one entry per killed segment).
+	log.UnsubscribeCheckpoints(checkpoints)
 	log.WaitForEntry(seg.LastSN())
 
 	// Update the last sequence number the orderer accepts messages for
